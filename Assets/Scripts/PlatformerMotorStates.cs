@@ -1,0 +1,207 @@
+﻿using UnityEngine;
+using System.Collections;
+
+/// <summary>
+/// Base class for all platformer motor states.
+/// </summary>
+public class PlatformerMotorState {
+    protected PlatformerMotor m_owner;
+
+    Vector2 m_requestedMovementDirection;
+    protected Vector2 RequestedMovementDirection {
+        get { return m_requestedMovementDirection; }
+    }
+
+    bool m_hasRequestedJump;
+
+    protected Vector2 Velocity {
+        get { return m_owner.RB.velocity; }
+        set { m_owner.RB.velocity = value; }
+    }
+
+    float m_timeAscending;
+    protected float TimeAscending {
+        get { return m_timeAscending; }
+    }
+
+    float m_timeDescending;
+    protected float TimeDescending {
+        get { return m_timeDescending; }
+    }
+
+    public PlatformerMotorState(PlatformerMotor owner, PlatformerMotorState previousState) {
+        m_owner = owner;
+
+        if (previousState != null) {
+            m_requestedMovementDirection = previousState.RequestedMovementDirection;
+            m_timeDescending = previousState.TimeDescending;
+            m_timeAscending = previousState.TimeAscending;
+            m_hasRequestedJump = previousState.m_hasRequestedJump;
+        }
+    }
+
+    public virtual void Enter() { /* Debug.Log ("Entering " + GetType ().ToString ()); */ }
+
+    public virtual void HandleInput() {
+        m_requestedMovementDirection = new Vector2 (Input.GetAxis ("Horizontal"), 0f);
+
+        if (Input.GetButtonDown("Jump")) {
+            m_hasRequestedJump = true;
+        }
+        else {
+            m_hasRequestedJump = false;
+        }
+    }
+
+    public virtual void FixedUpdate() {
+        if (m_owner.SurfaceCollisionCount == 0) {
+            if (Velocity.y < 0f) {
+                m_timeDescending += Time.fixedDeltaTime;
+            }
+            else if (Velocity.y > 0f) {
+                m_timeAscending += Time.fixedDeltaTime;
+            }
+        }
+        else {
+            // @TODO Reset these values when collision count changes instead of every frame.
+            m_timeDescending = 0f;
+            m_timeAscending = 0f;
+        }
+    }
+
+    public virtual void Exit() { /* Debug.Log ("Exiting " + GetType ().ToString ()); */ }
+
+    protected bool HasRequestedMovementDirection () {
+        return Mathf.Abs (RequestedMovementDirection.magnitude) > Mathf.Epsilon;
+    }
+
+    protected bool HasRequestedJump() {
+        return m_hasRequestedJump;
+    }
+
+    protected bool IsDescending () {
+        return (TimeDescending - m_owner.timeUntilFalling) >= Mathf.Epsilon;
+    }
+
+    protected bool IsAscending () { 
+        return Mathf.Abs (TimeAscending) >= Mathf.Epsilon;
+    }
+}
+
+/// <summary>
+/// Idle state when player is standing still on the ground.
+/// </summary>
+public class PlatformerMotorStateIdle : PlatformerMotorState {
+    public PlatformerMotorStateIdle(PlatformerMotor owner, PlatformerMotorState previousState) : base(owner, previousState) { }
+
+    public override void HandleInput() { 
+        base.HandleInput ();
+
+        if (HasRequestedJump ()) {  // Jump input takes priority over movement input.
+            m_owner.ReplaceState (new PlatformerMotorStateJumping (m_owner, this));
+            return;
+        }
+        else if (IsDescending ()) {
+            m_owner.ReplaceState (new PlatformerMotorStateFalling(m_owner, this));
+            return;
+        }
+        else if (HasRequestedMovementDirection()) {
+            m_owner.ReplaceState (new PlatformerMotorStateWalking (m_owner, this));
+            return;
+        }
+    }
+}
+
+/// <summary>
+/// State when the actor is walking around on the ground.
+/// </summary>
+public class PlatformerMotorStateWalking : PlatformerMotorState {
+    Vector2 m_requestedMovementDirection;
+    public PlatformerMotorStateWalking(PlatformerMotor owner, PlatformerMotorState previousState) : base(owner, previousState) { }
+
+    public override void FixedUpdate() {
+        base.FixedUpdate ();
+
+        if (HasRequestedMovementDirection ()) {
+            Velocity = RequestedMovementDirection * m_owner.runSpeed;
+        }
+
+        if (HasRequestedJump ()) {  // Jump input takes priority over movement input.
+            m_owner.ReplaceState (new PlatformerMotorStateJumping (m_owner, this));
+            return;
+        }
+        else if (IsDescending ()) {
+            m_owner.ReplaceState (new PlatformerMotorStateFalling(m_owner, this));
+            return;
+        }
+        else if (Velocity.magnitude < Mathf.Epsilon) {
+            m_owner.ReplaceState (new PlatformerMotorStateIdle(m_owner, this));
+            return;
+        }
+    }
+}
+
+/// <summary>
+/// State when the actor is falling
+/// </summary>
+public class PlatformerMotorStateFalling : PlatformerMotorState {
+    public PlatformerMotorStateFalling(PlatformerMotor owner, PlatformerMotorState previousState) : base(owner, previousState) { }
+
+    public override void FixedUpdate() {
+        base.FixedUpdate ();
+
+        if (HasRequestedMovementDirection ()) {
+            Velocity = new Vector2(RequestedMovementDirection.x * m_owner.fallControlSpeed, Velocity.y);
+        }
+
+        if (HasRequestedJump ()) {  // Jump input takes priority over movement input.
+            m_owner.ReplaceState (new PlatformerMotorStateJumping (m_owner, this));
+            return;
+        }
+        else if (!IsDescending ()) {
+            m_owner.ReplaceState (new PlatformerMotorStateLanded(m_owner, this));
+            return;
+        }
+    }
+}
+
+/// <summary>
+/// State when the actor is falling
+/// </summary>
+public class PlatformerMotorStateLanded : PlatformerMotorState {
+    public PlatformerMotorStateLanded(PlatformerMotor owner, PlatformerMotorState previousState) : base(owner, previousState) { }
+
+    public override void FixedUpdate() {
+        base.FixedUpdate ();
+
+        // @TODO wait for landing animation to complete once that sort of thing is in place.
+        m_owner.ReplaceState (new PlatformerMotorStateIdle(m_owner, this));
+    }
+}
+
+/// <summary>
+/// State when the actor is jumping
+/// </summary>
+public class PlatformerMotorStateJumping : PlatformerMotorState {
+    public PlatformerMotorStateJumping(PlatformerMotor owner, PlatformerMotorState previousState) : base(owner, previousState) { }
+
+    public override void Enter() {
+        
+    }
+    public override void FixedUpdate() {
+        base.FixedUpdate ();
+
+        if (HasRequestedMovementDirection ()) {
+            Velocity = new Vector2(RequestedMovementDirection.x * m_owner.jumpControlSpeed, Velocity.y);
+        }
+
+        if (HasRequestedJump ()) {  // Double-jump if the player is in the air.
+            m_owner.ReplaceState (new PlatformerMotorStateJumping (m_owner, this));
+            return;
+        }
+        else if (IsDescending ()) {
+            m_owner.ReplaceState (new PlatformerMotorStateFalling (m_owner, this));
+            return;
+        }
+    }
+}
