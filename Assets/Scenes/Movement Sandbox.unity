@@ -187,7 +187,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &74572556
 Transform:
   m_ObjectHideFlags: 0
@@ -540,30 +540,6 @@ Prefab:
       propertyPath: m_Name
       value: Player
       objectReference: {fileID: 0}
-    - target: {fileID: 11425776, guid: 2a9cc51e42cfe43519e571596351fbda, type: 2}
-      propertyPath: runSpeed
-      value: 60
-      objectReference: {fileID: 0}
-    - target: {fileID: 5030216, guid: 2a9cc51e42cfe43519e571596351fbda, type: 2}
-      propertyPath: m_LinearDrag
-      value: 5
-      objectReference: {fileID: 0}
-    - target: {fileID: 11425776, guid: 2a9cc51e42cfe43519e571596351fbda, type: 2}
-      propertyPath: jumpControlSpeed
-      value: 40
-      objectReference: {fileID: 0}
-    - target: {fileID: 11425776, guid: 2a9cc51e42cfe43519e571596351fbda, type: 2}
-      propertyPath: jumpForce
-      value: 20
-      objectReference: {fileID: 0}
-    - target: {fileID: 11425776, guid: 2a9cc51e42cfe43519e571596351fbda, type: 2}
-      propertyPath: fallControlSpeed
-      value: 40
-      objectReference: {fileID: 0}
-    - target: {fileID: 5030216, guid: 2a9cc51e42cfe43519e571596351fbda, type: 2}
-      propertyPath: m_GravityScale
-      value: 4
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 2a9cc51e42cfe43519e571596351fbda, type: 2}
   m_IsPrefabParent: 0
@@ -654,7 +630,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 493442, guid: 16ed43dbc9ed54831a9ea53a49dc0fd1, type: 2}
       propertyPath: m_RootOrder
-      value: 9
+      value: 4
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 16ed43dbc9ed54831a9ea53a49dc0fd1, type: 2}

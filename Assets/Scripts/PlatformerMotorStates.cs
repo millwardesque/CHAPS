@@ -13,11 +13,14 @@ public class PlatformerMotorState {
     }
 
     bool m_hasRequestedJump;
+    bool m_isHoldingJump;
 
     protected int m_jumpCount = 0;
+    protected float m_jumpDuration = 0f;
 
     protected Vector2 Velocity {
         get { return m_owner.RB.velocity; }
+        set { m_owner.RB.velocity = value; }
     }
 
     float m_timeAscending;
@@ -38,6 +41,7 @@ public class PlatformerMotorState {
             m_timeDescending = previousState.TimeDescending;
             m_timeAscending = previousState.TimeAscending;
             m_hasRequestedJump = previousState.m_hasRequestedJump;
+            m_isHoldingJump = previousState.m_isHoldingJump;
             m_jumpCount = previousState.m_jumpCount;
         }
     }
@@ -49,8 +53,14 @@ public class PlatformerMotorState {
 
         if (Input.GetButtonDown("Jump")) {
             m_hasRequestedJump = true;
+            m_isHoldingJump = true;
         }
-        else {
+        else if (Input.GetButton ("Jump")) {
+            m_isHoldingJump = true;
+            m_hasRequestedJump = false;
+        }
+        else if (Input.GetButtonUp ("Jump")) {
+            m_isHoldingJump = false;
             m_hasRequestedJump = false;
         }
     }
@@ -76,6 +86,10 @@ public class PlatformerMotorState {
 
     protected bool HasRequestedJump() {
         return m_hasRequestedJump;
+    }
+
+    protected bool IsHoldingJump() {
+        return m_isHoldingJump;
     }
 
     protected bool IsDescending () {
@@ -145,7 +159,7 @@ public class PlatformerMotorStateWalking : PlatformerMotorState {
         base.FixedUpdate ();
 
         if (HasRequestedMovementDirection ()) {
-            AddForce(RequestedMovementDirection * m_owner.runSpeed);
+            Velocity = new Vector2(RequestedMovementDirection.x * m_owner.maxSpeed, Velocity.y);
         }
 
         if (IsDescending ()) {
@@ -178,7 +192,7 @@ public class PlatformerMotorStateFalling : PlatformerMotorState {
         base.FixedUpdate ();
 
         if (HasRequestedMovementDirection ()) {
-            AddForce(RequestedMovementDirection * m_owner.fallControlSpeed);
+            Velocity = new Vector2(RequestedMovementDirection.x * m_owner.fallControlSpeed, Velocity.y);
         }
 
         if (!IsDescending ()) {
@@ -222,8 +236,15 @@ public class PlatformerMotorStateJumping : PlatformerMotorState {
     public PlatformerMotorStateJumping(PlatformerMotor owner, PlatformerMotorState previousState) : base(owner, previousState) { }
 
     public override void Enter() {
+        base.Enter ();
+
         m_jumpCount++;
-        AddForce(new Vector2(0f, m_owner.jumpForce), ForceMode2D.Impulse);
+        m_jumpDuration = 0f;
+    }
+
+    public override void Exit() {
+        base.Exit ();
+        m_jumpDuration = 0f;
     }
 
     public override void HandleInput() {
@@ -238,6 +259,14 @@ public class PlatformerMotorStateJumping : PlatformerMotorState {
     public override void FixedUpdate() {
         base.FixedUpdate ();
 
+        if (m_jumpDuration < m_owner.maxJumpDuration) {
+            m_jumpDuration += Time.fixedDeltaTime;    
+        }
+
+        if (IsHoldingJump () && m_jumpDuration < m_owner.maxJumpDuration) {
+            AddForce(new Vector2(0f, m_owner.jumpForce));
+        }
+
         if (HasRequestedMovementDirection ()) {
             AddForce (RequestedMovementDirection * m_owner.jumpControlSpeed);
         }
@@ -248,6 +277,7 @@ public class PlatformerMotorStateJumping : PlatformerMotorState {
         }
         if (m_jumpCount == 0) {
             m_owner.ReplaceState (new PlatformerMotorStateLanded (m_owner, this));
+            return;
         }
     }
 }

@@ -5,9 +5,11 @@ using System.Collections.Generic;
 [RequireComponent (typeof(Rigidbody2D))]
 [RequireComponent (typeof(Collider2D))]
 public class PlatformerMotor : MonoBehaviour {
-    public float runSpeed = 1f;
+    public float maxSpeed = 20f;
+
     public float jumpControlSpeed = 1f;
     public float jumpForce = 10f;
+    public float maxJumpDuration = 1f;
     public int maxJumps = 2;
     public float fallControlSpeed = 1f;
     public float timeUntilFalling = 0.2f;   // Time in the air until the player is considered to be falling.
