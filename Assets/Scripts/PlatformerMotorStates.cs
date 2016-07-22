@@ -14,6 +14,8 @@ public class PlatformerMotorState {
 
     bool m_hasRequestedJump;
 
+    protected int m_jumpCount = 0;
+
     protected Vector2 Velocity {
         get { return m_owner.RB.velocity; }
         set { m_owner.RB.velocity = value; }
@@ -37,6 +39,7 @@ public class PlatformerMotorState {
             m_timeDescending = previousState.TimeDescending;
             m_timeAscending = previousState.TimeAscending;
             m_hasRequestedJump = previousState.m_hasRequestedJump;
+            m_jumpCount = previousState.m_jumpCount;
         }
     }
 
@@ -57,15 +60,14 @@ public class PlatformerMotorState {
         if (m_owner.SurfaceCollisionCount == 0) {
             if (Velocity.y < 0f) {
                 m_timeDescending += Time.fixedDeltaTime;
+                m_timeAscending = 0f;
             }
             else if (Velocity.y > 0f) {
                 m_timeAscending += Time.fixedDeltaTime;
+                m_timeDescending = 0f;
             }
-        }
-        else {
-            // @TODO Reset these values when collision count changes instead of every frame.
-            m_timeDescending = 0f;
-            m_timeAscending = 0f;
+
+            m_owner.RB.AddForce(Physics2D.gravity * (m_owner.gravityMultiplier - 1f));
         }
     }
 
@@ -86,6 +88,16 @@ public class PlatformerMotorState {
     protected bool IsAscending () { 
         return Mathf.Abs (TimeAscending) >= Mathf.Epsilon;
     }
+
+    protected bool CanJump() {
+        return (HasRequestedJump() && m_jumpCount < m_owner.maxJumps);
+    }
+
+    public void OnHasLanded() {
+        m_jumpCount = 0;
+        m_timeAscending = 0f;
+        m_timeDescending = 0f;
+    }
 }
 
 /// <summary>
@@ -97,7 +109,7 @@ public class PlatformerMotorStateIdle : PlatformerMotorState {
     public override void HandleInput() { 
         base.HandleInput ();
 
-        if (HasRequestedJump ()) {  // Jump input takes priority over movement input.
+        if (CanJump()) {  // Jump input takes priority over movement input.
             m_owner.ReplaceState (new PlatformerMotorStateJumping (m_owner, this));
             return;
         }
@@ -119,6 +131,15 @@ public class PlatformerMotorStateWalking : PlatformerMotorState {
     Vector2 m_requestedMovementDirection;
     public PlatformerMotorStateWalking(PlatformerMotor owner, PlatformerMotorState previousState) : base(owner, previousState) { }
 
+    public override void HandleInput() {
+        base.HandleInput();
+
+        if (CanJump()) {
+            m_owner.ReplaceState(new PlatformerMotorStateJumping(m_owner, this));
+            return;
+        }
+    }
+
     public override void FixedUpdate() {
         base.FixedUpdate ();
 
@@ -126,11 +147,7 @@ public class PlatformerMotorStateWalking : PlatformerMotorState {
             Velocity = RequestedMovementDirection * m_owner.runSpeed;
         }
 
-        if (HasRequestedJump ()) {  // Jump input takes priority over movement input.
-            m_owner.ReplaceState (new PlatformerMotorStateJumping (m_owner, this));
-            return;
-        }
-        else if (IsDescending ()) {
+        if (IsDescending ()) {
             m_owner.ReplaceState (new PlatformerMotorStateFalling(m_owner, this));
             return;
         }
@@ -147,6 +164,15 @@ public class PlatformerMotorStateWalking : PlatformerMotorState {
 public class PlatformerMotorStateFalling : PlatformerMotorState {
     public PlatformerMotorStateFalling(PlatformerMotor owner, PlatformerMotorState previousState) : base(owner, previousState) { }
 
+    public override void HandleInput() {
+        base.HandleInput();
+
+        if (CanJump()) {
+            m_owner.ReplaceState(new PlatformerMotorStateJumping(m_owner, this));
+            return;
+        }
+    }
+
     public override void FixedUpdate() {
         base.FixedUpdate ();
 
@@ -154,11 +180,7 @@ public class PlatformerMotorStateFalling : PlatformerMotorState {
             Velocity = new Vector2(RequestedMovementDirection.x * m_owner.fallControlSpeed, Velocity.y);
         }
 
-        if (HasRequestedJump ()) {  // Jump input takes priority over movement input.
-            m_owner.ReplaceState (new PlatformerMotorStateJumping (m_owner, this));
-            return;
-        }
-        else if (!IsDescending ()) {
+        if (!IsDescending ()) {
             m_owner.ReplaceState (new PlatformerMotorStateLanded(m_owner, this));
             return;
         }
@@ -171,11 +193,24 @@ public class PlatformerMotorStateFalling : PlatformerMotorState {
 public class PlatformerMotorStateLanded : PlatformerMotorState {
     public PlatformerMotorStateLanded(PlatformerMotor owner, PlatformerMotorState previousState) : base(owner, previousState) { }
 
-    public override void FixedUpdate() {
-        base.FixedUpdate ();
+    public override void HandleInput() {
+        base.HandleInput();
 
-        // @TODO wait for landing animation to complete once that sort of thing is in place.
-        m_owner.ReplaceState (new PlatformerMotorStateIdle(m_owner, this));
+        if (CanJump()) {  // Jump input takes priority over movement input.
+            m_owner.ReplaceState(new PlatformerMotorStateJumping(m_owner, this));
+            return;
+        }
+        else if (IsDescending()) {
+            m_owner.ReplaceState(new PlatformerMotorStateFalling(m_owner, this));
+            return;
+        }
+        else if (HasRequestedMovementDirection()) {
+            m_owner.ReplaceState(new PlatformerMotorStateWalking(m_owner, this));
+            return;
+        }
+        else {
+            m_owner.ReplaceState(new PlatformerMotorStateIdle(m_owner, this));
+        }
     }
 }
 
@@ -186,8 +221,19 @@ public class PlatformerMotorStateJumping : PlatformerMotorState {
     public PlatformerMotorStateJumping(PlatformerMotor owner, PlatformerMotorState previousState) : base(owner, previousState) { }
 
     public override void Enter() {
-        
+        m_owner.RB.AddForce(new Vector2(0f, m_owner.jumpForce), ForceMode2D.Impulse);
+        m_jumpCount++;
     }
+
+    public override void HandleInput() {
+        base.HandleInput();
+
+        if (CanJump()) {  // Double-jump if the player is in the air.
+            m_owner.ReplaceState(new PlatformerMotorStateJumping(m_owner, this));
+            return;
+        }
+    }
+
     public override void FixedUpdate() {
         base.FixedUpdate ();
 
@@ -195,11 +241,7 @@ public class PlatformerMotorStateJumping : PlatformerMotorState {
             Velocity = new Vector2(RequestedMovementDirection.x * m_owner.jumpControlSpeed, Velocity.y);
         }
 
-        if (HasRequestedJump ()) {  // Double-jump if the player is in the air.
-            m_owner.ReplaceState (new PlatformerMotorStateJumping (m_owner, this));
-            return;
-        }
-        else if (IsDescending ()) {
+        if (IsDescending ()) {
             m_owner.ReplaceState (new PlatformerMotorStateFalling (m_owner, this));
             return;
         }

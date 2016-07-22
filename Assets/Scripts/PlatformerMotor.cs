@@ -7,7 +7,10 @@ using System.Collections.Generic;
 public class PlatformerMotor : MonoBehaviour {
     public float runSpeed = 1f;
     public float jumpControlSpeed = 1f;
+    public float jumpForce = 10f;
+    public int maxJumps = 2;
     public float fallControlSpeed = 1f;
+    public float gravityMultiplier = 1f;
     public float timeUntilFalling = 0.2f;   // Time in the air until the player is considered to be falling.
 
     int m_surfaceCollisions = 0;
@@ -27,7 +30,7 @@ public class PlatformerMotor : MonoBehaviour {
 
     Stack<PlatformerMotorState> m_stateStack = null;
     public PlatformerMotorState CurrentState {
-        get { return m_stateStack.Peek (); }
+        get { return (m_stateStack != null ? m_stateStack.Peek () : null); }
     }
 
     void Awake() {
@@ -74,13 +77,30 @@ public class PlatformerMotor : MonoBehaviour {
     }
 
     void OnCollisionEnter2D(Collision2D col) {
+        Vector2 averageNormal = new Vector2();
         for (int i = 0; i < col.contacts.Length; ++i) {
-            Debug.Log (string.Format("{0} => {1}", col.contacts[i].point, col.contacts[i].normal));
+            averageNormal += col.contacts[i].normal;
         }
-        m_surfaceCollisions++;
+        averageNormal.Normalize();
+
+        if (averageNormal.y > 0f) {
+            m_surfaceCollisions++;
+
+            if (m_surfaceCollisions == 1 && CurrentState != null) {
+                CurrentState.OnHasLanded(); // @TODO Replace with decoupled message
+            }
+        }
     }
 
     void OnCollisionExit2D(Collision2D col) {
-        m_surfaceCollisions--;
+        Vector2 averageNormal = new Vector2();
+        for (int i = 0; i < col.contacts.Length; ++i) {
+            averageNormal += col.contacts[i].normal;
+        }
+        averageNormal.Normalize();
+
+        if (averageNormal.y > 0f) {
+            m_surfaceCollisions--;
+        }
     }
 }
