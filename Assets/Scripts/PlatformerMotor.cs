@@ -10,7 +10,6 @@ public class PlatformerMotor : MonoBehaviour {
     public float jumpForce = 10f;
     public int maxJumps = 2;
     public float fallControlSpeed = 1f;
-    public float gravityMultiplier = 1f;
     public float timeUntilFalling = 0.2f;   // Time in the air until the player is considered to be falling.
 
     int m_surfaceCollisions = 0;

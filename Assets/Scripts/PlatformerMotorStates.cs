@@ -66,8 +66,6 @@ public class PlatformerMotorState {
                 m_timeAscending += Time.fixedDeltaTime;
                 m_timeDescending = 0f;
             }
-
-            m_owner.RB.AddForce(Physics2D.gravity * (m_owner.gravityMultiplier - 1f));
         }
     }
 
