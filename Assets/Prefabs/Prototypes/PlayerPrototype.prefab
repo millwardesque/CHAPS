@@ -18,6 +18,21 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!1 &167170
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 4
+  m_Component:
+  - 4: {fileID: 490934}
+  m_Layer: 8
+  m_Name: Foot position
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
 --- !u!1 &168396
 GameObject:
   m_ObjectHideFlags: 0
@@ -61,6 +76,7 @@ Transform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_Children:
   - {fileID: 476872}
+  - {fileID: 490934}
   - {fileID: 495686}
   m_Father: {fileID: 0}
   m_RootOrder: 0
@@ -77,6 +93,19 @@ Transform:
   m_Children: []
   m_Father: {fileID: 447026}
   m_RootOrder: 0
+--- !u!4 &490934
+Transform:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 167170}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: -1, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_Children: []
+  m_Father: {fileID: 447026}
+  m_RootOrder: 1
 --- !u!4 &495686
 Transform:
   m_ObjectHideFlags: 1
@@ -89,7 +118,7 @@ Transform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_Children: []
   m_Father: {fileID: 447026}
-  m_RootOrder: 1
+  m_RootOrder: 2
 --- !u!50 &5030216
 Rigidbody2D:
   serializedVersion: 2
@@ -133,7 +162,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   groundedCollisionObject: 
-  maxSpeed: 10
+  maxSpeed: 15
+  velocityFrictionFactor: 0.275
+  accelerationRate: 0.3
   jumpControlSpeed: 8
   jumpForce: 2.8
   maxJumpDuration: 0.2

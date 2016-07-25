@@ -11,6 +11,12 @@ public class PlatformerMotor : MonoBehaviour {
     [Range (0f, 50f)]
     public float maxSpeed = 20f;
 
+    [Range (0f, 1f)]
+    public float velocityFrictionFactor = 0f;
+
+    [Range (0f, 1f)]
+    public float accelerationRate = 1f;
+
     [Range (0f, 50f)]
     public float jumpControlSpeed = 1f;
 
@@ -66,10 +72,6 @@ public class PlatformerMotor : MonoBehaviour {
     void Update() { 
         if (CurrentState != null) {
             CurrentState.HandleInput ();
-        }
-
-        if (Input.GetKeyDown(KeyCode.I)) {
-            Debug.Log("Is Grounded: " + (IsGrounded() ? "Y" : "N") + ": " + groundedCollisionObject);
         }
     }
 

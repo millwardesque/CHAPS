@@ -67,11 +67,11 @@ public class PlatformerMotorState {
 
     public virtual void FixedUpdate() {
         if (!m_owner.IsGrounded()) {
-            if (Velocity.y < 0f) {
+            if (Velocity.y < -Mathf.Epsilon) {
                 m_timeDescending += Time.fixedDeltaTime;
                 m_timeAscending = 0f;
             }
-            else if (Velocity.y > 0f) {
+            else if (Velocity.y > Mathf.Epsilon) {
                 m_timeAscending += Time.fixedDeltaTime;
                 m_timeDescending = 0f;
             }
@@ -155,8 +155,15 @@ public class PlatformerMotorStateWalking : PlatformerMotorState {
         base.FixedUpdate ();
 
         if (HasRequestedMovementDirection ()) {
-            Velocity = new Vector2(RequestedMovementDirection.x * m_owner.maxSpeed, Velocity.y);
+            // Debug.Log ("In motion: " + Velocity.ToString ());
+            float maxXVelocity = RequestedMovementDirection.x * m_owner.maxSpeed;
+            float newXVelocity = m_owner.accelerationRate * maxXVelocity + (1f - m_owner.accelerationRate) * Velocity.x;
+            Velocity = new Vector2(newXVelocity, Velocity.y);
         }
+        else {
+            // Debug.Log ("Stopping: " + Velocity.ToString());
+            Velocity = new Vector2 (Velocity.x * (1f - m_owner.velocityFrictionFactor), Velocity.y);
+        } 
 
         if (IsDescending ()) {
             m_owner.ReplaceState (new PlatformerMotorStateFalling(m_owner, this));
@@ -174,15 +181,6 @@ public class PlatformerMotorStateWalking : PlatformerMotorState {
 /// </summary>
 public class PlatformerMotorStateFalling : PlatformerMotorState {
     public PlatformerMotorStateFalling(PlatformerMotor owner, PlatformerMotorState previousState) : base(owner, previousState) { }
-
-    public override void HandleInput() {
-        base.HandleInput();
-
-        if (CanJump()) {
-            m_owner.ReplaceState(new PlatformerMotorStateJumping(m_owner, this));
-            return;
-        }
-    }
 
     public override void FixedUpdate() {
         base.FixedUpdate ();
@@ -236,29 +234,32 @@ public class PlatformerMotorStateLanded : PlatformerMotorState {
 public class PlatformerMotorStateJumping : PlatformerMotorState {
     public PlatformerMotorStateJumping(PlatformerMotor owner, PlatformerMotorState previousState) : base(owner, previousState) { }
 
+    float m_startingHeight = 0f;
+    float m_maxHeightAchieved;
+
     public override void Enter() {
         base.Enter ();
 
+        m_startingHeight = m_owner.transform.position.y;
         m_jumpCount++;
         m_jumpDuration = 0f;
     }
 
     public override void Exit() {
         base.Exit ();
-    }
 
-    public override void HandleInput() {
-        base.HandleInput();
-
-        if (CanJump()) {  // Double-jump if the player is in the air.
-            m_owner.ReplaceState(new PlatformerMotorStateJumping(m_owner, this));
-            return;
-        }
+        Debug.Log (string.Format ("Max height achieved: {0}", m_maxHeightAchieved));
+        Debug.Log (string.Format ("Jump duration: {0}", m_jumpDuration));
     }
 
     public override void FixedUpdate() {
         base.FixedUpdate ();
         m_jumpDuration += Time.fixedDeltaTime;
+
+        float newHeight = m_owner.transform.position.y - m_startingHeight;
+        if (newHeight > m_maxHeightAchieved) {
+            m_maxHeightAchieved = newHeight;
+        }
 
         if (m_jumpCount == 0) {
             m_owner.ReplaceState (new PlatformerMotorStateLanded (m_owner, this));
