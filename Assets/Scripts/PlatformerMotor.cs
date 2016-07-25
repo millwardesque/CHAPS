@@ -8,6 +8,7 @@ public class PlatformerMotor : MonoBehaviour {
     [HideInInspector]
     public string groundedCollisionObject = "";
 
+    [Header("Walking")]
     [Range (0f, 50f)]
     public float maxSpeed = 20f;
 
@@ -17,6 +18,7 @@ public class PlatformerMotor : MonoBehaviour {
     [Range (0f, 1f)]
     public float accelerationRate = 1f;
 
+    [Header("Jumping")]
     [Range (0f, 50f)]
     public float jumpControlSpeed = 1f;
 
@@ -29,12 +31,14 @@ public class PlatformerMotor : MonoBehaviour {
     [Range (0, 10)]
     public int maxJumps = 2;
 
+    [Header("Falling")]
     [Range (0f, 50f)]
     public float fallControlSpeed = 1f;
 
     [Range (0f, 1f)]
     public float timeUntilFalling = 0.2f;   // Time in the air until the player is considered to be falling.
 
+    [Header("General")]
     public LayerMask collisionLayers;
 
     public Transform footPosition;
