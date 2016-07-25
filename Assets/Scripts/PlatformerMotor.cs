@@ -5,6 +5,9 @@ using System.Collections.Generic;
 [RequireComponent (typeof(Rigidbody2D))]
 [RequireComponent (typeof(Collider2D))]
 public class PlatformerMotor : MonoBehaviour {
+    [HideInInspector]
+    public string groundedCollisionObject = "";
+
     [Range (0f, 50f)]
     public float maxSpeed = 20f;
 
@@ -26,18 +29,9 @@ public class PlatformerMotor : MonoBehaviour {
     [Range (0f, 1f)]
     public float timeUntilFalling = 0.2f;   // Time in the air until the player is considered to be falling.
 
-    Collider2D groundCollider;
+    public LayerMask collisionLayers;
 
-    public Vector2 FootPosition {
-        get {
-            Debug.Log ((string)(transform.position.y + groundCollider.bounds.center.y + groundCollider.bounds.extents.y).ToString ());
-            return new Vector2(transform.position.x, transform.position.y - groundCollider.bounds.center.y - groundCollider.bounds.extents.y);
-        }
-    }
-    int m_surfaceCollisions = 0;
-    public int SurfaceCollisionCount {
-        get { return m_surfaceCollisions; }
-    }
+    public Transform footPosition;
 
     float m_timeFalling = 0f;
     public float TimeFalling {
@@ -60,8 +54,6 @@ public class PlatformerMotor : MonoBehaviour {
 
     void Start() {
         m_rb = GetComponent<Rigidbody2D> ();
-        groundCollider = GetComponent<Collider2D> ();
-        m_surfaceCollisions = 0;
         PushState (new PlatformerMotorStateIdle (this, null));
     }
 
@@ -74,6 +66,10 @@ public class PlatformerMotor : MonoBehaviour {
     void Update() { 
         if (CurrentState != null) {
             CurrentState.HandleInput ();
+        }
+
+        if (Input.GetKeyDown(KeyCode.I)) {
+            Debug.Log("Is Grounded: " + (IsGrounded() ? "Y" : "N") + ": " + groundedCollisionObject);
         }
     }
 
@@ -98,41 +94,11 @@ public class PlatformerMotor : MonoBehaviour {
         PushState (newState);
     }
 
-    public bool IsGrounded() { 
-        Vector2 foot = FootPosition;
-        Collider2D col = Physics2D.OverlapCircle (foot, 0.2f);
-        if (col != null) {
-            Debug.Log (col.gameObject.name);
-        }
+    public bool IsGrounded() {
+        Vector2 foot = footPosition.position;
+        Collider2D col = Physics2D.OverlapCircle(foot, 0.2f, collisionLayers);
+        groundedCollisionObject = col == null ? "None" : col.name;
 
-        return (col == null);
-    }
-
-    void OnCollisionEnter2D(Collision2D col) {
-        Vector2 averageNormal = new Vector2();
-        for (int i = 0; i < col.contacts.Length; ++i) {
-            averageNormal += col.contacts[i].normal;
-        }
-        averageNormal.Normalize();
-
-        if (averageNormal.y > 0f) {
-            m_surfaceCollisions++;
-
-            if (m_surfaceCollisions == 1 && CurrentState != null) {
-                CurrentState.OnHasLanded(); // @TODO Replace with decoupled message
-            }
-        }
-    }
-
-    void OnCollisionExit2D(Collision2D col) {
-        Vector2 averageNormal = new Vector2();
-        for (int i = 0; i < col.contacts.Length; ++i) {
-            averageNormal += col.contacts[i].normal;
-        }
-        averageNormal.Normalize();
-
-        if (averageNormal.y > 0f) {
-            m_surfaceCollisions--;
-        }
+        return (col != null);
     }
 }

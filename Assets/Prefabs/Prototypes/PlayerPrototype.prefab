@@ -11,9 +11,24 @@ GameObject:
   - 50: {fileID: 5030216}
   - 61: {fileID: 6118256}
   - 114: {fileID: 11425776}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: PlayerPrototype
   m_TagString: Player
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!1 &168396
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 4
+  m_Component:
+  - 4: {fileID: 495686}
+  m_Layer: 8
+  m_Name: Foot position
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -27,7 +42,7 @@ GameObject:
   m_Component:
   - 4: {fileID: 476872}
   - 212: {fileID: 21203150}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Avatar
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -46,6 +61,7 @@ Transform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_Children:
   - {fileID: 476872}
+  - {fileID: 495686}
   m_Father: {fileID: 0}
   m_RootOrder: 0
 --- !u!4 &476872
@@ -61,6 +77,19 @@ Transform:
   m_Children: []
   m_Father: {fileID: 447026}
   m_RootOrder: 0
+--- !u!4 &495686
+Transform:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 168396}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: -1, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_Children: []
+  m_Father: {fileID: 447026}
+  m_RootOrder: 1
 --- !u!50 &5030216
 Rigidbody2D:
   serializedVersion: 2
@@ -91,7 +120,7 @@ BoxCollider2D:
   m_UsedByEffector: 0
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
-  m_Size: {x: 1.05, y: 2}
+  m_Size: {x: 1.05, y: 1.9}
 --- !u!114 &11425776
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -103,6 +132,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: af280cde045b74da787d701a50670f32, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  groundedCollisionObject: 
   maxSpeed: 10
   jumpControlSpeed: 8
   jumpForce: 2.8
@@ -110,6 +140,10 @@ MonoBehaviour:
   maxJumps: 2
   fallControlSpeed: 8
   timeUntilFalling: 0
+  collisionLayers:
+    serializedVersion: 2
+    m_Bits: 4294967001
+  footPosition: {fileID: 495686}
 --- !u!212 &21203150
 SpriteRenderer:
   m_ObjectHideFlags: 1

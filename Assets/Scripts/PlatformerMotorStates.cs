@@ -66,7 +66,7 @@ public class PlatformerMotorState {
     }
 
     public virtual void FixedUpdate() {
-        if (m_owner.SurfaceCollisionCount == 0) {
+        if (!m_owner.IsGrounded()) {
             if (Velocity.y < 0f) {
                 m_timeDescending += Time.fixedDeltaTime;
                 m_timeAscending = 0f;
@@ -93,11 +93,11 @@ public class PlatformerMotorState {
     }
 
     protected bool IsDescending () {
-        return (TimeDescending - m_owner.timeUntilFalling) >= Mathf.Epsilon;
+        return !m_owner.IsGrounded() && (TimeDescending - m_owner.timeUntilFalling) >= Mathf.Epsilon;
     }
 
     protected bool IsAscending () { 
-        return Mathf.Abs (TimeAscending) >= Mathf.Epsilon;
+        return !m_owner.IsGrounded() && Mathf.Abs (TimeAscending) >= Mathf.Epsilon;
     }
 
     protected bool CanJump() {
@@ -108,10 +108,6 @@ public class PlatformerMotorState {
         m_jumpCount = 0;
         m_timeAscending = 0f;
         m_timeDescending = 0f;
-    }
-
-    public void AddForce(Vector2 force, ForceMode2D mode = ForceMode2D.Force) {
-        m_owner.RB.AddForce (force, mode);
     }
 }
 
@@ -195,7 +191,7 @@ public class PlatformerMotorStateFalling : PlatformerMotorState {
             Velocity = new Vector2(RequestedMovementDirection.x * m_owner.fallControlSpeed, Velocity.y);
         }
 
-        if (!IsDescending ()) {
+        if (m_owner.IsGrounded()) {
             m_owner.ReplaceState (new PlatformerMotorStateLanded(m_owner, this));
             return;
         }
@@ -208,6 +204,11 @@ public class PlatformerMotorStateFalling : PlatformerMotorState {
 public class PlatformerMotorStateLanded : PlatformerMotorState {
     public PlatformerMotorStateLanded(PlatformerMotor owner, PlatformerMotorState previousState) : base(owner, previousState) { }
 
+    public override void Enter() {
+        base.Enter();
+        m_jumpCount = 0;
+        m_jumpDuration = 0f;
+    }
     public override void HandleInput() {
         base.HandleInput();
 
@@ -244,7 +245,6 @@ public class PlatformerMotorStateJumping : PlatformerMotorState {
 
     public override void Exit() {
         base.Exit ();
-        m_jumpDuration = 0f;
     }
 
     public override void HandleInput() {
@@ -258,10 +258,7 @@ public class PlatformerMotorStateJumping : PlatformerMotorState {
 
     public override void FixedUpdate() {
         base.FixedUpdate ();
-
-        if (m_jumpDuration < m_owner.maxJumpDuration) {
-            m_jumpDuration += Time.fixedDeltaTime;    
-        }
+        m_jumpDuration += Time.fixedDeltaTime;
 
         if (m_jumpCount == 0) {
             m_owner.ReplaceState (new PlatformerMotorStateLanded (m_owner, this));
@@ -278,6 +275,9 @@ public class PlatformerMotorStateJumping : PlatformerMotorState {
         else if (IsDescending ()) {
             m_owner.ReplaceState (new PlatformerMotorStateFalling (m_owner, this));
             return;
+        }
+        else if (m_owner.IsGrounded()) {
+            m_owner.ReplaceState(new PlatformerMotorStateLanded(m_owner, this));
         }
     }
 }
