@@ -183,7 +183,6 @@ public class PlatformerMotorStateFalling : PlatformerMotorState {
         base.HandleInput();
 
         if (CanJump()) {
-            Debug.Log("Jumping from Falling");
             m_owner.ReplaceState(new PlatformerMotorStateJumping(m_owner, this));
             return;
         }
@@ -252,7 +251,6 @@ public class PlatformerMotorStateJumping : PlatformerMotorState {
         base.HandleInput();
 
         if (CanJump()) {  // Double-jump if the player is in the air.
-            Debug.Log("Jumping from Jumping");
             m_owner.ReplaceState(new PlatformerMotorStateJumping(m_owner, this));
             return;
         }
