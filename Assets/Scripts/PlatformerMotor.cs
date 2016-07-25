@@ -14,6 +14,15 @@ public class PlatformerMotor : MonoBehaviour {
     public float fallControlSpeed = 1f;
     public float timeUntilFalling = 0.2f;   // Time in the air until the player is considered to be falling.
 
+    Collider2D groundCollider;
+
+
+    public Vector2 FootPosition {
+        get {
+            Debug.Log ((string)(transform.position.y + groundCollider.bounds.center.y + groundCollider.bounds.extents.y).ToString ());
+            return new Vector2(transform.position.x, transform.position.y - groundCollider.bounds.center.y - groundCollider.bounds.extents.y);
+        }
+    }
     int m_surfaceCollisions = 0;
     public int SurfaceCollisionCount {
         get { return m_surfaceCollisions; }
@@ -40,6 +49,7 @@ public class PlatformerMotor : MonoBehaviour {
 
     void Start() {
         m_rb = GetComponent<Rigidbody2D> ();
+        groundCollider = GetComponent<Collider2D> ();
         m_surfaceCollisions = 0;
         PushState (new PlatformerMotorStateIdle (this, null));
     }
@@ -75,6 +85,16 @@ public class PlatformerMotor : MonoBehaviour {
     public void ReplaceState(PlatformerMotorState newState) {
         PopState ();
         PushState (newState);
+    }
+
+    public bool IsGrounded() { 
+        Vector2 foot = FootPosition;
+        Collider2D col = Physics2D.OverlapCircle (foot, 0.2f);
+        if (col != null) {
+            Debug.Log (col.gameObject.name);
+        }
+
+        return (col == null);
     }
 
     void OnCollisionEnter2D(Collision2D col) {

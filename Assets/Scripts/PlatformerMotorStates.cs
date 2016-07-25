@@ -183,6 +183,7 @@ public class PlatformerMotorStateFalling : PlatformerMotorState {
         base.HandleInput();
 
         if (CanJump()) {
+            Debug.Log("Jumping from Falling");
             m_owner.ReplaceState(new PlatformerMotorStateJumping(m_owner, this));
             return;
         }
@@ -251,6 +252,7 @@ public class PlatformerMotorStateJumping : PlatformerMotorState {
         base.HandleInput();
 
         if (CanJump()) {  // Double-jump if the player is in the air.
+            Debug.Log("Jumping from Jumping");
             m_owner.ReplaceState(new PlatformerMotorStateJumping(m_owner, this));
             return;
         }
@@ -263,20 +265,20 @@ public class PlatformerMotorStateJumping : PlatformerMotorState {
             m_jumpDuration += Time.fixedDeltaTime;    
         }
 
-        if (IsHoldingJump () && m_jumpDuration < m_owner.maxJumpDuration) {
-            AddForce(new Vector2(0f, m_owner.jumpForce));
+        if (m_jumpCount == 0) {
+            m_owner.ReplaceState (new PlatformerMotorStateLanded (m_owner, this));
+            return;
         }
 
         if (HasRequestedMovementDirection ()) {
-            AddForce (RequestedMovementDirection * m_owner.jumpControlSpeed);
+            Velocity = new Vector2(RequestedMovementDirection.x * m_owner.jumpControlSpeed, Velocity.y);
         }
 
-        if (IsDescending ()) {
-            m_owner.ReplaceState (new PlatformerMotorStateFalling (m_owner, this));
-            return;
+        if (IsHoldingJump () && m_jumpDuration < m_owner.maxJumpDuration) {
+            Velocity = new Vector2(Velocity.x, m_owner.jumpForce + Velocity.y);
         }
-        if (m_jumpCount == 0) {
-            m_owner.ReplaceState (new PlatformerMotorStateLanded (m_owner, this));
+        else if (IsDescending ()) {
+            m_owner.ReplaceState (new PlatformerMotorStateFalling (m_owner, this));
             return;
         }
     }
