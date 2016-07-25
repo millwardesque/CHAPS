@@ -155,13 +155,11 @@ public class PlatformerMotorStateWalking : PlatformerMotorState {
         base.FixedUpdate ();
 
         if (HasRequestedMovementDirection ()) {
-            // Debug.Log ("In motion: " + Velocity.ToString ());
-            float maxXVelocity = RequestedMovementDirection.x * m_owner.maxSpeed;
+            float maxXVelocity = RequestedMovementDirection.x * m_owner.fallControlSpeed;
             float newXVelocity = m_owner.accelerationRate * maxXVelocity + (1f - m_owner.accelerationRate) * Velocity.x;
             Velocity = new Vector2(newXVelocity, Velocity.y);
         }
         else {
-            // Debug.Log ("Stopping: " + Velocity.ToString());
             Velocity = new Vector2 (Velocity.x * (1f - m_owner.velocityFrictionFactor), Velocity.y);
         } 
 
@@ -186,7 +184,9 @@ public class PlatformerMotorStateFalling : PlatformerMotorState {
         base.FixedUpdate ();
 
         if (HasRequestedMovementDirection ()) {
-            Velocity = new Vector2(RequestedMovementDirection.x * m_owner.fallControlSpeed, Velocity.y);
+            float maxXVelocity = RequestedMovementDirection.x * m_owner.maxSpeed;
+            float newXVelocity = m_owner.accelerationRate * maxXVelocity + (1f - m_owner.accelerationRate) * Velocity.x;
+            Velocity = new Vector2(newXVelocity, Velocity.y);
         }
 
         if (m_owner.IsGrounded()) {
