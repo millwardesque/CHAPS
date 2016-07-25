@@ -267,7 +267,10 @@ public class PlatformerMotorStateJumping : PlatformerMotorState {
         }
 
         if (HasRequestedMovementDirection ()) {
-            Velocity = new Vector2(RequestedMovementDirection.x * m_owner.jumpControlSpeed, Velocity.y);
+            // Debug.Log ("In motion: " + Velocity.ToString ());
+            float maxXVelocity = RequestedMovementDirection.x * m_owner.jumpControlSpeed;
+            float newXVelocity = m_owner.accelerationRate * maxXVelocity + (1f - m_owner.accelerationRate) * Velocity.x;
+            Velocity = new Vector2(newXVelocity, Velocity.y);
         }
 
         if (IsHoldingJump () && m_jumpDuration < m_owner.maxJumpDuration) {

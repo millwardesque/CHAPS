@@ -165,11 +165,11 @@ MonoBehaviour:
   maxSpeed: 15
   velocityFrictionFactor: 0.275
   accelerationRate: 0.3
-  jumpControlSpeed: 8
-  jumpForce: 2.8
+  jumpControlSpeed: 10
+  jumpForce: 3
   maxJumpDuration: 0.2
   maxJumps: 2
-  fallControlSpeed: 8
+  fallControlSpeed: 15
   timeUntilFalling: 0
   collisionLayers:
     serializedVersion: 2
