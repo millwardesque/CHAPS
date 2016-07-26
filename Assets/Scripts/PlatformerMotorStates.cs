@@ -155,7 +155,7 @@ public class PlatformerMotorStateWalking : PlatformerMotorState {
         base.FixedUpdate ();
 
         if (HasRequestedMovementDirection ()) {
-            float maxXVelocity = RequestedMovementDirection.x * m_owner.fallControlSpeed;
+            float maxXVelocity = RequestedMovementDirection.x * m_owner.maxSpeed;
             float newXVelocity = m_owner.accelerationRate * maxXVelocity + (1f - m_owner.accelerationRate) * Velocity.x;
             Velocity = new Vector2(newXVelocity, Velocity.y);
         }
@@ -184,7 +184,7 @@ public class PlatformerMotorStateFalling : PlatformerMotorState {
         base.FixedUpdate ();
 
         if (HasRequestedMovementDirection ()) {
-            float maxXVelocity = RequestedMovementDirection.x * m_owner.maxSpeed;
+            float maxXVelocity = RequestedMovementDirection.x * m_owner.airControlSpeed;
             float newXVelocity = m_owner.accelerationRate * maxXVelocity + (1f - m_owner.accelerationRate) * Velocity.x;
             Velocity = new Vector2(newXVelocity, Velocity.y);
         }
@@ -267,13 +267,12 @@ public class PlatformerMotorStateJumping : PlatformerMotorState {
         }
 
         if (HasRequestedMovementDirection ()) {
-            // Debug.Log ("In motion: " + Velocity.ToString ());
-            float maxXVelocity = RequestedMovementDirection.x * m_owner.jumpControlSpeed;
+            float maxXVelocity = RequestedMovementDirection.x * m_owner.airControlSpeed;
             float newXVelocity = m_owner.accelerationRate * maxXVelocity + (1f - m_owner.accelerationRate) * Velocity.x;
             Velocity = new Vector2(newXVelocity, Velocity.y);
         }
 
-        if (IsHoldingJump () && m_jumpDuration < m_owner.maxJumpDuration) {
+        if (m_maxHeightAchieved < m_owner.minJumpHeight || (IsHoldingJump () && m_jumpDuration < m_owner.maxJumpDuration)) {
             Velocity = new Vector2(Velocity.x, m_owner.jumpForce + Velocity.y);
         }
         else if (IsDescending ()) {

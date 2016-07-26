@@ -18,22 +18,21 @@ public class PlatformerMotor : MonoBehaviour {
     [Range (0f, 1f)]
     public float accelerationRate = 1f;
 
-    [Header("Jumping")]
+    [Header("Airborn")]
     [Range (0f, 50f)]
-    public float jumpControlSpeed = 1f;
+    public float airControlSpeed = 1f;
 
     [Range (0f, 10f)]
     public float jumpForce = 10f;
+
+    [Range (0f, 5f)]
+    public float minJumpHeight = 0f;
 
     [Range (0f, 1f)]
     public float maxJumpDuration = 1f;
 
     [Range (0, 10)]
     public int maxJumps = 2;
-
-    [Header("Falling")]
-    [Range (0f, 50f)]
-    public float fallControlSpeed = 1f;
 
     [Range (0f, 1f)]
     public float timeUntilFalling = 0.2f;   // Time in the air until the player is considered to be falling.

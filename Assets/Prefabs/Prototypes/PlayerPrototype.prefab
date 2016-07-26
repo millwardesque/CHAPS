@@ -164,12 +164,12 @@ MonoBehaviour:
   groundedCollisionObject: 
   maxSpeed: 15
   velocityFrictionFactor: 0.275
-  accelerationRate: 0.3
-  jumpControlSpeed: 10
+  accelerationRate: 0.7
+  airControlSpeed: 15
   jumpForce: 3
+  minJumpHeight: 1
   maxJumpDuration: 0.2
-  maxJumps: 2
-  fallControlSpeed: 15
+  maxJumps: 1
   timeUntilFalling: 0
   collisionLayers:
     serializedVersion: 2
