@@ -169,7 +169,7 @@ MonoBehaviour:
   jumpForce: 3
   minJumpHeight: 0.75
   maxJumpDuration: 0.2
-  maxJumps: 1
+  maxJumps: 2
   maxChainJumps: 0
   bonusMultiplierPerJumpChain: 0.5
   timeUntilFalling: 0

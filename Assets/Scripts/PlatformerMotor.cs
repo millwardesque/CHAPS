@@ -122,4 +122,10 @@ public class PlatformerMotor : MonoBehaviour {
 
         return (col != null);
     }
+
+    void OnCollisionEnter2D(Collision2D col) {
+        if (CurrentState != null) {
+            CurrentState.OnCollisionEnter2D (col);
+        }
+    }
 }
