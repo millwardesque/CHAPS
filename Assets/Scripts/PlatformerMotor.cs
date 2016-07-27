@@ -57,7 +57,7 @@ public class PlatformerMotor : MonoBehaviour {
         set {
             if (value >= 0 && value <= maxChainJumps) {
                 m_jumpChain = value;
-                GameManager.Instance.Messenger.SendMessage (new Message(this, "JumpChainChange", m_jumpChain));    
+                GameManager.Instance.Messenger.SendMessage (new Message(this, "JumpChainChanged", m_jumpChain));    
             }
         }
     }
@@ -127,6 +127,10 @@ public class PlatformerMotor : MonoBehaviour {
     }
 
     void OnCollisionEnter2D(Collision2D col) {
+        if (col.collider.GetComponent<Vaultable>() != null) {
+            JumpChain++;
+        }
+
         if (CurrentState != null) {
             CurrentState.OnCollisionEnter2D (col);
         }

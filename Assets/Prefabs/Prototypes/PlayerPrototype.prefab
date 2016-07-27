@@ -163,16 +163,16 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   groundedCollisionObject: 
   maxSpeed: 15
-  velocityFrictionFactor: 0.275
+  velocityFrictionFactor: 0.8
   accelerationRate: 0.3
-  runDurationForJumpChain: 1.2
+  runDurationForJumpChain: 2
   airControlSpeed: 15
   jumpForce: 3
   minJumpHeight: 0.75
   maxJumpDuration: 0.2
   maxJumps: 2
-  maxChainJumps: 3
-  bonusMultiplierPerJumpChain: 0.3
+  maxChainJumps: 0
+  bonusMultiplierPerJumpChain: 0.2
   timeUntilFalling: 0
   collisionLayers:
     serializedVersion: 2
