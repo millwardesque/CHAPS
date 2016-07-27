@@ -82,6 +82,16 @@ public class PlatformerMotorState {
 
     public virtual void OnCollisionEnter2D(Collision2D col) {
         // Debug.Log ("Collided with " + col.collider.name);
+
+        // Reset the jump chain when the player hits a wall / platform sideways.
+        Vector2 collisionNormal;
+        for (int i = 0; i < col.contacts.Length; ++i) {
+            collisionNormal = col.contacts [i].normal;   
+            if (Mathf.Abs (collisionNormal.x) > Mathf.Abs(collisionNormal.y)) {
+                m_owner.JumpChain = 0; 
+                break;
+            }
+        }
     }
 
     public virtual void Exit() {
@@ -147,11 +157,21 @@ public class PlatformerMotorStateIdle : PlatformerMotorState {
 /// State when the actor is walking around on the ground.
 /// </summary>
 public class PlatformerMotorStateWalking : PlatformerMotorState {
+    float m_runDuration = 0f;
+
     Vector2 m_requestedMovementDirection;
     public PlatformerMotorStateWalking(PlatformerMotor owner, PlatformerMotorState previousState) : base(owner, previousState) { }
 
     public override void HandleInput() {
         base.HandleInput();
+
+        m_runDuration += Time.deltaTime;
+        if (Mathf.Abs (m_owner.runDurationForJumpChain) >= Mathf.Epsilon) {
+            while (m_runDuration > m_owner.runDurationForJumpChain) {
+                m_owner.JumpChain++;
+                m_runDuration -= m_owner.runDurationForJumpChain;
+            }    
+        }
 
         if (CanJump()) {
             m_owner.ReplaceState(new PlatformerMotorStateJumping(m_owner, this));
@@ -241,8 +261,6 @@ public class PlatformerMotorStateJumping : PlatformerMotorState {
         m_startingHeight = m_owner.transform.position.y;
         m_jumpCount++;
         m_jumpDuration = 0f;
-
-        m_owner.JumpChain++;
     }
 
     public override void HandleInput() {
@@ -275,7 +293,11 @@ public class PlatformerMotorStateJumping : PlatformerMotorState {
         }
 
         if (m_maxHeightAchieved < m_owner.minJumpHeight || (m_jumpCount == 1 && IsHoldingJump () && m_jumpDuration < m_owner.maxJumpDuration)) {
-            Velocity = new Vector2(Velocity.x, m_owner.jumpForce + Velocity.y);
+            float jumpForce = m_owner.jumpForce;
+            if (m_owner.JumpChainMultiplier > 1f) {
+                jumpForce += m_owner.JumpChainMultiplier / 4f;
+            }
+            Velocity = new Vector2(Velocity.x, jumpForce + Velocity.y);
         }
         else if (IsDescending ()) {
             m_owner.ReplaceState (new PlatformerMotorStateFalling (m_owner, this));

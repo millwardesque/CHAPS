@@ -134,7 +134,7 @@ Rigidbody2D:
   m_IsKinematic: 0
   m_Interpolate: 0
   m_SleepingMode: 1
-  m_CollisionDetection: 0
+  m_CollisionDetection: 1
   m_Constraints: 4
 --- !u!61 &6118256
 BoxCollider2D:
@@ -165,13 +165,14 @@ MonoBehaviour:
   maxSpeed: 15
   velocityFrictionFactor: 0.275
   accelerationRate: 0.3
+  runDurationForJumpChain: 1.2
   airControlSpeed: 15
   jumpForce: 3
   minJumpHeight: 0.75
   maxJumpDuration: 0.2
   maxJumps: 2
-  maxChainJumps: 0
-  bonusMultiplierPerJumpChain: 0.5
+  maxChainJumps: 3
+  bonusMultiplierPerJumpChain: 0.3
   timeUntilFalling: 0
   collisionLayers:
     serializedVersion: 2

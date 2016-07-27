@@ -18,6 +18,9 @@ public class PlatformerMotor : MonoBehaviour {
     [Range (0f, 1f)]
     public float accelerationRate = 1f;
 
+    [Range (0f, 10f)]
+    public float runDurationForJumpChain = 1f;
+
     [Header("Airborn")]
     [Range (0f, 50f)]
     public float airControlSpeed = 1f;
