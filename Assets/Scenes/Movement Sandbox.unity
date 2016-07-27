@@ -775,6 +775,10 @@ Prefab:
       propertyPath: m_Name
       value: Player
       objectReference: {fileID: 0}
+    - target: {fileID: 5030216, guid: 2a9cc51e42cfe43519e571596351fbda, type: 2}
+      propertyPath: m_CollisionDetection
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 2a9cc51e42cfe43519e571596351fbda, type: 2}
   m_IsPrefabParent: 0
@@ -1221,6 +1225,10 @@ Prefab:
       propertyPath: CameraTargets.Array.data[0].TargetTransform
       value: 
       objectReference: {fileID: 757165788}
+    - target: {fileID: 11485268, guid: 63797e9af3d82024b9cfad215fbd1703, type: 2}
+      propertyPath: OverallOffset.y
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 63797e9af3d82024b9cfad215fbd1703, type: 2}
   m_IsPrefabParent: 0

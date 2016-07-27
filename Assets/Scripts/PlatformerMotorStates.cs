@@ -81,7 +81,7 @@ public class PlatformerMotorState {
     }
 
     public virtual void OnCollisionEnter2D(Collision2D col) {
-        Debug.Log ("Collided with " + col.collider.name);    
+        // Debug.Log ("Collided with " + col.collider.name);
     }
 
     public virtual void Exit() {
@@ -243,13 +243,6 @@ public class PlatformerMotorStateJumping : PlatformerMotorState {
         m_jumpDuration = 0f;
 
         m_owner.JumpChain++;
-    }
-
-    public override void Exit() {
-        base.Exit ();
-
-        Debug.Log (string.Format ("Max height achieved: {0}", m_maxHeightAchieved));
-        Debug.Log (string.Format ("Jump duration: {0}", m_jumpDuration));
     }
 
     public override void HandleInput() {
