@@ -34,6 +34,12 @@ public class PlatformerMotor : MonoBehaviour {
     [Range (0, 10)]
     public int maxJumps = 2;
 
+    [Range (0, 5)]
+    public int maxChainJumps = 1;
+
+    [Range (0f, 1f)]
+    public float bonusMultiplierPerJumpChain = 0f;
+
     [Range (0f, 1f)]
     public float timeUntilFalling = 0.2f;   // Time in the air until the player is considered to be falling.
 
@@ -42,9 +48,19 @@ public class PlatformerMotor : MonoBehaviour {
 
     public Transform footPosition;
 
-    float m_timeFalling = 0f;
-    public float TimeFalling {
-        get { return m_timeFalling; }
+    int m_jumpChain = 0;
+    public int JumpChain {
+        get { return m_jumpChain; }
+        set {
+            if (value >= 0 && value <= maxChainJumps) {
+                m_jumpChain = value;
+                GameManager.Instance.Messenger.SendMessage (new Message(this, "JumpChainChange", m_jumpChain));    
+            }
+        }
+    }
+
+    public float JumpChainMultiplier {
+        get { return 1f + m_jumpChain * bonusMultiplierPerJumpChain; }
     }
 
     Rigidbody2D m_rb;

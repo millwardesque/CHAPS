@@ -155,7 +155,7 @@ public class PlatformerMotorStateWalking : PlatformerMotorState {
         base.FixedUpdate ();
 
         if (HasRequestedMovementDirection ()) {
-            float maxXVelocity = RequestedMovementDirection.x * m_owner.maxSpeed;
+            float maxXVelocity = RequestedMovementDirection.x * m_owner.maxSpeed * m_owner.JumpChainMultiplier;
             float newXVelocity = m_owner.accelerationRate * maxXVelocity + (1f - m_owner.accelerationRate) * Velocity.x;
             Velocity = new Vector2(newXVelocity, Velocity.y);
         }
@@ -184,7 +184,7 @@ public class PlatformerMotorStateFalling : PlatformerMotorState {
         base.FixedUpdate ();
 
         if (HasRequestedMovementDirection ()) {
-            float maxXVelocity = RequestedMovementDirection.x * m_owner.airControlSpeed;
+            float maxXVelocity = RequestedMovementDirection.x * m_owner.airControlSpeed * m_owner.JumpChainMultiplier;
             float newXVelocity = m_owner.accelerationRate * maxXVelocity + (1f - m_owner.accelerationRate) * Velocity.x;
             Velocity = new Vector2(newXVelocity, Velocity.y);
         }
@@ -243,6 +243,8 @@ public class PlatformerMotorStateJumping : PlatformerMotorState {
         m_startingHeight = m_owner.transform.position.y;
         m_jumpCount++;
         m_jumpDuration = 0f;
+
+        m_owner.JumpChain++;
     }
 
     public override void Exit() {
@@ -265,9 +267,9 @@ public class PlatformerMotorStateJumping : PlatformerMotorState {
             m_owner.ReplaceState (new PlatformerMotorStateLanded (m_owner, this));
             return;
         }
-
+         
         if (HasRequestedMovementDirection ()) {
-            float maxXVelocity = RequestedMovementDirection.x * m_owner.airControlSpeed;
+            float maxXVelocity = RequestedMovementDirection.x * m_owner.airControlSpeed * m_owner.JumpChainMultiplier;
             float newXVelocity = m_owner.accelerationRate * maxXVelocity + (1f - m_owner.accelerationRate) * Velocity.x;
             Velocity = new Vector2(newXVelocity, Velocity.y);
         }

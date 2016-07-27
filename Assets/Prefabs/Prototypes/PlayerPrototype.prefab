@@ -71,7 +71,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 106314}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -6.7, y: 0.2, z: 0}
+  m_LocalPosition: {x: -6.7, y: 1.5, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_Children:
@@ -164,12 +164,14 @@ MonoBehaviour:
   groundedCollisionObject: 
   maxSpeed: 15
   velocityFrictionFactor: 0.275
-  accelerationRate: 0.7
+  accelerationRate: 0.3
   airControlSpeed: 15
   jumpForce: 3
-  minJumpHeight: 1
+  minJumpHeight: 0.75
   maxJumpDuration: 0.2
   maxJumps: 1
+  maxChainJumps: 0
+  bonusMultiplierPerJumpChain: 0.5
   timeUntilFalling: 0
   collisionLayers:
     serializedVersion: 2
