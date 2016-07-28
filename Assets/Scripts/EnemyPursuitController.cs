@@ -4,6 +4,9 @@ using System.Collections;
 public class EnemyPursuitController : InputController {
     GameObject m_player;
 
+    [Range(0, 40f)]
+    public float playerAlertRadius = 1f;
+
     void Start() {
         m_player = GameManager.Instance.Player.gameObject;
         Debug.Log (m_player.name);
@@ -22,12 +25,17 @@ public class EnemyPursuitController : InputController {
 
     public override float GetAxis (string axisName) {
         if (axisName == "Horizontal") {
-            Vector2 directionToPlayer = (m_player.transform.position - transform.position);
-            Debug.Log (directionToPlayer);
-            if (directionToPlayer.x > Mathf.Epsilon) {
+
+            // Check whether the player is in our sight range.
+            Vector2 toPlayer = (m_player.transform.position - transform.position);
+            if (Mathf.Abs(toPlayer.magnitude) > playerAlertRadius) {
+                return 0f;
+            }
+
+            if (toPlayer.x > Mathf.Epsilon) {
                 return 1f;
             }
-            else if (directionToPlayer.x < -Mathf.Epsilon) {
+            else if (toPlayer.x < -Mathf.Epsilon) {
                 return -1f;
             }
             else {
@@ -37,5 +45,10 @@ public class EnemyPursuitController : InputController {
         else {
             return 0f;
         }
+    }
+
+    void OnDrawGizmos() {
+        Gizmos.color = new Color32(255, 0, 0, 64);
+        Gizmos.DrawSphere (transform.position, playerAlertRadius);
     }
 }
