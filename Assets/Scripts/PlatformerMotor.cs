@@ -4,6 +4,7 @@ using System.Collections.Generic;
 
 [RequireComponent (typeof(Rigidbody2D))]
 [RequireComponent (typeof(Collider2D))]
+[RequireComponent (typeof(InputController))]
 public class PlatformerMotor : MonoBehaviour {
     [HideInInspector]
     public string groundedCollisionObject = "";
@@ -76,11 +77,17 @@ public class PlatformerMotor : MonoBehaviour {
         get { return (m_stateStack != null ? m_stateStack.Peek () : null); }
     }
 
+    InputController m_controller;
+    public InputController Controller {
+        get { return m_controller; }
+    }
+
     void Awake() {
         m_stateStack = new Stack<PlatformerMotorState> ();
     }
 
     void Start() {
+        m_controller = GetComponent<InputController> ();
         m_rb = GetComponent<Rigidbody2D> ();
         PushState (new PlatformerMotorStateIdle (this, null));
     }
