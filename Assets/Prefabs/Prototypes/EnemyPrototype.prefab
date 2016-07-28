@@ -9,7 +9,7 @@ GameObject:
   m_Component:
   - 4: {fileID: 499958}
   - 212: {fileID: 21249692}
-  m_Layer: 8
+  m_Layer: 10
   m_Name: Avatar
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -26,9 +26,11 @@ GameObject:
   - 4: {fileID: 447184}
   - 50: {fileID: 5014136}
   - 61: {fileID: 6144114}
-  m_Layer: 8
+  - 114: {fileID: 11418090}
+  - 114: {fileID: 11451588}
+  m_Layer: 10
   m_Name: EnemyPrototype
-  m_TagString: Player
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -41,7 +43,7 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 493404}
-  m_Layer: 8
+  m_Layer: 10
   m_Name: Foot position
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -55,7 +57,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 169110}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -4.1, y: 1.5, z: 0}
+  m_LocalPosition: {x: 11.13, y: 1.5, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_Children:
@@ -120,6 +122,45 @@ BoxCollider2D:
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
   m_Size: {x: 1.05, y: 2}
+--- !u!114 &11418090
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 169110}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: af280cde045b74da787d701a50670f32, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  groundedCollisionObject: 
+  maxSpeed: 5
+  velocityFrictionFactor: 0
+  accelerationRate: 1
+  runDurationForJumpChain: 1
+  airControlSpeed: 1
+  jumpForce: 5
+  minJumpHeight: 0
+  maxJumpDuration: 1
+  maxJumps: 2
+  maxChainJumps: 1
+  bonusMultiplierPerJumpChain: 0
+  timeUntilFalling: 0.2
+  collisionLayers:
+    serializedVersion: 2
+    m_Bits: 785
+  footPosition: {fileID: 493404}
+--- !u!114 &11451588
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 169110}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3cca88633c2c44e37bd843ba54267fb8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!212 &21249692
 SpriteRenderer:
   m_ObjectHideFlags: 1

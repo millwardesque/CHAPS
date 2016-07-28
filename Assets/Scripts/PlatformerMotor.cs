@@ -4,7 +4,6 @@ using System.Collections.Generic;
 
 [RequireComponent (typeof(Rigidbody2D))]
 [RequireComponent (typeof(Collider2D))]
-[RequireComponent (typeof(InputController))]
 public class PlatformerMotor : MonoBehaviour {
     [HideInInspector]
     public string groundedCollisionObject = "";
@@ -88,6 +87,7 @@ public class PlatformerMotor : MonoBehaviour {
 
     void Start() {
         m_controller = GetComponent<InputController> ();
+        Debug.Assert (m_controller != null, string.Format("{0}: PlatformerMotor is missing an InputController subclass on the same component.", name));
         m_rb = GetComponent<Rigidbody2D> ();
         PushState (new PlatformerMotorStateIdle (this, null));
     }

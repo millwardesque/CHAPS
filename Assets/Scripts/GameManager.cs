@@ -24,7 +24,7 @@ public class GameManager : MonoBehaviour {
     }
 
     void Start() {
-        m_player = FindObjectOfType<PlatformerMotor> ();
+        m_player = GameObject.FindGameObjectWithTag ("Player").GetComponent <PlatformerMotor>();
     }
     
 }
