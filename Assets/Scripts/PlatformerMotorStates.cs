@@ -51,7 +51,7 @@ public class PlatformerMotorState {
     }
 
     public virtual void HandleInput() {
-        m_requestedMovementDirection = new Vector2 (m_owner.Controller.GetAxis ("Horizontal"), 0f);
+        m_requestedMovementDirection = new Vector2 (m_owner.Controller.GetAxis ("Move Horizontal"), 0f);
 
         if (m_owner.Controller.GetButtonDown("Jump")) {
             m_hasRequestedJump = true;

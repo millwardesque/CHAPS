@@ -9,7 +9,6 @@ public class EnemyPursuitController : InputController {
 
     void Start() {
         m_player = GameManager.Instance.Player.gameObject;
-        Debug.Log (m_player.name);
     }
     public override bool GetButtonUp (string buttonName) {
         return false;
@@ -24,7 +23,7 @@ public class EnemyPursuitController : InputController {
     }
 
     public override float GetAxis (string axisName) {
-        if (axisName == "Horizontal") {
+        if (axisName == "Move Horizontal") {
 
             // Check whether the player is in our sight range.
             Vector2 toPlayer = (m_player.transform.position - transform.position);
