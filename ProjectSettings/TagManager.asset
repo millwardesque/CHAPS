@@ -17,7 +17,7 @@ TagManager:
   - Player
   - Environment
   - Enemy
-  - 
+  - Enemy Horde
   - 
   - 
   - 
@@ -41,4 +41,7 @@ TagManager:
   m_SortingLayers:
   - name: Default
     uniqueID: 0
+    locked: 0
+  - name: Enemy Horde
+    uniqueID: 1971999935
     locked: 0
