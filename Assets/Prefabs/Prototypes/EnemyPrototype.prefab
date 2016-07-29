@@ -28,6 +28,7 @@ GameObject:
   - 61: {fileID: 6144114}
   - 114: {fileID: 11418090}
   - 114: {fileID: 11451588}
+  - 114: {fileID: 114000014055904950}
   m_Layer: 10
   m_Name: EnemyPrototype
   m_TagString: Enemy
@@ -121,7 +122,7 @@ BoxCollider2D:
   m_UsedByEffector: 0
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
-  m_Size: {x: 1.05, y: 2}
+  m_Size: {x: 0.8, y: 1.8}
 --- !u!114 &11418090
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -206,3 +207,14 @@ Prefab:
   m_ParentPrefab: {fileID: 0}
   m_RootGameObject: {fileID: 169110}
   m_IsPrefabParent: 1
+--- !u!114 &114000014055904950
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 169110}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 02ea562a14f302f46ba462cb7beb7eb5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

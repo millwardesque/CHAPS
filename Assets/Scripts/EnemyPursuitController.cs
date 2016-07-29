@@ -27,7 +27,7 @@ public class EnemyPursuitController : InputController {
 
             // Check whether the player is in our sight range.
             Vector2 toPlayer = (m_player.transform.position - transform.position);
-            if (Mathf.Abs(toPlayer.magnitude) > playerAlertRadius) {
+            if (toPlayer.magnitude > playerAlertRadius) {
                 return 0f;
             }
 
