@@ -40,6 +40,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bb35007f9f5b9460f98e1ab6ecea57c4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  mainCanvas: {fileID: 0}
+  gameOverPrefab: {fileID: 1000011689265690, guid: ce384b4efe7c89b4ab0e886d8c15b5d3,
+    type: 2}
 --- !u!1001 &100100000
 Prefab:
   m_ObjectHideFlags: 1

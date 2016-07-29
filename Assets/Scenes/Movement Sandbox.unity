@@ -274,7 +274,7 @@ MonoBehaviour:
   m_ScaleFactor: 1
   m_ReferenceResolution: {x: 1280, y: 720}
   m_ScreenMatchMode: 0
-  m_MatchWidthOrHeight: 0
+  m_MatchWidthOrHeight: 0.5
   m_PhysicalUnit: 3
   m_FallbackScreenDPI: 96
   m_DefaultSpriteDPI: 96
@@ -832,6 +832,10 @@ Prefab:
       propertyPath: m_RootOrder
       value: 4
       objectReference: {fileID: 0}
+    - target: {fileID: 11445876, guid: 16ed43dbc9ed54831a9ea53a49dc0fd1, type: 2}
+      propertyPath: mainCanvas
+      value: 
+      objectReference: {fileID: 478926196}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 16ed43dbc9ed54831a9ea53a49dc0fd1, type: 2}
   m_IsPrefabParent: 0
