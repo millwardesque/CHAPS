@@ -39,6 +39,7 @@ GameObject:
   - 4: {fileID: 4000013634435678}
   - 61: {fileID: 61000010780297794}
   - 212: {fileID: 212000012504627382}
+  - 114: {fileID: 114000012576093890}
   m_Layer: 0
   m_Name: Saferoom Entry
   m_TagString: Untagged
@@ -56,6 +57,7 @@ GameObject:
   - 4: {fileID: 4000013960559272}
   - 61: {fileID: 61000013202720742}
   - 212: {fileID: 212000010974243724}
+  - 114: {fileID: 114000010372314948}
   m_Layer: 0
   m_Name: Saferoom Exit
   m_TagString: Untagged
@@ -71,7 +73,6 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 4000010160454072}
-  - 114: {fileID: 114000010475152782}
   m_Layer: 0
   m_Name: Safe Room
   m_TagString: Untagged
@@ -104,7 +105,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1000013239179762}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 180, y: 0, z: 0}
+  m_LocalPosition: {x: 112, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_Children:
@@ -175,7 +176,7 @@ BoxCollider2D:
   m_Enabled: 1
   m_Density: 1
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_UsedByEffector: 0
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
@@ -189,7 +190,7 @@ BoxCollider2D:
   m_Enabled: 1
   m_Density: 1
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_UsedByEffector: 0
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
@@ -222,12 +223,23 @@ BoxCollider2D:
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
   m_Size: {x: 1, y: 1}
---- !u!114 &114000010475152782
+--- !u!114 &114000010372314948
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1000013239179762}
+  m_GameObject: {fileID: 1000012862901604}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e8c4ba8430f6449f2a0073513ad07322, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &114000012576093890
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1000011949237894}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 34e0ca409b4a74e839b61b2d8e03e925, type: 3}
@@ -263,7 +275,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: f228ac05c376c4abfa271c9ab1e56fc6, type: 3}
-  m_Color: {r: 0.59731835, g: 1, b: 0.44117647, a: 1}
+  m_Color: {r: 0.57672113, g: 0.9655172, b: 0.4259635, a: 1}
   m_FlipX: 0
   m_FlipY: 0
 --- !u!212 &212000010974243724
@@ -296,7 +308,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: f228ac05c376c4abfa271c9ab1e56fc6, type: 3}
-  m_Color: {r: 0.60791504, g: 0.2794118, b: 1, a: 0.559}
+  m_Color: {r: 0.43944636, g: 1, b: 0.4044118, a: 0.559}
   m_FlipX: 0
   m_FlipY: 0
 --- !u!212 &212000012504627382
@@ -329,7 +341,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: f228ac05c376c4abfa271c9ab1e56fc6, type: 3}
-  m_Color: {r: 0.60791504, g: 0.2794118, b: 1, a: 0.559}
+  m_Color: {r: 0.43944636, g: 1, b: 0.4044118, a: 0.559}
   m_FlipX: 0
   m_FlipY: 0
 --- !u!212 &212000014098320300
@@ -362,7 +374,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: f228ac05c376c4abfa271c9ab1e56fc6, type: 3}
-  m_Color: {r: 0.59731835, g: 1, b: 0.44117647, a: 1}
+  m_Color: {r: 0.57672113, g: 0.9655172, b: 0.4259635, a: 1}
   m_FlipX: 0
   m_FlipY: 0
 --- !u!251 &251000011998894310

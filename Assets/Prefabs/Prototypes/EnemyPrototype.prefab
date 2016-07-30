@@ -26,6 +26,7 @@ GameObject:
   - 4: {fileID: 447184}
   - 50: {fileID: 5014136}
   - 61: {fileID: 6144114}
+  - 58: {fileID: 58000013014696024}
   - 114: {fileID: 11418090}
   - 114: {fileID: 11451588}
   - 114: {fileID: 114000014055904950}
@@ -138,18 +139,16 @@ MonoBehaviour:
   maxSpeed: 5
   velocityFrictionFactor: 0
   accelerationRate: 1
-  runDurationForJumpChain: 1
   airControlSpeed: 1
   jumpForce: 5
   minJumpHeight: 0
   maxJumpDuration: 1
   maxJumps: 2
-  maxChainJumps: 1
-  bonusMultiplierPerJumpChain: 0
   timeUntilFalling: 0.2
   collisionLayers:
     serializedVersion: 2
     m_Bits: 785
+  maxBounceDuration: 1
   footPosition: {fileID: 493404}
 --- !u!114 &11451588
 MonoBehaviour:
@@ -207,6 +206,20 @@ Prefab:
   m_ParentPrefab: {fileID: 0}
   m_RootGameObject: {fileID: 169110}
   m_IsPrefabParent: 1
+--- !u!58 &58000013014696024
+CircleCollider2D:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 169110}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_Offset: {x: 0, y: -0.65}
+  serializedVersion: 2
+  m_Radius: 0.35
 --- !u!114 &114000014055904950
 MonoBehaviour:
   m_ObjectHideFlags: 1

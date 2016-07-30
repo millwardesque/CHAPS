@@ -36,6 +36,7 @@ public class PlayerController : InputController {
     }
 
     void OnCollisionEnter2D(Collision2D col) {
+        Debug.Log (string.Format ("{0}: {1} {2}", col.collider.name, col.contacts.Length, col.contacts [0].normal));
         if (col.collider.tag == "Enemy") {
             bool isHeadStomp = false;
             foreach (ContactPoint2D contact in col.contacts) {

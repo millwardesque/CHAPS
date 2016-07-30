@@ -10,6 +10,7 @@ GameObject:
   - 4: {fileID: 447026}
   - 50: {fileID: 5030216}
   - 61: {fileID: 6118256}
+  - 58: {fileID: 58000011831315930}
   - 114: {fileID: 11425776}
   - 114: {fileID: 114000012218976840}
   m_Layer: 8
@@ -57,7 +58,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 106314}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -6.7, y: 1.5, z: 0}
+  m_LocalPosition: {x: -7, y: 1.5, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_Children:
@@ -121,7 +122,7 @@ BoxCollider2D:
   m_UsedByEffector: 0
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
-  m_Size: {x: 1.05, y: 2}
+  m_Size: {x: 1.05, y: 1.8}
 --- !u!114 &11425776
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -137,14 +138,11 @@ MonoBehaviour:
   maxSpeed: 15
   velocityFrictionFactor: 0.7
   accelerationRate: 0.3
-  runDurationForJumpChain: 2
   airControlSpeed: 15
   jumpForce: 3
   minJumpHeight: 0.75
   maxJumpDuration: 0.2
   maxJumps: 2
-  maxChainJumps: 0
-  bonusMultiplierPerJumpChain: 0.2
   timeUntilFalling: 0
   collisionLayers:
     serializedVersion: 2
@@ -195,6 +193,20 @@ Prefab:
   m_ParentPrefab: {fileID: 0}
   m_RootGameObject: {fileID: 106314}
   m_IsPrefabParent: 1
+--- !u!58 &58000011831315930
+CircleCollider2D:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 106314}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_Offset: {x: 0, y: -0.65}
+  serializedVersion: 2
+  m_Radius: 0.35
 --- !u!114 &114000012218976840
 MonoBehaviour:
   m_ObjectHideFlags: 1
