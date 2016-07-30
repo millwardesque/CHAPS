@@ -34,9 +34,29 @@ public class PlayerController : InputController {
     }
 
     void OnCollisionEnter2D(Collision2D col) {
+        if (col.collider.tag == "Enemy") {
+            bool isHeadStomp = false;
+            foreach (ContactPoint2D contact in col.contacts) {
+                if (contact.normal.y > contact.normal.x && contact.normal.y > 0f) {
+                    isHeadStomp = true;
+                    break;
+                }
+            }
+
+            if (isHeadStomp) {
+                col.collider.GetComponent<EnemyHordeMember> ().OnStomped ();
+            }
+            else {
+                GameManager.Instance.Messenger.SendMessage(new Message(this, "GameOver"));    
+            }
+
+            return;
+        }
+
         if (col.collider.GetComponent<IntelCollectible>()) {
             IntelPointsCollected += col.collider.GetComponent<IntelCollectible> ().intelPoints;
-            Destroy (col.collider.gameObject);   
+            Destroy (col.collider.gameObject);
+            return;
         }
     }
 }

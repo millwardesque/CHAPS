@@ -26,11 +26,23 @@ public class MessageManager {
         listeners[messageName].Add(listener);
     }
 
+    public void RemoveListener(string messageName, MessageReceiver listener) {
+        if (!listeners.ContainsKey(messageName)) {
+            return;
+        }
+        listeners [messageName].Remove (listener);
+    }
+
     public void SendMessage(Message message) {
         if (listeners.ContainsKey(message.name)) {
             List<MessageReceiver> recipients = listeners[message.name];
             for (int i = 0; i < recipients.Count; ++i) {
-                recipients[i].Invoke(message);
+                if (recipients[i] == null) {
+                    recipients.RemoveAt (i);
+                }
+                else {
+                    recipients[i].Invoke(message);
+                }
             }
         }
     }

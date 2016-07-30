@@ -46,12 +46,6 @@ public class EnemyPursuitController : InputController {
         }
     }
 
-    void OnCollisionEnter2D(Collision2D col) {
-        if (col.collider.tag == "Player") {
-            GameManager.Instance.Messenger.SendMessage(new Message(this, "GameOver"));
-        }
-    }
-
     void OnDrawGizmosSelected() {
         Gizmos.color = new Color32(255, 0, 0, 64);
         Gizmos.DrawSphere (transform.position, playerAlertRadius);

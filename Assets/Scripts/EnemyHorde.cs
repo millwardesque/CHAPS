@@ -39,4 +39,12 @@ public class EnemyHorde : MonoBehaviour {
             MaxHordeSpeed += speedIncrementPerMember;
         }        
     }
+
+    public void RemoveEnemyFromHorde(EnemyHordeMember enemy) {
+        if (enemy != null && enemy.Horde == this) {
+            enemy.Horde = null;
+            m_members.Remove (enemy);
+            MaxHordeSpeed -= speedIncrementPerMember;
+        }
+    }
 }

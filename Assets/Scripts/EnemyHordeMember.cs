@@ -16,6 +16,10 @@ public class EnemyHordeMember : MonoBehaviour {
 	void Start () {
         GameManager.Instance.Messenger.AddListener("HordeSpeedChanged", OnHordeSpeedChange);
 	}
+
+    void OnDestroy () {
+        GameManager.Instance.Messenger.AddListener("HordeSpeedChanged", OnHordeSpeedChange);
+    }
 	
     void Update() {
         if (GameManager.Instance.Player.transform.position.x > transform.position.x && m_horde == null) {
@@ -34,5 +38,12 @@ public class EnemyHordeMember : MonoBehaviour {
 
     void SetMaxSpeed(float maxSpeed) {
         GetComponent<PlatformerMotor>().maxSpeed = maxSpeed;
+    }
+
+    public void OnStomped() {
+        if (Horde != null) {
+            Horde.RemoveEnemyFromHorde (this);
+        }
+        Destroy (gameObject);
     }
 }
