@@ -52,7 +52,7 @@ public class EnemyPursuitController : InputController {
         }
     }
 
-    void OnDrawGizmos() {
+    void OnDrawGizmosSelected() {
         Gizmos.color = new Color32(255, 0, 0, 64);
         Gizmos.DrawSphere (transform.position, playerAlertRadius);
     }
