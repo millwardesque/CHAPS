@@ -250,15 +250,25 @@ public class PlatformerMotorStateFalling : PlatformerMotorState {
 /// State when the actor is jumping
 /// </summary>
 public class PlatformerMotorStateJumping : PlatformerMotorState {
-    public PlatformerMotorStateJumping(PlatformerMotor owner, PlatformerMotorState previousState) : base(owner, previousState) { }
-
+    float m_maxJumpDuration = -1f;
     float m_startingHeight = 0f;
     float m_maxHeightAchieved;
+
+    public PlatformerMotorStateJumping(PlatformerMotor owner, PlatformerMotorState previousState) : base(owner, previousState) { }
+
+    public PlatformerMotorStateJumping(PlatformerMotor owner, PlatformerMotorState previousState, float maxJumpDuration) : base(owner, previousState) {
+        m_maxJumpDuration = maxJumpDuration;
+    }
 
     public override void Enter() {
         base.Enter ();
 
         m_startingHeight = m_owner.transform.position.y;
+
+        if (m_maxJumpDuration < 0f) {   // If we haven't overridden the max jump duration in the constructor, use the default.
+            m_maxJumpDuration = m_owner.maxJumpDuration;    
+        }
+
         m_jumpCount++;
         m_jumpDuration = 0f;
     }
@@ -292,7 +302,7 @@ public class PlatformerMotorStateJumping : PlatformerMotorState {
             Velocity = new Vector2(newXVelocity, Velocity.y);
         }
 
-        if (m_maxHeightAchieved < m_owner.minJumpHeight || (m_jumpCount == 1 && IsHoldingJump () && m_jumpDuration < m_owner.maxJumpDuration)) {
+        if (m_jumpDuration < m_maxJumpDuration && (m_maxHeightAchieved < m_owner.minJumpHeight || (m_jumpCount == 1 && IsHoldingJump ()))) {
             float jumpForce = m_owner.jumpForce;
             if (m_owner.JumpChainMultiplier > 1f) {
                 jumpForce += m_owner.JumpChainMultiplier / 4f;

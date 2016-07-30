@@ -2,7 +2,8 @@
 using Rewired;
 
 public class PlayerController : InputController {
-    Player m_player;    // Rewired player.
+    PlatformerMotor m_motor;
+    Player m_rewiredPlayer;    // Rewired player.
 
     int m_intelPointsCollected = 0;
     public int IntelPointsCollected {
@@ -14,23 +15,24 @@ public class PlayerController : InputController {
     }
 
     void Awake() {
-        m_player = ReInput.players.GetPlayer(0);
+        m_rewiredPlayer = ReInput.players.GetPlayer(0);
+        m_motor = GetComponent<PlatformerMotor> ();
     }
 
     public override bool GetButtonUp (string buttonName) {
-        return m_player.GetButtonUp (buttonName);
+        return m_rewiredPlayer.GetButtonUp (buttonName);
     }
 
     public override bool GetButtonDown (string buttonName) {
-        return m_player.GetButtonDown (buttonName);
+        return m_rewiredPlayer.GetButtonDown (buttonName);
     }
 
     public override bool GetButton(string buttonName) {
-        return m_player.GetButton (buttonName);
+        return m_rewiredPlayer.GetButton (buttonName);
     }
 
     public override float GetAxis (string axisName) {
-        return m_player.GetAxis (axisName);
+        return m_rewiredPlayer.GetAxis (axisName);
     }
 
     void OnCollisionEnter2D(Collision2D col) {
@@ -45,6 +47,7 @@ public class PlayerController : InputController {
 
             if (isHeadStomp) {
                 col.collider.GetComponent<EnemyHordeMember> ().OnStomped ();
+                m_motor.ReplaceState (new PlatformerMotorStateJumping(m_motor, m_motor.CurrentState, m_motor.maxBounceDuration));
             }
             else {
                 GameManager.Instance.Messenger.SendMessage(new Message(this, "GameOver"));    

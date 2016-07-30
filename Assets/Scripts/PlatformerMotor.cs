@@ -49,6 +49,9 @@ public class PlatformerMotor : MonoBehaviour {
     [Header("General")]
     public LayerMask collisionLayers;
 
+    [Range (0f, 1f)]
+    public float maxBounceDuration = 1f;
+
     public Transform footPosition;
 
     int m_jumpChain = 0;

@@ -149,6 +149,7 @@ MonoBehaviour:
   collisionLayers:
     serializedVersion: 2
     m_Bits: 4294967001
+  maxBounceDuration: 0.2
   footPosition: {fileID: 495686}
 --- !u!212 &21203150
 SpriteRenderer:
