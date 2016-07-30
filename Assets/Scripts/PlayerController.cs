@@ -62,4 +62,11 @@ public class PlayerController : InputController {
             return;
         }
     }
+
+    void OnTriggerEnter2D(Collider2D col) {
+        if (col.GetComponent<Powerup>()) {
+            col.GetComponent<Powerup> ().Trigger ();
+            return;
+        }
+    }
 }
