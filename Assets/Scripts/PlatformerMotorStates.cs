@@ -82,16 +82,6 @@ public class PlatformerMotorState {
 
     public virtual void OnCollisionEnter2D(Collision2D col) {
         // Debug.Log ("Collided with " + col.collider.name);
-
-        // Reset the jump chain when the player hits a wall / platform sideways.
-        Vector2 collisionNormal;
-        for (int i = 0; i < col.contacts.Length; ++i) {
-            collisionNormal = col.contacts [i].normal;   
-            if (Mathf.Abs (collisionNormal.x) > Mathf.Abs(collisionNormal.y)) {
-                m_owner.JumpChain = 0; 
-                break;
-            }
-        }
     }
 
     public virtual void Exit() {
@@ -157,21 +147,11 @@ public class PlatformerMotorStateIdle : PlatformerMotorState {
 /// State when the actor is walking around on the ground.
 /// </summary>
 public class PlatformerMotorStateWalking : PlatformerMotorState {
-    float m_runDuration = 0f;
-
     Vector2 m_requestedMovementDirection;
     public PlatformerMotorStateWalking(PlatformerMotor owner, PlatformerMotorState previousState) : base(owner, previousState) { }
 
     public override void HandleInput() {
         base.HandleInput();
-
-        m_runDuration += Time.deltaTime;
-        if (Mathf.Abs (m_owner.runDurationForJumpChain) >= Mathf.Epsilon) {
-            while (m_runDuration > m_owner.runDurationForJumpChain) {
-                m_owner.JumpChain++;
-                m_runDuration -= m_owner.runDurationForJumpChain;
-            }    
-        }
 
         if (CanJump()) {
             m_owner.ReplaceState(new PlatformerMotorStateJumping(m_owner, this));
@@ -183,7 +163,7 @@ public class PlatformerMotorStateWalking : PlatformerMotorState {
         base.FixedUpdate ();
 
         if (HasRequestedMovementDirection ()) {
-            float maxXVelocity = RequestedMovementDirection.x * m_owner.maxSpeed * m_owner.JumpChainMultiplier;
+            float maxXVelocity = RequestedMovementDirection.x * m_owner.maxSpeed;
             float newXVelocity = m_owner.accelerationRate * maxXVelocity + (1f - m_owner.accelerationRate) * Velocity.x;
             Velocity = new Vector2(newXVelocity, Velocity.y);
         }
@@ -227,7 +207,7 @@ public class PlatformerMotorStateFalling : PlatformerMotorState {
         base.FixedUpdate ();
 
         if (HasRequestedMovementDirection ()) {
-            float maxXVelocity = RequestedMovementDirection.x * m_owner.airControlSpeed * m_owner.JumpChainMultiplier;
+            float maxXVelocity = RequestedMovementDirection.x * m_owner.airControlSpeed;
             float newXVelocity = m_owner.accelerationRate * maxXVelocity + (1f - m_owner.accelerationRate) * Velocity.x;
             Velocity = new Vector2(newXVelocity, Velocity.y);
         }
@@ -297,16 +277,13 @@ public class PlatformerMotorStateJumping : PlatformerMotorState {
         }
          
         if (HasRequestedMovementDirection ()) {
-            float maxXVelocity = RequestedMovementDirection.x * m_owner.airControlSpeed * m_owner.JumpChainMultiplier;
+            float maxXVelocity = RequestedMovementDirection.x * m_owner.airControlSpeed;
             float newXVelocity = m_owner.accelerationRate * maxXVelocity + (1f - m_owner.accelerationRate) * Velocity.x;
             Velocity = new Vector2(newXVelocity, Velocity.y);
         }
 
         if (m_jumpDuration < m_maxJumpDuration && (m_maxHeightAchieved < m_owner.minJumpHeight || (m_jumpCount == 1 && IsHoldingJump ()))) {
             float jumpForce = m_owner.jumpForce;
-            if (m_owner.JumpChainMultiplier > 1f) {
-                jumpForce += m_owner.JumpChainMultiplier / 4f;
-            }
             Velocity = new Vector2(Velocity.x, jumpForce + Velocity.y);
         }
         else if (IsDescending ()) {

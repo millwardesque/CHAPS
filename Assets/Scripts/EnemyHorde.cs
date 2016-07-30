@@ -14,7 +14,7 @@ public class EnemyHorde : MonoBehaviour {
     public float MaxHordeSpeed {
         get { return m_maxHordeSpeed; }
         set {
-            m_maxHordeSpeed = value;
+            m_maxHordeSpeed = Mathf.Max(0f, value);
             GameManager.Instance.Messenger.SendMessage(new Message(this, "HordeSpeedChanged", m_maxHordeSpeed));
         }
     }

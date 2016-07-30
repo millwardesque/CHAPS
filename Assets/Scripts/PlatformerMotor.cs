@@ -18,9 +18,6 @@ public class PlatformerMotor : MonoBehaviour {
     [Range (0f, 1f)]
     public float accelerationRate = 1f;
 
-    [Range (0f, 10f)]
-    public float runDurationForJumpChain = 1f;
-
     [Header("Airborn")]
     [Range (0f, 50f)]
     public float airControlSpeed = 1f;
@@ -37,12 +34,6 @@ public class PlatformerMotor : MonoBehaviour {
     [Range (0, 10)]
     public int maxJumps = 2;
 
-    [Range (0, 5)]
-    public int maxChainJumps = 1;
-
-    [Range (0f, 1f)]
-    public float bonusMultiplierPerJumpChain = 0f;
-
     [Range (0f, 1f)]
     public float timeUntilFalling = 0.2f;   // Time in the air until the player is considered to be falling.
 
@@ -53,21 +44,6 @@ public class PlatformerMotor : MonoBehaviour {
     public float maxBounceDuration = 1f;
 
     public Transform footPosition;
-
-    int m_jumpChain = 0;
-    public int JumpChain {
-        get { return m_jumpChain; }
-        set {
-            if (value >= 0 && value <= maxChainJumps) {
-                m_jumpChain = value;
-                GameManager.Instance.Messenger.SendMessage (new Message(this, "JumpChainChanged", m_jumpChain));    
-            }
-        }
-    }
-
-    public float JumpChainMultiplier {
-        get { return 1f + m_jumpChain * bonusMultiplierPerJumpChain; }
-    }
 
     Rigidbody2D m_rb;
     public Rigidbody2D RB {
@@ -137,10 +113,6 @@ public class PlatformerMotor : MonoBehaviour {
     }
 
     void OnCollisionEnter2D(Collision2D col) {
-        if (col.collider.GetComponent<Vaultable>() != null) {
-            JumpChain++;
-        }
-
         if (CurrentState != null) {
             CurrentState.OnCollisionEnter2D (col);
         }
