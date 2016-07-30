@@ -40,7 +40,7 @@ public class PlayerController : InputController {
         if (col.collider.tag == "Enemy") {
             bool isHeadStomp = false;
             foreach (ContactPoint2D contact in col.contacts) {
-                if (contact.normal.y > contact.normal.x && contact.normal.y > 0f) {
+                if (contact.normal.y > 0f) {
                     isHeadStomp = true;
                     break;
                 }
