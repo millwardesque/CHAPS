@@ -42,6 +42,9 @@ TagManager:
   - name: Default
     uniqueID: 0
     locked: 0
+  - name: Player
+    uniqueID: 2711505373
+    locked: 0
   - name: Enemy Horde
     uniqueID: 1971999935
     locked: 0
