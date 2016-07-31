@@ -3,7 +3,7 @@ using System.Collections;
 
 public class SafeRoomExit : MonoBehaviour {
     void OnTriggerExit2D(Collider2D col) {
-        if (col.tag == "Player") {
+        if (col.tag == "Player" && col.bounds.min.x >= GetComponent<Collider2D>().bounds.max.x) {
             OnSafeRoomExit ();
         }
     }
