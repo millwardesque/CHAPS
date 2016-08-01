@@ -4,8 +4,17 @@ using UnityEngine.SceneManagement;
 public class GameManager : MonoBehaviour {
     public Canvas mainCanvas;
     public GameObject gameOverPrefab;
-    
 
+    private int m_totalIntelCollected = 0;
+    public int TotalIntelCollected
+    {
+        get { return m_totalIntelCollected; }
+        set
+        {
+            m_totalIntelCollected = value;
+            Messenger.SendMessage(this, "TotalIntelCollectedChange", m_totalIntelCollected);
+        }
+    }
     MessageManager m_messenger = null;
     public MessageManager Messenger {
         get { return m_messenger; }
@@ -43,5 +52,5 @@ public class GameManager : MonoBehaviour {
         GameObject gameOverWindow = Instantiate<GameObject>(gameOverPrefab);
         gameOverWindow.transform.SetParent(mainCanvas.transform, false);
         Time.timeScale = 0f;
-    }   
+    }
 }
