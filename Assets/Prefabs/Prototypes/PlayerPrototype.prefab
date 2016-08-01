@@ -142,7 +142,7 @@ MonoBehaviour:
   jumpForce: 3
   minJumpHeight: 0.75
   maxJumpDuration: 0.2
-  maxJumps: 2
+  maxJumps: 1
   timeUntilFalling: 0
   collisionLayers:
     serializedVersion: 2
