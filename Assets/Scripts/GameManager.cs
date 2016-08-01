@@ -12,6 +12,7 @@ public class GameManager : MonoBehaviour {
         set
         {
             m_totalIntelCollected = value;
+            ES2.Save<int>(m_totalIntelCollected, "player0.txt?tag=totalIntelCollected");
             Messenger.SendMessage(this, "TotalIntelCollectedChange", m_totalIntelCollected);
         }
     }
@@ -42,6 +43,13 @@ public class GameManager : MonoBehaviour {
         Messenger.AddListener("GameOver", OnGameOver);
         m_player = GameObject.FindGameObjectWithTag ("Player").GetComponent <PlatformerMotor>();
         Time.timeScale = 1f;
+
+        if (ES2.Exists("player0.txt?tag=totalIntelCollected")) {
+            TotalIntelCollected = ES2.Load<int>("player0.txt?tag=totalIntelCollected");
+        }            
+        else {
+            TotalIntelCollected = 0;
+        }
     }
 
     void Update() {

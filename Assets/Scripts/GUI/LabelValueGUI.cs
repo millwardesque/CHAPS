@@ -6,9 +6,9 @@ public class LabelValueGUI : MonoBehaviour {
     public string messageName;
     public string initialValue;
 
-    void Start() {
-        GameManager.Instance.Messenger.AddListener (messageName, OnValueChanged);
-        UpdateValue (initialValue);
+    void Awake() {
+        GameManager.Instance.Messenger.AddListener(messageName, OnValueChanged);
+        UpdateValue(initialValue);
     }
 
     void OnValueChanged(Message message) {

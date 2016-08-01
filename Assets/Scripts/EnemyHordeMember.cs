@@ -13,13 +13,9 @@ public class EnemyHordeMember : MonoBehaviour {
         }
     }
 
-	void Start () {
+	void Awake () {
         GameManager.Instance.Messenger.AddListener("HordeSpeedChanged", OnHordeSpeedChange);
 	}
-
-    void OnDestroy () {
-        GameManager.Instance.Messenger.AddListener("HordeSpeedChanged", OnHordeSpeedChange);
-    }
 	
     void Update() {
         if (GameManager.Instance.Player.transform.position.x > transform.position.x && m_horde == null) {
