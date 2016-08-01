@@ -44,6 +44,14 @@ public class GameManager : MonoBehaviour {
         Time.timeScale = 1f;
     }
 
+    void Update() {
+        // Debug controls
+        if (Input.GetKeyDown(KeyCode.R)) {
+            Debug.Log("Resetting total intel collected.");
+            TotalIntelCollected = 0;
+        }
+    }
+
     public void RestartGame() {
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
