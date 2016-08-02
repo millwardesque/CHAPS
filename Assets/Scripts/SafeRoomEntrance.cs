@@ -10,6 +10,7 @@ public class SafeRoomEntrance : MonoBehaviour {
 
     void OnSafeRoomEnter() {
         GetComponent<Collider2D> ().isTrigger = false;
+        GetComponent<Collider2D> ().usedByEffector = true;
         Debug.Log ("Entered the safe room.");
     }
 }

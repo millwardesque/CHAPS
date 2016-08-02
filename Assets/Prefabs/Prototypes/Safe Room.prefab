@@ -40,6 +40,7 @@ GameObject:
   - 61: {fileID: 61000010780297794}
   - 212: {fileID: 212000012504627382}
   - 114: {fileID: 114000012576093890}
+  - 251: {fileID: 251000013859129270}
   m_Layer: 0
   m_Name: Saferoom Entry
   m_TagString: Untagged
@@ -76,6 +77,7 @@ GameObject:
   - 61: {fileID: 61000013202720742}
   - 212: {fileID: 212000010974243724}
   - 114: {fileID: 114000010372314948}
+  - 251: {fileID: 251000013142896198}
   m_Layer: 0
   m_Name: Saferoom Exit
   m_TagString: Untagged
@@ -484,12 +486,46 @@ PlatformEffector2D:
   m_UseSideFriction: 0
   m_UseSideBounce: 0
   m_SideArc: 1
+--- !u!251 &251000013142896198
+PlatformEffector2D:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1000012862901604}
+  m_Enabled: 1
+  m_UseColliderMask: 0
+  m_ColliderMask:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_UseOneWay: 0
+  m_UseOneWayGrouping: 0
+  m_SurfaceArc: 180
+  m_UseSideFriction: 0
+  m_UseSideBounce: 0
+  m_SideArc: 1
 --- !u!251 &251000013386581480
 PlatformEffector2D:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1000010157486290}
+  m_Enabled: 1
+  m_UseColliderMask: 0
+  m_ColliderMask:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_UseOneWay: 0
+  m_UseOneWayGrouping: 0
+  m_SurfaceArc: 180
+  m_UseSideFriction: 0
+  m_UseSideBounce: 0
+  m_SideArc: 1
+--- !u!251 &251000013859129270
+PlatformEffector2D:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1000011949237894}
   m_Enabled: 1
   m_UseColliderMask: 0
   m_ColliderMask:

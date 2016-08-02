@@ -297,7 +297,6 @@ public class PlatformerMotorStateJumping : PlatformerMotorState {
 
     public override void OnCollisionEnter2D(Collision2D col) {
         base.OnCollisionEnter2D (col);
-
         m_owner.ReplaceState (new PlatformerMotorStateFalling (m_owner, this, false));
         return;
     }
