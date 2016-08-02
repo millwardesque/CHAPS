@@ -33,7 +33,9 @@ public class EnemyHorde : MonoBehaviour {
             enemy.transform.SetParent(transform.parent, true);
             enemy.gameObject.layer = LayerMask.NameToLayer("Enemy Horde");
             enemy.GetComponentInChildren<SpriteRenderer>().sortingLayerID = SortingLayer.NameToID("Enemy Horde");
-            enemy.GetComponent<Rigidbody2D>().gravityScale = 0f;
+            if (enemy.GetComponent<EnemyPursuitController>()) {
+                enemy.GetComponent<EnemyPursuitController>().playerAlertRadius = 999f;  // Don't stop chasing the player.
+            }
             enemy.Horde = this;
             m_members.Add(enemy);
             MaxHordeSpeed += speedIncrementPerMember;
