@@ -10,6 +10,7 @@ public class PlayerController : InputController {
     public AudioClip jumpSound;
     public AudioClip multiJumpSound;
     public AudioClip deathSound;
+    public AudioClip headStompSound;
 
     int m_intelPointsCollected = 0;
     public int IntelPointsCollected {
@@ -58,7 +59,8 @@ public class PlayerController : InputController {
 
             if (isHeadStomp) {
                 col.collider.GetComponent<EnemyHordeMember> ().OnStomped ();
-                m_motor.ReplaceState (new PlatformerMotorStateJumping(m_motor, m_motor.CurrentState, m_motor.maxBounceDuration));
+                GameManager.Instance.AudioManager.PlayOneShot (headStompSound);
+                m_motor.ReplaceState (new PlatformerMotorStateJumping(m_motor, m_motor.CurrentState, m_motor.maxBounceDuration, true));
             }
             else {
                 m_audioSource.PlayOneShot (deathSound);

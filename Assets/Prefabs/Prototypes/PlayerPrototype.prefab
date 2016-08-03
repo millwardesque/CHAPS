@@ -297,3 +297,4 @@ MonoBehaviour:
   jumpSound: {fileID: 8300000, guid: 803e5b30269251c40ab75d6aedd1cb51, type: 3}
   multiJumpSound: {fileID: 8300000, guid: e6ebd0e3d94bfd64bb8bc7873f49a0da, type: 3}
   deathSound: {fileID: 8300000, guid: 27e118d54aa58304780a5f6bb96cb64c, type: 3}
+  headStompSound: {fileID: 8300000, guid: e42d13e7416044b438aa3b278921b62a, type: 3}

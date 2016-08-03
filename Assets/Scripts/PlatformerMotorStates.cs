@@ -243,11 +243,13 @@ public class PlatformerMotorStateJumping : PlatformerMotorState {
     float m_maxJumpDuration = -1f;
     float m_startingHeight = 0f;
     float m_maxHeightAchieved;
+    bool m_suppressJumpSound = false;
 
     public PlatformerMotorStateJumping(PlatformerMotor owner, PlatformerMotorState previousState) : base(owner, previousState) { }
 
-    public PlatformerMotorStateJumping(PlatformerMotor owner, PlatformerMotorState previousState, float maxJumpDuration) : base(owner, previousState) {
+    public PlatformerMotorStateJumping(PlatformerMotor owner, PlatformerMotorState previousState, float maxJumpDuration, bool suppressJumpSound = false) : base(owner, previousState) {
         m_maxJumpDuration = maxJumpDuration;
+        m_suppressJumpSound = suppressJumpSound;
     }
 
     public override void Enter() {
@@ -262,11 +264,13 @@ public class PlatformerMotorStateJumping : PlatformerMotorState {
         m_jumpCount++;
         m_jumpDuration = 0f;
     
-        if (m_jumpCount > 1) {
-            GameManager.Instance.Messenger.SendMessage (m_owner, "PlatformerMultiJumped", (object)m_owner);
-        }
-        else {
-            GameManager.Instance.Messenger.SendMessage (m_owner, "PlatformerJumped", (object)m_owner);
+        if (!m_suppressJumpSound) {
+            if (m_jumpCount > 1) {
+                GameManager.Instance.Messenger.SendMessage (m_owner, "PlatformerMultiJumped", (object)m_owner);
+            }
+            else {
+                GameManager.Instance.Messenger.SendMessage (m_owner, "PlatformerJumped", (object)m_owner);
+            }    
         }
     }
 
