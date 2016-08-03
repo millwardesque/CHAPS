@@ -120,15 +120,16 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   cellWidth: 1
   cellHeight: 0.5
-  minCellsWide: 8
+  minCellsWide: 16
   maxCellsWide: 16
-  minCellsTall: 8
+  minCellsTall: 12
   maxCellsTall: 12
   platformPrefabs:
   - {fileID: 1000010958499020, guid: 1ab74d0de70e540858972f2a199f7330, type: 2}
   - {fileID: 1000013605274998, guid: b5a10f59a614a45c6b08d3824fb282a8, type: 2}
   - {fileID: 1000011329360750, guid: 8728e9bbf53e741f7a67aef6c5ad5301, type: 2}
   - {fileID: 1000012669788368, guid: 662ce470a0dcc416dbe8e5a3b79de5c1, type: 2}
+  floorHeightChangeProbability: 0.5
 --- !u!4 &73751002
 Transform:
   m_ObjectHideFlags: 0

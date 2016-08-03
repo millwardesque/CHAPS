@@ -27,6 +27,9 @@ public class RoomGenerator : MonoBehaviour {
     [Header("Room Geometry")]
     public GameObject[] platformPrefabs;
 
+    [Range(0f, 1f)]
+    public float floorHeightChangeProbability = 0f;
+
     public GameObject GenerateRoom(string name, Vector2 bottomLeftCorner) {
         GameObject root = new GameObject ();
         root.name = name;
@@ -61,11 +64,7 @@ public class RoomGenerator : MonoBehaviour {
         platformWidths.Sort ();
 
         // Dump the widths to the console.
-        string widthString = "";
-        for (int i = 0; i < platformWidths.Count; ++i) {
-            widthString += platformWidths [i] + ", ";
-        }
-        Debug.Log ("Available widths: " + widthString);
+        Debug.Log ("Available widths: " + StringifyArray<int>(platformWidths.ToArray ()));
 
         int cellsRemaining = roomWidthInCells;
         List<int> platformsToUse = new List<int> ();
@@ -88,16 +87,28 @@ public class RoomGenerator : MonoBehaviour {
             platformsToUse[i] = platformsToUse[randomIndex];
             platformsToUse[randomIndex] = temp;
         }
-
-        // Dump the chosen platform widths to the console.
-        string platformWidthString = "";
-        for (int i = 0; i < platformsToUse.Count; ++i) {
-            platformWidthString += platformsToUse [i] + ", ";
-        }
-        Debug.Log ("Chosen widths: " + platformWidthString);
+        Debug.Log ("Chosen widths: " + StringifyArray<int>(platformsToUse.ToArray ()));
 
         // @TODO - Randomly generate mini-platform heights along grid (min / max deviation parameters, and hard level-min / level max.
-        float floorOffset = 0;
+        int[] floorHeights = new int[platformsToUse.Count];
+        int lastCellHeight = 0;
+        for (int i = 0; i < platformsToUse.Count; ++i) {
+            float prob = Random.Range (0f, 1f);
+            if (prob <= floorHeightChangeProbability) {
+                if (prob < floorHeightChangeProbability / 2f) {
+                    floorHeights [i] = lastCellHeight + 1;    
+                }
+                else {
+                    floorHeights [i] = lastCellHeight - 1;
+                }
+            }
+            else {
+                floorHeights [i] = lastCellHeight;
+            }
+
+            lastCellHeight = floorHeights [i];
+        }
+        Debug.Log ("Heights: " + StringifyArray<int>(floorHeights));
 
         // Create and position platforms
         float startX = 0;
@@ -105,16 +116,24 @@ public class RoomGenerator : MonoBehaviour {
             int width = platformsToUse [i];
             GameObject platform = Instantiate<GameObject> (widthToPlatformMap [width]);
             platform.transform.SetParent (root.transform, false);
-            platform.transform.localPosition = new Vector2 (startX, floorOffset);
+            platform.transform.localPosition = new Vector2 (startX, floorHeights[i] * cellHeight);
 
             GameObject ceilingPlatform = Instantiate<GameObject> (widthToPlatformMap [width]);
             ceilingPlatform.transform.SetParent (root.transform, false);
-            ceilingPlatform.transform.localPosition = new Vector2 (startX, floorOffset + roomHeightInUnits);
+            ceilingPlatform.transform.localPosition = new Vector2 (startX, floorHeights[i] * cellHeight + roomHeightInUnits);
 
             startX += width * cellWidth;
 
         }
 
         return root;
+    }
+
+    string StringifyArray<T>(T[] data) {
+        string output = "";
+        for (int i = 0; i < data.Length; ++i) {
+            output += data [i].ToString () + ", ";
+        }
+        return output;
     }
 }
