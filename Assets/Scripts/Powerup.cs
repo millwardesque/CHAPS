@@ -2,6 +2,8 @@
 using System.Collections;
 
 public class Powerup : MonoBehaviour {
+    public AudioClip collectionNoise;
+
     [Range (0f, 60f)]
     public float duration = 5f;
 

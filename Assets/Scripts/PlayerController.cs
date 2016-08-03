@@ -73,6 +73,7 @@ public class PlayerController : InputController {
 
     void OnTriggerEnter2D(Collider2D col) {
         if (col.GetComponent<Powerup>()) {
+            m_audioSource.PlayOneShot (col.GetComponent <Powerup>().collectionNoise);
             col.GetComponent<Powerup> ().Trigger ();
             return;
         }

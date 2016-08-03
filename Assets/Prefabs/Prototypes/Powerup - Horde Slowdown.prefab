@@ -36,7 +36,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1000011716405748}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 44.8, y: 14.2, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_Children: []
@@ -67,8 +67,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 79aae5780de854ae6ab682a799f33ec1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  collectionNoise: {fileID: 8300000, guid: fe84933f992b9f44381269ba3b35e727, type: 3}
   duration: 5
-  hordeSpeedMultiplier: 0.5
+  hordeSpeedMultiplier: 0.25
 --- !u!212 &212000012779541720
 SpriteRenderer:
   m_ObjectHideFlags: 1
