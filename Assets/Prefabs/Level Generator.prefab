@@ -1,0 +1,78 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1001 &100100000
+Prefab:
+  m_ObjectHideFlags: 1
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications: []
+    m_RemovedComponents: []
+  m_ParentPrefab: {fileID: 0}
+  m_RootGameObject: {fileID: 1000013983804826}
+  m_IsPrefabParent: 1
+--- !u!1 &1000013983804826
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 4
+  m_Component:
+  - 4: {fileID: 4000011041249946}
+  - 114: {fileID: 114000012879789832}
+  - 114: {fileID: 114000013067966524}
+  m_Layer: 0
+  m_Name: Level Generator
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &4000011041249946
+Transform:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1000013983804826}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 112, y: 3.5, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+--- !u!114 &114000012879789832
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1000013983804826}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5d00b3f9211eb42ad81ad7f8eae27cf0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  cellWidth: 1
+  cellHeight: 0.5
+  minCellsWide: 16
+  maxCellsWide: 16
+  minCellsTall: 12
+  maxCellsTall: 12
+  platformPrefabs:
+  - {fileID: 1000010958499020, guid: 1ab74d0de70e540858972f2a199f7330, type: 2}
+  - {fileID: 1000013605274998, guid: b5a10f59a614a45c6b08d3824fb282a8, type: 2}
+  - {fileID: 1000011329360750, guid: 8728e9bbf53e741f7a67aef6c5ad5301, type: 2}
+  - {fileID: 1000012669788368, guid: 662ce470a0dcc416dbe8e5a3b79de5c1, type: 2}
+  floorHeightChangeProbability: 0.5
+--- !u!114 &114000013067966524
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1000013983804826}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a43c1faee107a4c9d89a130d7f6d8a0c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  roomsToGenerate: 4

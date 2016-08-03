@@ -2,6 +2,8 @@
 using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour {
+    GameObject m_levelContainer;
+
     public Canvas mainCanvas;
     public GameObject gameOverPrefab;
 
@@ -56,6 +58,8 @@ public class GameManager : MonoBehaviour {
         else {
             TotalIntelCollected = 0;
         }
+
+        m_levelContainer = GetComponent<RoomGenerator> ().GenerateRooms (12, "Level", new Vector2 (0f, 0f));
     }
 
     void Update() {

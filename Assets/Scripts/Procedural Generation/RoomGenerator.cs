@@ -133,10 +133,12 @@ public class RoomGenerator : MonoBehaviour {
             GameObject platform = Instantiate<GameObject> (widthToPlatformMap [width]);
             platform.transform.SetParent (root.transform, false);
             platform.transform.localPosition = new Vector2 (startX, floorHeights[i] * cellHeight);
+            platform.name = "Floor-" + i;
 
             GameObject ceilingPlatform = Instantiate<GameObject> (widthToPlatformMap [width]);
             ceilingPlatform.transform.SetParent (root.transform, false);
             ceilingPlatform.transform.localPosition = new Vector2 (startX, floorHeights[i] * cellHeight + roomHeightInUnits);
+            ceilingPlatform.name = "ceiling-" + i;
 
             startX += width * cellWidth;
 
