@@ -57,13 +57,14 @@ public class PlayerController : InputController {
                 m_motor.ReplaceState (new PlatformerMotorStateJumping(m_motor, m_motor.CurrentState, m_motor.maxBounceDuration));
             }
             else {
-                GameManager.Instance.Messenger.SendMessage(new Message(this, "GameOver"));    
+                GameManager.Instance.Messenger.SendMessage(new Message(this, "GameOver"));
             }
 
             return;
         }
 
         if (col.collider.GetComponent<IntelCollectible>()) {
+            m_audioSource.PlayOneShot (col.collider.GetComponent <IntelCollectible>().collectionNoise);
             IntelPointsCollected += col.collider.GetComponent<IntelCollectible> ().intelPoints;
             Destroy (col.collider.gameObject);
             return;
