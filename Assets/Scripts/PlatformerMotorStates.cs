@@ -251,6 +251,13 @@ public class PlatformerMotorStateJumping : PlatformerMotorState {
 
         m_jumpCount++;
         m_jumpDuration = 0f;
+    
+        if (m_jumpCount > 1) {
+            GameManager.Instance.Messenger.SendMessage (m_owner, "PlatformerMultiJumped", (object)m_owner);
+        }
+        else {
+            GameManager.Instance.Messenger.SendMessage (m_owner, "PlatformerJumped", (object)m_owner);    
+        }
     }
 
     public override void HandleInput() {

@@ -4,6 +4,10 @@ using Rewired;
 public class PlayerController : InputController {
     PlatformerMotor m_motor;
     Player m_rewiredPlayer;    // Rewired player.
+    AudioSource m_audioSource;
+
+    public AudioClip jumpSound;
+    public AudioClip multiJumpSound;
 
     int m_intelPointsCollected = 0;
     public int IntelPointsCollected {
@@ -17,6 +21,9 @@ public class PlayerController : InputController {
     void Awake() {
         m_rewiredPlayer = ReInput.players.GetPlayer(0);
         m_motor = GetComponent<PlatformerMotor> ();
+        m_audioSource = GetComponent<AudioSource> ();
+        GameManager.Instance.Messenger.AddListener("PlatformerJumped", OnPlatformerJumped);
+        GameManager.Instance.Messenger.AddListener("PlatformerMultiJumped", OnPlatformerMultiJumped);
     }
 
     public override bool GetButtonUp (string buttonName) {
@@ -67,6 +74,20 @@ public class PlayerController : InputController {
         if (col.GetComponent<Powerup>()) {
             col.GetComponent<Powerup> ().Trigger ();
             return;
+        }
+    }
+
+    void OnPlatformerJumped(Message message) {
+        PlatformerMotor jumper = (PlatformerMotor)message.data;
+        if (jumper == m_motor) {
+            m_audioSource.PlayOneShot (jumpSound);
+        }
+    }
+
+    void OnPlatformerMultiJumped(Message message) {
+        PlatformerMotor jumper = (PlatformerMotor)message.data;
+        if (jumper == m_motor) {
+            m_audioSource.PlayOneShot (multiJumpSound);
         }
     }
 }
