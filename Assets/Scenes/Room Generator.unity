@@ -154,6 +154,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a43c1faee107a4c9d89a130d7f6d8a0c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  roomsToGenerate: 4
 --- !u!1 &1888203459
 GameObject:
   m_ObjectHideFlags: 0
