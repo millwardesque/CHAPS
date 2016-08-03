@@ -150,6 +150,16 @@ public class PlatformerMotorStateWalking : PlatformerMotorState {
     Vector2 m_requestedMovementDirection;
     public PlatformerMotorStateWalking(PlatformerMotor owner, PlatformerMotorState previousState) : base(owner, previousState) { }
 
+    public override void Enter() {
+        base.Enter ();
+        GameManager.Instance.Messenger.SendMessage (m_owner, "StartedRunning", (object)m_owner);
+    }
+
+    public override void Exit() {
+        base.Enter ();
+        GameManager.Instance.Messenger.SendMessage (m_owner, "StoppedRunning", (object)m_owner);
+    }
+
     public override void HandleInput() {
         base.HandleInput();
 
@@ -256,7 +266,7 @@ public class PlatformerMotorStateJumping : PlatformerMotorState {
             GameManager.Instance.Messenger.SendMessage (m_owner, "PlatformerMultiJumped", (object)m_owner);
         }
         else {
-            GameManager.Instance.Messenger.SendMessage (m_owner, "PlatformerJumped", (object)m_owner);    
+            GameManager.Instance.Messenger.SendMessage (m_owner, "PlatformerJumped", (object)m_owner);
         }
     }
 

@@ -37,6 +37,7 @@ public class GameManager : MonoBehaviour {
         if (null == Instance) {
             Instance = this;
             m_messenger = new MessageManager ();
+            m_audioManager = GetComponent<AudioSource> ();
 
             Debug.Assert(mainCanvas != null, "Game Manager: No main canvas has been assigned.");
         } else {

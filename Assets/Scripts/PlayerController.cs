@@ -24,6 +24,8 @@ public class PlayerController : InputController {
         m_rewiredPlayer = ReInput.players.GetPlayer(0);
         m_motor = GetComponent<PlatformerMotor> ();
         m_audioSource = GetComponent<AudioSource> ();
+        GameManager.Instance.Messenger.AddListener("StartedRunning", OnStartedRunning);
+        GameManager.Instance.Messenger.AddListener("StoppedRunning", OnStoppedRunning);
         GameManager.Instance.Messenger.AddListener("PlatformerJumped", OnPlatformerJumped);
         GameManager.Instance.Messenger.AddListener("PlatformerMultiJumped", OnPlatformerMultiJumped);
     }
@@ -79,6 +81,22 @@ public class PlayerController : InputController {
             GameManager.Instance.AudioManager.PlayOneShot (col.GetComponent <Powerup>().collectionNoise);
             col.GetComponent<Powerup> ().Trigger ();
             return;
+        }
+    }
+
+    void OnStartedRunning(Message message) {
+        PlatformerMotor runner = (PlatformerMotor)message.data;
+        if (runner == m_motor) {
+            m_audioSource.clip = runSound;
+            m_audioSource.loop = true;
+            m_audioSource.Play ();
+        }
+    }
+
+    void OnStoppedRunning(Message message) {
+        PlatformerMotor runner = (PlatformerMotor)message.data;
+        if (runner == m_motor) {
+            m_audioSource.Stop ();
         }
     }
 
