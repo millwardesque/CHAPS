@@ -3,6 +3,22 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
 
+public struct RoomMetadata {
+    public int widthInCells;
+    public int heightInCells;
+    public int startHeight;
+    public int endHeight;
+    public GameObject room;
+
+    public RoomMetadata(int widthInCells, int heightInCells, int startHeight, int endHeight, GameObject room) {
+        this.widthInCells = widthInCells;
+        this.heightInCells = heightInCells;
+        this.startHeight = startHeight;
+        this.endHeight = endHeight;
+        this.room = room;
+    }
+}
+
 public class RoomGenerator : MonoBehaviour {
     [Header("General")]
     [Range(0.25f, 5f)]
@@ -30,7 +46,7 @@ public class RoomGenerator : MonoBehaviour {
     [Range(0f, 1f)]
     public float floorHeightChangeProbability = 0f;
 
-    public GameObject GenerateRoom(string name, Vector2 bottomLeftCorner) {
+    public RoomMetadata GenerateRoom(string name, Vector2 bottomLeftCorner) {
         GameObject root = new GameObject ();
         root.name = name;
         root.transform.position = bottomLeftCorner;
@@ -44,7 +60,7 @@ public class RoomGenerator : MonoBehaviour {
 
         Debug.Log (string.Format ("Room dimensions: {0} x {1} cells ({2} x {3} units)", roomWidthInCells, roomHeightInCells, roomWidthInUnits, roomHeightInUnits));
 
-        // @TODO - Choose random assortment of mini-platforms to fill platform size
+        // Choose random assortment of mini-platforms to fill platform size
         List<int> platformWidths = new List<int>();
         Dictionary<int, GameObject> widthToPlatformMap = new Dictionary<int, GameObject> ();
         string platformPattern = ".*-(\\d+)x(\\d+)$";
@@ -89,7 +105,7 @@ public class RoomGenerator : MonoBehaviour {
         }
         Debug.Log ("Chosen widths: " + StringifyArray<int>(platformsToUse.ToArray ()));
 
-        // @TODO - Randomly generate mini-platform heights along grid (min / max deviation parameters, and hard level-min / level max.
+        // Randomly generate mini-platform heights along grid (min / max deviation parameters, and hard level-min / level max.
         int[] floorHeights = new int[platformsToUse.Count];
         int lastCellHeight = 0;
         for (int i = 0; i < platformsToUse.Count; ++i) {
@@ -124,6 +140,22 @@ public class RoomGenerator : MonoBehaviour {
 
             startX += width * cellWidth;
 
+        }
+
+        RoomMetadata room = new RoomMetadata (roomWidthInCells, roomHeightInCells, floorHeights [0], floorHeights [floorHeights.Length - 1], root);
+        return room;
+    }
+
+    public GameObject GenerateRooms(int roomCount, string name, Vector2 bottomLeftCorner) {
+        GameObject root = new GameObject ();
+        root.name = name;
+        root.transform.position = bottomLeftCorner;
+
+        Vector2 start = Vector2.zero;
+        for (int i = 0; i < roomCount; ++i) {
+            RoomMetadata room = GenerateRoom (name + "-" + i, start);
+            room.room.transform.SetParent (root.transform, false);
+            start += new Vector2 (room.widthInCells * cellWidth, room.endHeight * cellHeight);
         }
 
         return root;
