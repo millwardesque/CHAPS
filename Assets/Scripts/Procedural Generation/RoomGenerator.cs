@@ -97,8 +97,23 @@ public class RoomGenerator : MonoBehaviour {
         Debug.Log ("Chosen widths: " + platformWidthString);
 
         // @TODO - Randomly generate mini-platform heights along grid (min / max deviation parameters, and hard level-min / level max.
-        // @TODO - Position side-by-side
-        // @TODO - Create ceiling tiles that mimic floor positions but are a fixed height away
+        float floorOffset = 0;
+
+        // Create and position platforms
+        float startX = 0;
+        for (int i = 0; i < platformsToUse.Count; ++i) {
+            int width = platformsToUse [i];
+            GameObject platform = Instantiate<GameObject> (widthToPlatformMap [width]);
+            platform.transform.SetParent (root.transform, false);
+            platform.transform.localPosition = new Vector2 (startX, floorOffset);
+
+            GameObject ceilingPlatform = Instantiate<GameObject> (widthToPlatformMap [width]);
+            ceilingPlatform.transform.SetParent (root.transform, false);
+            ceilingPlatform.transform.localPosition = new Vector2 (startX, floorOffset + roomHeightInUnits);
+
+            startX += width * cellWidth;
+
+        }
 
         return root;
     }

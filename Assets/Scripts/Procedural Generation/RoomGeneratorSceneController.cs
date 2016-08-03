@@ -18,7 +18,7 @@ public class RoomGeneratorSceneController : MonoBehaviour {
             if (m_room != null) {
                 Destroy (m_room);
             }
-            m_room = m_generator.GenerateRoom ("Room " + m_generatedRooms, Vector2.zero);
+            m_room = m_generator.GenerateRoom ("Room " + m_generatedRooms, new Vector2(-8f, -4f));
             m_generatedRooms++;
         }
 	}
