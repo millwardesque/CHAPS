@@ -14,6 +14,6 @@ public class SafeRoomExit : MonoBehaviour {
         Debug.Log ("Exited the safe room.");
         GetComponent<Collider2D> ().isTrigger = false;
         GetComponent<Collider2D> ().usedByEffector = true;
-        GameManager.Instance.Player.GetComponent<AudioSource> ().PlayOneShot (doorCloseSound);
+        GameManager.Instance.AudioManager.PlayOneShot (doorCloseSound);
     }
 }

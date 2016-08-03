@@ -13,7 +13,7 @@ public class SafeRoomEntrance : MonoBehaviour {
     void OnSafeRoomEnter() {
         GetComponent<Collider2D> ().isTrigger = false;
         GetComponent<Collider2D> ().usedByEffector = true;
-        GameManager.Instance.Player.GetComponent<AudioSource> ().PlayOneShot (doorCloseSound);
+        GameManager.Instance.AudioManager.PlayOneShot (doorCloseSound);
         Debug.Log ("Entered the safe room.");
     }
 }

@@ -26,6 +26,11 @@ public class GameManager : MonoBehaviour {
         get { return m_player; }
     }
 
+    AudioSource m_audioManager;
+    public AudioSource AudioManager {
+        get { return m_audioManager; }
+    }
+
     public static GameManager Instance = null;
 
     void Awake() {

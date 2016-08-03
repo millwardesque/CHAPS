@@ -6,6 +6,7 @@ public class PlayerController : InputController {
     Player m_rewiredPlayer;    // Rewired player.
     AudioSource m_audioSource;
 
+    public AudioClip runSound;
     public AudioClip jumpSound;
     public AudioClip multiJumpSound;
     public AudioClip deathSound;
@@ -66,7 +67,7 @@ public class PlayerController : InputController {
         }
 
         if (col.collider.GetComponent<IntelCollectible>()) {
-            m_audioSource.PlayOneShot (col.collider.GetComponent <IntelCollectible>().collectionNoise);
+            GameManager.Instance.AudioManager.PlayOneShot (col.collider.GetComponent <IntelCollectible>().collectionNoise);
             IntelPointsCollected += col.collider.GetComponent<IntelCollectible> ().intelPoints;
             Destroy (col.collider.gameObject);
             return;
@@ -75,7 +76,7 @@ public class PlayerController : InputController {
 
     void OnTriggerEnter2D(Collider2D col) {
         if (col.GetComponent<Powerup>()) {
-            m_audioSource.PlayOneShot (col.GetComponent <Powerup>().collectionNoise);
+            GameManager.Instance.AudioManager.PlayOneShot (col.GetComponent <Powerup>().collectionNoise);
             col.GetComponent<Powerup> ().Trigger ();
             return;
         }
