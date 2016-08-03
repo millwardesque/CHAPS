@@ -2,6 +2,8 @@
 using System.Collections;
 
 public class UploadTerminal : MonoBehaviour {
+    public AudioClip uploadSound;
+
     void OnTriggerEnter2D(Collider2D col) {
         if (col.tag == "Player") {
             UseTerminal();
@@ -14,6 +16,7 @@ public class UploadTerminal : MonoBehaviour {
             GameManager.Instance.TotalIntelCollected += player.IntelPointsCollected;
             player.IntelPointsCollected = 0;
 
+            player.GetComponent<AudioSource> ().PlayOneShot (uploadSound);
             // @TODO Show player using terminal
             // @TODO Show terminal uploading
         }
