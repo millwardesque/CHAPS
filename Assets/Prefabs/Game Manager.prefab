@@ -159,3 +159,6 @@ MonoBehaviour:
   roomsBetweenSafeRooms: 12
   safeRoomPrefab: {fileID: 1000013239179762, guid: 6e752440337324b688fb1774d68a4237,
     type: 2}
+  probabilityOfEnemySpawn: 0.5
+  enemyPrefabs:
+  - {fileID: 114000014055904950, guid: bd1c589836c8c45d2aa06c99e6e1e7af, type: 2}

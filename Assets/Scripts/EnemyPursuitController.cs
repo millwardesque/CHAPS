@@ -26,6 +26,10 @@ public class EnemyPursuitController : InputController {
     }
 
     public override bool GetButtonDown(string buttonName) {
+        if (m_player == null) { // @TODO This should eventually be detected and fixed. This check is a bandaid.
+            return false;
+        }
+
         if (buttonName == "Jump") {
             Vector2 toPlayer = (m_player.transform.position - transform.position);
             if (toPlayer.magnitude <= playerAlertRadius) {
@@ -61,6 +65,9 @@ public class EnemyPursuitController : InputController {
 
     public override float GetAxis(string axisName) {
         if (axisName == "Move Horizontal") {
+            if (m_player == null) { // @TODO This should eventually be detected and fixed. This check is a bandaid.
+                return 0f;
+            }
 
             // Check whether the player is in our sight range.
             Vector2 toPlayer = (m_player.transform.position - transform.position);

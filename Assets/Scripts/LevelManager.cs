@@ -39,6 +39,12 @@ public class LevelManager : MonoBehaviour {
     public int roomsBetweenSafeRooms = 12;
     public GameObject safeRoomPrefab;
 
+    [Header("Enemies")]
+    [Range(0f, 1f)]
+    public float probabilityOfEnemySpawn = 0.2f;
+    public EnemyHordeMember[] enemyPrefabs;
+
+
     RoomMetadata m_lastRoom;
     Vector2 m_nextRoomStart;
     int m_roomsSinceSafeRoom;
@@ -87,7 +93,7 @@ public class LevelManager : MonoBehaviour {
     }
 
     RoomGeneratorConfiguration GetConfigurationOptions(string roomName, Vector2 bottomLeftCorner) {
-        return new RoomGeneratorConfiguration(roomName, bottomLeftCorner, minCellsWide, maxCellsWide, roomHeightInCells, cellWidth, cellHeight, platformPrefabs, floorHeightChangeProbability, spawnTriggerWidthPercentage, roomSpawnTrigger);
+        return new RoomGeneratorConfiguration(roomName, bottomLeftCorner, minCellsWide, maxCellsWide, roomHeightInCells, cellWidth, cellHeight, platformPrefabs, floorHeightChangeProbability, spawnTriggerWidthPercentage, roomSpawnTrigger, probabilityOfEnemySpawn, enemyPrefabs);
     }
 
     void OnRoomSpawnTrigger(Message message) {

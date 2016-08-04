@@ -35,7 +35,10 @@ public class RoomGeneratorConfiguration {
 
     public GameObject[] platformPrefabs;
 
-    public RoomGeneratorConfiguration(string name, Vector2 bottomLeftCorner, int minCellsWide, int maxCellsWide, int roomHeightInCells, float cellWidth, float cellHeight, GameObject[] platformPrefabs, float floorHeightChangeProbability, float spawnTriggerWidthPercentage, RoomSpawnTrigger roomSpawnTrigger) {
+    public EnemyHordeMember[] enemyPrefabs;
+    public float probabilityOfEnemySpawn;
+
+    public RoomGeneratorConfiguration(string name, Vector2 bottomLeftCorner, int minCellsWide, int maxCellsWide, int roomHeightInCells, float cellWidth, float cellHeight, GameObject[] platformPrefabs, float floorHeightChangeProbability, float spawnTriggerWidthPercentage, RoomSpawnTrigger roomSpawnTrigger, float probabilityOfEnemySpawn, EnemyHordeMember[] enemyPrefabs) {
         this.name = name;
         this.bottomLeftCorner = bottomLeftCorner;
         this.cellWidth = cellWidth;
@@ -47,6 +50,8 @@ public class RoomGeneratorConfiguration {
         this.spawnTriggerWidthPercentage = spawnTriggerWidthPercentage;
         this.platformPrefabs = platformPrefabs;
         this.roomSpawnTrigger = roomSpawnTrigger;
+        this.probabilityOfEnemySpawn = probabilityOfEnemySpawn;
+        this.enemyPrefabs = enemyPrefabs;
     }
 }
 
@@ -171,6 +176,15 @@ public static class RoomGenerator {
             trigger.transform.SetParent (root.transform, false);
             trigger.transform.localPosition = triggerOrigin;
             trigger.transform.localScale = new Vector2 (1f, roomHeightInUnits);    
+        }
+
+        // Generate enemies
+        float enemyOdds = Random.Range (0f, 1f);
+        if (enemyOdds <= config.probabilityOfEnemySpawn) {
+            int enemyIndex = Random.Range (0, config.enemyPrefabs.Length);
+            EnemyHordeMember enemy = GameObject.Instantiate<EnemyHordeMember> (config.enemyPrefabs[enemyIndex]);
+            enemy.transform.SetParent (root.transform, false);
+            enemy.transform.localPosition = new Vector2 (roomWidthInUnits / 2f, config.roomHeightInCells * config.cellHeight / 2f);
         }
 
         RoomMetadata room = new RoomMetadata (roomWidthInCells, config.roomHeightInCells, floorHeights [0], floorHeights [floorHeights.Length - 1], root);

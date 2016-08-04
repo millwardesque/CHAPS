@@ -54,6 +54,7 @@ public class GameManager : MonoBehaviour {
     void Start() {
         Messenger.AddListener("GameOver", OnGameOver);
         m_player = GameObject.FindGameObjectWithTag ("Player").GetComponent <PlatformerMotor>();
+
         Time.timeScale = 1f;
 
         if (ES2.Exists("player0.txt?tag=totalIntelCollected")) {
@@ -76,6 +77,7 @@ public class GameManager : MonoBehaviour {
     }
 
     public void RestartGame() {
+        Debug.Log ("Reloading Scene");
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
 
