@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
 
-public struct RoomMetadata {
+public class RoomMetadata {
     public int widthInCells;
     public int heightInCells;
     public int startHeight;
@@ -31,10 +31,11 @@ public class RoomGeneratorConfiguration {
 
     public float floorHeightChangeProbability = 0f;
     public float spawnTriggerWidthPercentage = 0.9f;
+    public RoomSpawnTrigger roomSpawnTrigger;
 
     public GameObject[] platformPrefabs;
 
-    public RoomGeneratorConfiguration(string name, Vector2 bottomLeftCorner, int minCellsWide, int maxCellsWide, int roomHeightInCells, float cellWidth, float cellHeight, GameObject[] platformPrefabs, float floorHeightChangeProbability, float spawnTriggerWidthPercentage) {
+    public RoomGeneratorConfiguration(string name, Vector2 bottomLeftCorner, int minCellsWide, int maxCellsWide, int roomHeightInCells, float cellWidth, float cellHeight, GameObject[] platformPrefabs, float floorHeightChangeProbability, float spawnTriggerWidthPercentage, RoomSpawnTrigger roomSpawnTrigger) {
         this.name = name;
         this.bottomLeftCorner = bottomLeftCorner;
         this.cellWidth = cellWidth;
@@ -45,6 +46,7 @@ public class RoomGeneratorConfiguration {
         this.floorHeightChangeProbability = floorHeightChangeProbability;
         this.spawnTriggerWidthPercentage = spawnTriggerWidthPercentage;
         this.platformPrefabs = platformPrefabs;
+        this.roomSpawnTrigger = roomSpawnTrigger;
     }
 }
 
@@ -60,7 +62,7 @@ public static class RoomGenerator {
         float roomWidthInUnits = roomWidthInCells * config.cellWidth;
         float roomHeightInUnits = config.roomHeightInCells * config.cellHeight;
 
-        // Debug.Log (string.Format ("Room dimensions: {0} x {1} cells ({2} x {3} units)", roomWidthInCells, roomHeightInCells, roomWidthInUnits, roomHeightInUnits));
+        // Debug.Log (string.Format ("Room dimensions: {0} x {1} cells ({2} x {3} units)", roomWidthInCells, config.roomHeightInCells, roomWidthInUnits, roomHeightInUnits));
 
         // Choose random assortment of mini-platforms to fill platform size
         List<int> platformWidths = new List<int>();
@@ -145,7 +147,31 @@ public static class RoomGenerator {
             startX += width * config.cellWidth;
         }
 
-        // @TODO Generate spawn trigger.
+        // Generate spawn trigger.
+        if (config.roomSpawnTrigger != null) {
+            int triggerOriginCell = Mathf.FloorToInt(roomWidthInCells * config.spawnTriggerWidthPercentage);
+            if (triggerOriginCell == roomWidthInCells) { // Account for situation where spawnTriggerWidthPercentage is precisely 1.0 and the array index is out of range.
+                triggerOriginCell--;
+            }
+            int triggerOriginPlatform = 0;
+            int cellsCounted = 0;
+            for (int i = 0; i < platformsToUse.Count; ++i) {
+                cellsCounted += platformsToUse [i];
+                if (triggerOriginCell < cellsCounted) {
+                    break;
+                }
+                else {
+                    triggerOriginPlatform++;
+                }
+            }
+
+            float triggerHeight = floorHeights [triggerOriginPlatform] * config.cellHeight + roomHeightInUnits / 2f;
+            Vector2 triggerOrigin = new Vector2(roomWidthInUnits * config.spawnTriggerWidthPercentage, triggerHeight);
+            RoomSpawnTrigger trigger = GameObject.Instantiate<RoomSpawnTrigger> (config.roomSpawnTrigger);
+            trigger.transform.SetParent (root.transform, false);
+            trigger.transform.localPosition = triggerOrigin;
+            trigger.transform.localScale = new Vector2 (1f, roomHeightInUnits);    
+        }
 
         RoomMetadata room = new RoomMetadata (roomWidthInCells, config.roomHeightInCells, floorHeights [0], floorHeights [floorHeights.Length - 1], root);
         return room;

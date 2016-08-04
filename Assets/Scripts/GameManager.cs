@@ -65,7 +65,7 @@ public class GameManager : MonoBehaviour {
             TotalIntelCollected = 0;
         }
 
-        m_levelContainer = Level.GenerateRooms (12, "Level", new Vector2 (0f, 0f));
+        m_levelContainer = Level.GenerateRooms ("Level");
     }
 
     void Update() {

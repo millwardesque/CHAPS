@@ -66,7 +66,7 @@ AudioSource:
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 0}
-  m_PlayOnAwake: 1
+  m_PlayOnAwake: 0
   m_Volume: 1
   m_Pitch: 1
   Loop: 0
@@ -143,6 +143,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   cellWidth: 1
   cellHeight: 1
+  spawnTriggerWidthPercentage: 0.9
+  roomsToSpawn: 1
+  roomSpawnTrigger: {fileID: 114000011234689812, guid: a8209c56d0eed4590b66d6e48e9da6e6,
+    type: 2}
   minCellsWide: 16
   maxCellsWide: 16
   roomHeightInCells: 8
