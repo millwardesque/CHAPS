@@ -77,7 +77,6 @@ public class GameManager : MonoBehaviour {
     }
 
     public void RestartGame() {
-        Debug.Log ("Reloading Scene");
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
 

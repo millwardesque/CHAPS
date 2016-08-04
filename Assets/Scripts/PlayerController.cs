@@ -63,7 +63,9 @@ public class PlayerController : InputController {
                 m_motor.ReplaceState (new PlatformerMotorStateJumping(m_motor, m_motor.CurrentState, m_motor.maxBounceDuration, true));
             }
             else {
+                m_audioSource.Stop ();
                 m_audioSource.PlayOneShot (deathSound);
+
                 GameManager.Instance.Messenger.SendMessage(new Message(this, "GameOver"));
             }
 

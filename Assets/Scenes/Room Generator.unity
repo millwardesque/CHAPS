@@ -263,11 +263,6 @@ Prefab:
       propertyPath: mainCanvas
       value: 
       objectReference: {fileID: 2027873511}
-    - target: {fileID: 114000013713593730, guid: 16ed43dbc9ed54831a9ea53a49dc0fd1,
-        type: 2}
-      propertyPath: probabilityOfEnemySpawn
-      value: 0.5
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 16ed43dbc9ed54831a9ea53a49dc0fd1, type: 2}
   m_IsPrefabParent: 0

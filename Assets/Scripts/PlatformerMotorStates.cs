@@ -318,6 +318,11 @@ public class PlatformerMotorStateJumping : PlatformerMotorState {
 
     public override void OnCollisionEnter2D(Collision2D col) {
         base.OnCollisionEnter2D (col);
+        for (int i = 0; i < col.contacts.Length; ++i) {
+            if (Mathf.Abs(col.contacts[i].normal.y - 1f) <= 0.1f) { // The normal can be off by a little bit depending on where the collision circle hits the point on the floor
+                return;
+            }
+        }
         m_owner.ReplaceState (new PlatformerMotorStateFalling (m_owner, this, false));
         return;
     }
