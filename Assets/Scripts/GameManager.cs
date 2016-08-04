@@ -2,8 +2,6 @@
 using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour {
-    GameObject m_levelContainer;
-
     public Canvas mainCanvas;
     public GameObject gameOverPrefab;
 
@@ -65,7 +63,8 @@ public class GameManager : MonoBehaviour {
             TotalIntelCollected = 0;
         }
 
-        m_levelContainer = Level.GenerateRooms ("Level");
+        // Spawn the level
+        Level.GenerateRooms ("Level");
     }
 
     void Update() {

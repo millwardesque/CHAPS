@@ -34,6 +34,11 @@ public class LevelManager : MonoBehaviour {
     [Range(0f, 1f)]
     public float floorHeightChangeProbability = 0f;
 
+    [Header("Safe room")]
+    [Range(0, 128)]
+    public int cellsBetweenSafeRooms = 12;
+    public GameObject safeRoomPrefab;
+
     RoomMetadata m_lastRoom;
     Vector2 m_nextRoomStart;
 
@@ -64,6 +69,6 @@ public class LevelManager : MonoBehaviour {
     }
 
     void OnRoomSpawnTrigger(Message message) {
-        GenerateRooms ("Spawned room");
+        GenerateRooms ("Spawned room", 1);
     }
 }

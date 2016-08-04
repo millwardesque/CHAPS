@@ -156,3 +156,6 @@ MonoBehaviour:
   - {fileID: 1000011329360750, guid: 8728e9bbf53e741f7a67aef6c5ad5301, type: 2}
   - {fileID: 1000010958499020, guid: 1ab74d0de70e540858972f2a199f7330, type: 2}
   floorHeightChangeProbability: 0.35
+  cellsBetweenSafeRooms: 12
+  safeRoomPrefab: {fileID: 1000013239179762, guid: 6e752440337324b688fb1774d68a4237,
+    type: 2}

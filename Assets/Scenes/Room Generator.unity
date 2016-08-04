@@ -221,6 +221,11 @@ Prefab:
       propertyPath: mainCanvas
       value: 
       objectReference: {fileID: 2027873511}
+    - target: {fileID: 114000013713593730, guid: 16ed43dbc9ed54831a9ea53a49dc0fd1,
+        type: 2}
+      propertyPath: roomsToSpawn
+      value: 4
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 16ed43dbc9ed54831a9ea53a49dc0fd1, type: 2}
   m_IsPrefabParent: 0
@@ -447,7 +452,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a43c1faee107a4c9d89a130d7f6d8a0c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  roomsToGenerate: 4
 --- !u!4 &2073061285
 Transform:
   m_ObjectHideFlags: 0
