@@ -33,6 +33,11 @@ public class GameManager : MonoBehaviour {
         get { return m_audioManager; }
     }
 
+    LevelManager m_levelManager;
+    public LevelManager Level {
+        get { return m_levelManager; }
+    }
+
     public static GameManager Instance = null;
 
     void Awake() {
@@ -40,6 +45,7 @@ public class GameManager : MonoBehaviour {
             Instance = this;
             m_messenger = new MessageManager ();
             m_audioManager = GetComponent<AudioSource> ();
+            m_levelManager = GetComponent<LevelManager> ();
 
             Debug.Assert(mainCanvas != null, "Game Manager: No main canvas has been assigned.");
         } else {
@@ -59,7 +65,7 @@ public class GameManager : MonoBehaviour {
             TotalIntelCollected = 0;
         }
 
-        m_levelContainer = GetComponent<RoomGenerator> ().GenerateRooms (12, "Level", new Vector2 (0f, 0f));
+        m_levelContainer = Level.GenerateRooms (12, "Level", new Vector2 (0f, 0f));
     }
 
     void Update() {

@@ -90,7 +90,7 @@ NavMeshSettings:
     cellSize: 0.16666667
     manualCellSize: 0
   m_NavMeshData: {fileID: 0}
---- !u!1001 &1483475012
+--- !u!1001 &1309338985
 Prefab:
   m_ObjectHideFlags: 0
   serializedVersion: 2
@@ -99,11 +99,11 @@ Prefab:
     m_Modifications:
     - target: {fileID: 4000011041249946, guid: 4e52c57666dbf4d42aa85706f2b101d5, type: 2}
       propertyPath: m_LocalPosition.x
-      value: 112
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4000011041249946, guid: 4e52c57666dbf4d42aa85706f2b101d5, type: 2}
       propertyPath: m_LocalPosition.y
-      value: 3.5
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4000011041249946, guid: 4e52c57666dbf4d42aa85706f2b101d5, type: 2}
       propertyPath: m_LocalPosition.z
@@ -128,6 +128,11 @@ Prefab:
     - target: {fileID: 4000011041249946, guid: 4e52c57666dbf4d42aa85706f2b101d5, type: 2}
       propertyPath: m_RootOrder
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114000011961112346, guid: 4e52c57666dbf4d42aa85706f2b101d5,
+        type: 2}
+      propertyPath: roomHeightInCells
+      value: 8
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 4e52c57666dbf4d42aa85706f2b101d5, type: 2}

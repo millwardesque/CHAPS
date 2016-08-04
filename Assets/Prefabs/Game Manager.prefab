@@ -138,18 +138,17 @@ MonoBehaviour:
   m_GameObject: {fileID: 101626}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5d00b3f9211eb42ad81ad7f8eae27cf0, type: 3}
+  m_Script: {fileID: 11500000, guid: e5e8192c75f0d45c0a665710b9180912, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   cellWidth: 1
-  cellHeight: 0.5
-  minCellsWide: 14
+  cellHeight: 1
+  minCellsWide: 16
   maxCellsWide: 16
-  minCellsTall: 12
-  maxCellsTall: 12
+  roomHeightInCells: 8
   platformPrefabs:
   - {fileID: 1000012669788368, guid: 662ce470a0dcc416dbe8e5a3b79de5c1, type: 2}
   - {fileID: 1000013605274998, guid: b5a10f59a614a45c6b08d3824fb282a8, type: 2}
   - {fileID: 1000011329360750, guid: 8728e9bbf53e741f7a67aef6c5ad5301, type: 2}
   - {fileID: 1000010958499020, guid: 1ab74d0de70e540858972f2a199f7330, type: 2}
-  floorHeightChangeProbability: 0.5
+  floorHeightChangeProbability: 0.35

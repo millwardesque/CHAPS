@@ -3,7 +3,7 @@ using System.Collections;
 
 public class RoomGeneratorSceneController : MonoBehaviour {
     GameObject m_room;
-    RoomGenerator m_generator;
+    LevelManager m_generator;
     int m_generatedRooms = 0;
     int m_generatedLayouts = 0;
 
@@ -12,7 +12,7 @@ public class RoomGeneratorSceneController : MonoBehaviour {
 	
     // Use this for initialization
 	void Start () {
-        m_generator = GetComponent<RoomGenerator> ();
+        m_generator = GetComponent<LevelManager> ();
         m_generatedRooms = 0;
 	}
 	
@@ -22,7 +22,7 @@ public class RoomGeneratorSceneController : MonoBehaviour {
             if (m_room != null) {
                 Destroy (m_room);
             }
-            m_room = m_generator.GenerateRoom ("Room " + m_generatedRooms, new Vector2(-8f, -4f)).room;
+            m_room = m_generator.GenerateRooms (1, "Room " + m_generatedRooms, new Vector2(-8f, -4f));
             m_generatedRooms++;
         }
 
