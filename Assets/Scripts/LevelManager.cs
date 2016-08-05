@@ -8,6 +8,8 @@ public class LevelManager : MonoBehaviour {
 
     [Range(0.25f, 5f)]
     public float cellHeight = 0.5f;
+
+    public string roomType = "Prototype";
         
     [Header("Room Spawning")]
     [Range(0f, 1f)]
@@ -51,6 +53,7 @@ public class LevelManager : MonoBehaviour {
 
     void Awake() {
         GameManager.Instance.Messenger.AddListener ("RoomSpawnTrigger", OnRoomSpawnTrigger);
+        GameManager.Instance.Messenger.AddListener ("SafeRoomExit", OnSafeRoomExit);
         m_roomsSinceSafeRoom = 0;
     }
 
@@ -93,10 +96,14 @@ public class LevelManager : MonoBehaviour {
     }
 
     RoomGeneratorConfiguration GetConfigurationOptions(string roomName, Vector2 bottomLeftCorner) {
-        return new RoomGeneratorConfiguration(roomName, bottomLeftCorner, minCellsWide, maxCellsWide, roomHeightInCells, cellWidth, cellHeight, platformPrefabs, floorHeightChangeProbability, spawnTriggerWidthPercentage, roomSpawnTrigger, probabilityOfEnemySpawn, enemyPrefabs);
+        return new RoomGeneratorConfiguration(roomName, bottomLeftCorner, minCellsWide, maxCellsWide, roomHeightInCells, cellWidth, cellHeight, platformPrefabs, floorHeightChangeProbability, spawnTriggerWidthPercentage, roomSpawnTrigger, probabilityOfEnemySpawn, enemyPrefabs, roomType);
     }
 
     void OnRoomSpawnTrigger(Message message) {
         GenerateRooms ("Spawned room", 1);
+    }
+
+    void OnSafeRoomExit(Message message) {
+        Debug.Log ("@TODO Cleanup old rooms here");
     }
 }

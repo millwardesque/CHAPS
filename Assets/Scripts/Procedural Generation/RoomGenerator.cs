@@ -23,6 +23,8 @@ public class RoomGeneratorConfiguration {
     public string name;
     public Vector2 bottomLeftCorner;
 
+    public string roomType;
+
     public float cellWidth = 1f;
     public float cellHeight = 0.5f;
     public int minCellsWide = 8;
@@ -38,7 +40,7 @@ public class RoomGeneratorConfiguration {
     public EnemyHordeMember[] enemyPrefabs;
     public float probabilityOfEnemySpawn;
 
-    public RoomGeneratorConfiguration(string name, Vector2 bottomLeftCorner, int minCellsWide, int maxCellsWide, int roomHeightInCells, float cellWidth, float cellHeight, GameObject[] platformPrefabs, float floorHeightChangeProbability, float spawnTriggerWidthPercentage, RoomSpawnTrigger roomSpawnTrigger, float probabilityOfEnemySpawn, EnemyHordeMember[] enemyPrefabs) {
+    public RoomGeneratorConfiguration(string name, Vector2 bottomLeftCorner, int minCellsWide, int maxCellsWide, int roomHeightInCells, float cellWidth, float cellHeight, GameObject[] platformPrefabs, float floorHeightChangeProbability, float spawnTriggerWidthPercentage, RoomSpawnTrigger roomSpawnTrigger, float probabilityOfEnemySpawn, EnemyHordeMember[] enemyPrefabs, string roomType) {
         this.name = name;
         this.bottomLeftCorner = bottomLeftCorner;
         this.cellWidth = cellWidth;
@@ -52,6 +54,8 @@ public class RoomGeneratorConfiguration {
         this.roomSpawnTrigger = roomSpawnTrigger;
         this.probabilityOfEnemySpawn = probabilityOfEnemySpawn;
         this.enemyPrefabs = enemyPrefabs;
+
+        this.roomType = roomType;
     }
 }
 
@@ -144,10 +148,19 @@ public static class RoomGenerator {
             platform.transform.localPosition = new Vector2 (startX, floorHeights[i] * config.cellHeight);
             platform.name = "Floor-" + i;
 
+            Sprite floorSprite = Resources.Load<Sprite> (config.roomType + "/Ground-" + width + "x1");
+            if (floorSprite != null) {
+                platform.GetComponent<SpriteRenderer> ().sprite = floorSprite;
+            }
+
             GameObject ceilingPlatform = GameObject.Instantiate<GameObject> (widthToPlatformMap [width]);
             ceilingPlatform.transform.SetParent (root.transform, false);
             ceilingPlatform.transform.localPosition = new Vector2 (startX, floorHeights[i] * config.cellHeight + roomHeightInUnits);
             ceilingPlatform.name = "ceiling-" + i;
+            Sprite ceilingSprite = Resources.Load<Sprite> (config.roomType + "/Ground-" + width + "x1");
+            if (ceilingSprite != null) {
+                ceilingPlatform.GetComponent<SpriteRenderer> ().sprite = ceilingSprite;
+            }
 
             startX += width * config.cellWidth;
         }

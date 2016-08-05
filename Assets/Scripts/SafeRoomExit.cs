@@ -11,6 +11,7 @@ public class SafeRoomExit : MonoBehaviour {
     }
 
     void OnSafeRoomExit() {
+        GameManager.Instance.Messenger.SendMessage (this, "SafeRoomExit", this);
         Debug.Log ("Exited the safe room.");
         GetComponent<Collider2D> ().isTrigger = false;
         GetComponent<Collider2D> ().usedByEffector = true;

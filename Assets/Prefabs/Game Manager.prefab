@@ -143,6 +143,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   cellWidth: 1
   cellHeight: 1
+  roomType: Outside
   spawnTriggerWidthPercentage: 0.9
   roomsToSpawn: 4
   roomSpawnTrigger: {fileID: 114000011234689812, guid: a8209c56d0eed4590b66d6e48e9da6e6,
@@ -154,7 +155,7 @@ MonoBehaviour:
   - {fileID: 1000010958499020, guid: 1ab74d0de70e540858972f2a199f7330, type: 2}
   - {fileID: 1000013605274998, guid: b5a10f59a614a45c6b08d3824fb282a8, type: 2}
   - {fileID: 1000011329360750, guid: 8728e9bbf53e741f7a67aef6c5ad5301, type: 2}
-  floorHeightChangeProbability: 0.35
+  floorHeightChangeProbability: 0.2
   roomsBetweenSafeRooms: 12
   safeRoomPrefab: {fileID: 1000013239179762, guid: 6e752440337324b688fb1774d68a4237,
     type: 2}
