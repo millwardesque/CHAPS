@@ -65,7 +65,7 @@ public class GameManager : MonoBehaviour {
         }
 
         // Spawn the level
-        Level.GenerateRooms ("Level");
+        Level.GenerateRooms ("Level", 4);
     }
 
     void Update() {

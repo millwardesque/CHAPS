@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
+using SimpleJSON;
 
 public class RoomMetadata {
     public int widthInCells;
@@ -20,74 +21,50 @@ public class RoomMetadata {
 }
 
 public class RoomGeneratorConfiguration {
-    public string name;
-    public Vector2 bottomLeftCorner;
-
-    public string roomType;
-
-    public float cellWidth = 1f;
-    public float cellHeight = 0.5f;
-    public int minCellsWide = 8;
-    public int maxCellsWide = 16;
-    public int roomHeightInCells = 12;
-
     public float floorHeightChangeProbability = 0f;
-    public float spawnTriggerWidthPercentage = 0.9f;
-    public RoomSpawnTrigger roomSpawnTrigger;
-
-    public GameObject[] platformPrefabs;
-
-    public EnemyHordeMember[] enemyPrefabs;
     public float probabilityOfEnemySpawn;
 
-    public RoomGeneratorConfiguration(string name, Vector2 bottomLeftCorner, int minCellsWide, int maxCellsWide, int roomHeightInCells, float cellWidth, float cellHeight, GameObject[] platformPrefabs, float floorHeightChangeProbability, float spawnTriggerWidthPercentage, RoomSpawnTrigger roomSpawnTrigger, float probabilityOfEnemySpawn, EnemyHordeMember[] enemyPrefabs, string roomType) {
-        this.name = name;
-        this.bottomLeftCorner = bottomLeftCorner;
-        this.cellWidth = cellWidth;
-        this.cellHeight = cellHeight;
-        this.minCellsWide = minCellsWide;
-        this.maxCellsWide = maxCellsWide;
-        this.roomHeightInCells = roomHeightInCells;
-        this.floorHeightChangeProbability = floorHeightChangeProbability;
-        this.spawnTriggerWidthPercentage = spawnTriggerWidthPercentage;
-        this.platformPrefabs = platformPrefabs;
-        this.roomSpawnTrigger = roomSpawnTrigger;
-        this.probabilityOfEnemySpawn = probabilityOfEnemySpawn;
-        this.enemyPrefabs = enemyPrefabs;
+    public static RoomGeneratorConfiguration LoadFromJSONNode(JSONNode node) {
+        float floorHeightChangeProbability = node ["floorHeightChangeProbability"].AsFloat;
+        float enemySpawnProbability = node ["enemySpawnProbability"].AsFloat;
 
-        this.roomType = roomType;
+        // @TODO Load enemy prefabs dynamically
+
+        return new RoomGeneratorConfiguration (floorHeightChangeProbability, enemySpawnProbability);
+    }
+
+    public RoomGeneratorConfiguration(float floorHeightChangeProbability, float probabilityOfEnemySpawn) {
+        this.floorHeightChangeProbability = floorHeightChangeProbability;
+        this.probabilityOfEnemySpawn = probabilityOfEnemySpawn;
     }
 }
 
 public static class RoomGenerator {
   
-    public static RoomMetadata GenerateRoom(RoomGeneratorConfiguration config) {
+    public static RoomMetadata GenerateRoom(string roomName, Vector2 bottomLeftCorner, LevelConfiguration levelConfig, LevelZone zone, GameObject[] platformPrefabs, RoomSpawnTrigger roomSpawnTrigger, EnemyHordeMember[] enemyPrefabs) {
         GameObject root = new GameObject ();
-        root.name = config.name;
-        root.transform.position = config.bottomLeftCorner;
+        root.name = roomName;
+        root.transform.position = bottomLeftCorner;
     
         // Choose platform size
-        int roomWidthInCells = Random.Range (config.minCellsWide, config.maxCellsWide);
-        float roomWidthInUnits = roomWidthInCells * config.cellWidth;
-        float roomHeightInUnits = config.roomHeightInCells * config.cellHeight;
-
-        // Debug.Log (string.Format ("Room dimensions: {0} x {1} cells ({2} x {3} units)", roomWidthInCells, config.roomHeightInCells, roomWidthInUnits, roomHeightInUnits));
+        float roomWidthInUnits = levelConfig.roomCellsWide * levelConfig.cellWidth;
+        float roomHeightInUnits = levelConfig.roomCellsTall * levelConfig.cellHeight;
 
         // Choose random assortment of mini-platforms to fill platform size
         List<int> platformWidths = new List<int>();
         Dictionary<int, GameObject> widthToPlatformMap = new Dictionary<int, GameObject> ();
         string platformPattern = ".*-(\\d+)x(\\d+)$";
         Regex platformMatcher = new Regex(platformPattern);
-        for (int i = 0; i < config.platformPrefabs.Length; ++i) {
-            if (config.platformPrefabs[i] == null) {
+        for (int i = 0; i < platformPrefabs.Length; ++i) {
+            if (platformPrefabs[i] == null) {
                 Debug.LogError ("Room Generation error: Platform prefab at position " + i + " is null.");
                 continue;
             }
-            Match result = platformMatcher.Match (config.platformPrefabs[i].name);
+            Match result = platformMatcher.Match (platformPrefabs[i].name);
             if (result.Success) {
                 int platformWidth = int.Parse (result.Groups [1].Value);
                 platformWidths.Add (platformWidth);
-                widthToPlatformMap.Add (platformWidth, config.platformPrefabs[i]);
+                widthToPlatformMap.Add (platformWidth, platformPrefabs[i]);
             }
         }
         platformWidths.Sort ();
@@ -95,7 +72,7 @@ public static class RoomGenerator {
         // Dump the widths to the console.
         // Debug.Log ("Available widths: " + RoomGenerator.StringifyArray<int>(platformWidths.ToArray ()));
 
-        int cellsRemaining = roomWidthInCells;
+        int cellsRemaining = levelConfig.roomCellsWide;
         List<int> platformsToUse = new List<int> ();
         while (cellsRemaining > 0) {
             int maxWidthIndex = 0;
@@ -123,8 +100,8 @@ public static class RoomGenerator {
         int lastCellHeight = 0;
         for (int i = 0; i < platformsToUse.Count; ++i) {
             float prob = Random.Range (0f, 1f);
-            if (prob <= config.floorHeightChangeProbability) {
-                if (prob < config.floorHeightChangeProbability / 2f) {
+            if (prob <= zone.roomConfig.floorHeightChangeProbability) {
+                if (prob < zone.roomConfig.floorHeightChangeProbability / 2f) {
                     floorHeights [i] = lastCellHeight + 1;    
                 }
                 else {
@@ -145,30 +122,30 @@ public static class RoomGenerator {
             int width = platformsToUse [i];
             GameObject platform = GameObject.Instantiate<GameObject> (widthToPlatformMap [width]);
             platform.transform.SetParent (root.transform, false);
-            platform.transform.localPosition = new Vector2 (startX, floorHeights[i] * config.cellHeight);
+            platform.transform.localPosition = new Vector2 (startX, floorHeights[i] * levelConfig.cellHeight);
             platform.name = "Floor-" + i;
 
-            Sprite floorSprite = Resources.Load<Sprite> (config.roomType + "/Ground-" + width + "x1");
+            Sprite floorSprite = Resources.Load<Sprite> (zone.spriteSetPrefix + "/Ground-" + width + "x1");
             if (floorSprite != null) {
                 platform.GetComponent<SpriteRenderer> ().sprite = floorSprite;
             }
 
             GameObject ceilingPlatform = GameObject.Instantiate<GameObject> (widthToPlatformMap [width]);
             ceilingPlatform.transform.SetParent (root.transform, false);
-            ceilingPlatform.transform.localPosition = new Vector2 (startX, floorHeights[i] * config.cellHeight + roomHeightInUnits);
+            ceilingPlatform.transform.localPosition = new Vector2 (startX, floorHeights[i] * levelConfig.cellHeight + roomHeightInUnits);
             ceilingPlatform.name = "ceiling-" + i;
-            Sprite ceilingSprite = Resources.Load<Sprite> (config.roomType + "/Ground-" + width + "x1");
+            Sprite ceilingSprite = Resources.Load<Sprite> (zone.spriteSetPrefix + "/Ground-" + width + "x1");
             if (ceilingSprite != null) {
                 ceilingPlatform.GetComponent<SpriteRenderer> ().sprite = ceilingSprite;
             }
 
-            startX += width * config.cellWidth;
+            startX += width * levelConfig.cellWidth;
         }
 
         // Generate spawn trigger.
-        if (config.roomSpawnTrigger != null) {
-            int triggerOriginCell = Mathf.FloorToInt(roomWidthInCells * config.spawnTriggerWidthPercentage);
-            if (triggerOriginCell == roomWidthInCells) { // Account for situation where spawnTriggerWidthPercentage is precisely 1.0 and the array index is out of range.
+        if (roomSpawnTrigger != null) {
+            int triggerOriginCell = Mathf.FloorToInt(levelConfig.roomCellsWide * levelConfig.spawnTriggerRoomLocation);
+            if (triggerOriginCell == levelConfig.roomCellsWide) { // Account for situation where spawnTriggerWidthPercentage is precisely 1.0 and the array index is out of range.
                 triggerOriginCell--;
             }
             int triggerOriginPlatform = 0;
@@ -183,9 +160,9 @@ public static class RoomGenerator {
                 }
             }
 
-            float triggerHeight = floorHeights [triggerOriginPlatform] * config.cellHeight + roomHeightInUnits / 2f;
-            Vector2 triggerOrigin = new Vector2(roomWidthInUnits * config.spawnTriggerWidthPercentage, triggerHeight);
-            RoomSpawnTrigger trigger = GameObject.Instantiate<RoomSpawnTrigger> (config.roomSpawnTrigger);
+            float triggerHeight = floorHeights [triggerOriginPlatform] * levelConfig.cellHeight + roomHeightInUnits / 2f;
+            Vector2 triggerOrigin = new Vector2(roomWidthInUnits * levelConfig.spawnTriggerRoomLocation, triggerHeight);
+            RoomSpawnTrigger trigger = GameObject.Instantiate<RoomSpawnTrigger> (roomSpawnTrigger);
             trigger.transform.SetParent (root.transform, false);
             trigger.transform.localPosition = triggerOrigin;
             trigger.transform.localScale = new Vector2 (1f, roomHeightInUnits);    
@@ -193,14 +170,14 @@ public static class RoomGenerator {
 
         // Generate enemies
         float enemyOdds = Random.Range (0f, 1f);
-        if (enemyOdds <= config.probabilityOfEnemySpawn) {
-            int enemyIndex = Random.Range (0, config.enemyPrefabs.Length);
-            EnemyHordeMember enemy = GameObject.Instantiate<EnemyHordeMember> (config.enemyPrefabs[enemyIndex]);
+        if (enemyOdds <= zone.roomConfig.probabilityOfEnemySpawn) {
+            int enemyIndex = Random.Range (0, enemyPrefabs.Length);
+            EnemyHordeMember enemy = GameObject.Instantiate<EnemyHordeMember> (enemyPrefabs[enemyIndex]);
             enemy.transform.SetParent (root.transform, false);
-            enemy.transform.localPosition = new Vector2 (roomWidthInUnits / 2f, config.roomHeightInCells * config.cellHeight / 2f);
+            enemy.transform.localPosition = new Vector2 (roomWidthInUnits / 2f, levelConfig.roomCellsTall * levelConfig.cellHeight / 2f);
         }
 
-        RoomMetadata room = new RoomMetadata (roomWidthInCells, config.roomHeightInCells, floorHeights [0], floorHeights [floorHeights.Length - 1], root);
+        RoomMetadata room = new RoomMetadata (levelConfig.roomCellsWide, levelConfig.roomCellsTall, floorHeights [0], floorHeights [floorHeights.Length - 1], root);
         return room;
     }
 

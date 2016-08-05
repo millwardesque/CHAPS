@@ -1,0 +1,22 @@
+{
+    "levelConfiguration": {
+        "skin": "Standard",
+        "cellWidth": 1.0,
+        "cellHeight": 1.0,
+        "spawnTriggerRoomLocation": 0.9,
+        "roomsToSpawnAtOnce": 1,
+        "roomCellsWide": 16,
+        "roomCellsTall": 12
+    },
+    "zones": [
+        {
+            "name": "Outside",
+            "lengthInCells": 12,
+            "spriteSetPrefix": "Outside",
+            "roomConfiguration": {
+                "floorHeightChangeProbability": 0.15,
+                "enemySpawnProbability": 0.5
+            }
+        }
+    ]
+}

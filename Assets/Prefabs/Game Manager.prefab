@@ -141,6 +141,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e5e8192c75f0d45c0a665710b9180912, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  levelResourceFile: Levels/level-1
   cellWidth: 1
   cellHeight: 1
   roomType: Outside

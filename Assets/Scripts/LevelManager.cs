@@ -1,51 +1,59 @@
 ﻿using UnityEngine;
 using System.Collections;
+using SimpleJSON;
+
+public class LevelConfiguration {
+    public string skin;
+    public float cellWidth;
+    public float cellHeight;
+    public float spawnTriggerRoomLocation;
+    public int roomsToSpawnAtOnce;
+    public int roomCellsWide;
+    public int roomCellsTall;
+
+    public static LevelConfiguration LoadFromJSONNode(JSONNode node) {
+        string skin = node["skin"];
+        float cellWidth = node ["cellWidth"].AsFloat;
+        float cellHeight = node ["cellHeight"].AsFloat;
+        float spawnTriggerRoomLocation = node ["spawnTriggerRoomLocation"].AsFloat;
+        int roomsToSpawnAtOnce = node ["roomsToSpawnAtOnce"].AsInt;
+        int roomCellsWide = node ["roomCellsWide"].AsInt;
+        int roomCellsTall = node ["roomCellsTall"].AsInt;
+
+        return new LevelConfiguration (skin, cellWidth, cellHeight, spawnTriggerRoomLocation, roomsToSpawnAtOnce, roomCellsWide, roomCellsTall);
+    }
+
+    public LevelConfiguration(string skin, float cellWidth, float cellHeight, float spawnTriggerRoomLocation, int roomsToSpawnAtOnce, int roomCellsWide, int roomCellsTall) {
+        this.skin = skin;
+        this.cellWidth = cellWidth;
+        this.cellHeight = cellHeight;
+        this.spawnTriggerRoomLocation = spawnTriggerRoomLocation;
+        this.roomsToSpawnAtOnce = roomsToSpawnAtOnce;
+        this.roomCellsWide = roomCellsWide;
+        this.roomCellsTall = roomCellsTall;
+    }
+
+    public override string ToString() {
+        return string.Format ("Skin: {0}, Cell Dimensions {1} x {2}, Room dimensions {3} x {4}, Spawn Trigger location: {5}, Rooms to spawn at once: {6}", skin, cellWidth, cellHeight, roomCellsWide, roomCellsTall, spawnTriggerRoomLocation, roomsToSpawnAtOnce);
+    }
+}
 
 public class LevelManager : MonoBehaviour {
-    [Header("General")]
-    [Range(0.25f, 5f)]
-    public float cellWidth = 1f;
+    public string levelResourceFile;
 
-    [Range(0.25f, 5f)]
-    public float cellHeight = 0.5f;
-
-    public string roomType = "Prototype";
-        
-    [Header("Room Spawning")]
-    [Range(0f, 1f)]
-    public float spawnTriggerWidthPercentage = 0.9f;
-
-    [Range(1, 12)]
-    public int roomsToSpawn = 1;
-
+    [Header("Prefabs")]
     public RoomSpawnTrigger roomSpawnTrigger;
-
-    [Header("Room Size")]
-    [Range(1, 32)]
-    public int minCellsWide = 8;
-
-    [Range(1, 32)]
-    public int maxCellsWide = 16;
-
-    [Range(1, 32)]
-    public int roomHeightInCells = 12;
-
-    [Header("Room Geometry")]
     public GameObject[] platformPrefabs;
-
-    [Range(0f, 1f)]
-    public float floorHeightChangeProbability = 0f;
+    public EnemyHordeMember[] enemyPrefabs;
 
     [Header("Safe room")]
     [Range(0, 128)]
     public int roomsBetweenSafeRooms = 12;
     public GameObject safeRoomPrefab;
 
-    [Header("Enemies")]
-    [Range(0f, 1f)]
-    public float probabilityOfEnemySpawn = 0.2f;
-    public EnemyHordeMember[] enemyPrefabs;
-
+    LevelConfiguration m_levelConfiguration;
+    LevelZone[] m_zones;
+    int m_activeZone = 0;
 
     RoomMetadata m_lastRoom;
     Vector2 m_nextRoomStart;
@@ -55,11 +63,40 @@ public class LevelManager : MonoBehaviour {
         GameManager.Instance.Messenger.AddListener ("RoomSpawnTrigger", OnRoomSpawnTrigger);
         GameManager.Instance.Messenger.AddListener ("SafeRoomExit", OnSafeRoomExit);
         m_roomsSinceSafeRoom = 0;
+
+        LoadFromFile(levelResourceFile);
+        m_activeZone = 0;
+    }
+
+    void Start() {
+        m_activeZone = 0;
+    }
+
+    public void LoadFromFile(string resourceName) {
+        TextAsset jsonAsset = Resources.Load<TextAsset>(resourceName);
+        if (jsonAsset != null) {
+            string fileContents = jsonAsset.text;
+            JSONNode node = JSON.Parse (fileContents);
+
+            JSONNode levelConfiguration = node ["levelConfiguration"];
+            m_levelConfiguration = LevelConfiguration.LoadFromJSONNode (levelConfiguration);
+            Debug.Log ("Loaded level config: " + m_levelConfiguration.ToString ());
+
+            JSONArray zoneArray = node ["zones"].AsArray;
+            m_zones = new LevelZone[zoneArray.Count];
+            for (int i = 0; i < zoneArray.Count; ++i) {
+                m_zones[i] = LevelZone.LoadFromJSONNode (zoneArray[i]);
+                Debug.Log ("Loaded zone: " + m_zones [i].ToString());
+            }
+        }
+        else {
+            Debug.LogError ("Unable to load level from file '" + resourceName + "'");
+        }
     }
 
     public GameObject GenerateRooms(string name, int roomCount = -1) {
         if (roomCount == -1) {
-            roomCount = roomsToSpawn;
+            roomCount = m_levelConfiguration.roomsToSpawnAtOnce;
         }
 
         GameObject root = new GameObject ();
@@ -84,19 +121,15 @@ public class LevelManager : MonoBehaviour {
                 m_roomsSinceSafeRoom = 0;
             }
             else {
-                RoomMetadata room = RoomGenerator.GenerateRoom (GetConfigurationOptions(name + "-" + i, m_nextRoomStart));
+                RoomMetadata room = RoomGenerator.GenerateRoom (name + "-" + i, m_nextRoomStart, m_levelConfiguration, m_zones[m_activeZone], platformPrefabs, roomSpawnTrigger, enemyPrefabs);
                 room.room.transform.SetParent (root.transform, false);
-                m_nextRoomStart += new Vector2 (room.widthInCells * cellWidth, room.endHeight * cellHeight);
+                m_nextRoomStart += new Vector2 (room.widthInCells * m_levelConfiguration.cellWidth, room.endHeight * m_levelConfiguration.cellHeight);
                 m_lastRoom = room;
                 m_roomsSinceSafeRoom++;
             }
         }
 
         return root;
-    }
-
-    RoomGeneratorConfiguration GetConfigurationOptions(string roomName, Vector2 bottomLeftCorner) {
-        return new RoomGeneratorConfiguration(roomName, bottomLeftCorner, minCellsWide, maxCellsWide, roomHeightInCells, cellWidth, cellHeight, platformPrefabs, floorHeightChangeProbability, spawnTriggerWidthPercentage, roomSpawnTrigger, probabilityOfEnemySpawn, enemyPrefabs, roomType);
     }
 
     void OnRoomSpawnTrigger(Message message) {
