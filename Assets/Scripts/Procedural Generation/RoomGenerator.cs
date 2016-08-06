@@ -130,13 +130,15 @@ public static class RoomGenerator {
                 platform.GetComponent<SpriteRenderer> ().sprite = floorSprite;
             }
 
-            GameObject ceilingPlatform = GameObject.Instantiate<GameObject> (widthToPlatformMap [width]);
-            ceilingPlatform.transform.SetParent (root.transform, false);
-            ceilingPlatform.transform.localPosition = new Vector2 (startX, floorHeights[i] * levelConfig.cellHeight + roomHeightInUnits);
-            ceilingPlatform.name = "ceiling-" + i;
-            Sprite ceilingSprite = Resources.Load<Sprite> (zone.spriteSetPrefix + "/Ground-" + width + "x1");
-            if (ceilingSprite != null) {
-                ceilingPlatform.GetComponent<SpriteRenderer> ().sprite = ceilingSprite;
+            if (zone.needsCeiling) {
+                GameObject ceilingPlatform = GameObject.Instantiate<GameObject>(widthToPlatformMap[width]);
+                ceilingPlatform.transform.SetParent(root.transform, false);
+                ceilingPlatform.transform.localPosition = new Vector2(startX, floorHeights[i] * levelConfig.cellHeight + roomHeightInUnits);
+                ceilingPlatform.name = "ceiling-" + i;
+                Sprite ceilingSprite = Resources.Load<Sprite>(zone.spriteSetPrefix + "/Ground-" + width + "x1");
+                if (ceilingSprite != null) {
+                    ceilingPlatform.GetComponent<SpriteRenderer>().sprite = ceilingSprite;
+                }
             }
 
             startX += width * levelConfig.cellWidth;

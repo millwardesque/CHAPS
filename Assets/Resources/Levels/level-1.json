@@ -13,6 +13,7 @@
             "name": "Outside",
             "lengthInCells": 12,
             "spriteSetPrefix": "Outside",
+			"needsCeiling": false,
             "roomConfiguration": {
                 "floorHeightChangeProbability": 0.15,
                 "enemySpawnProbability": 0.5
