@@ -17,6 +17,7 @@ public class PlatformerMotorState {
 
     protected int m_jumpCount = 0;
     protected float m_jumpDuration = 0f;
+    Vector2 velocityLastUpdate;
 
     protected Vector2 Velocity {
         get { return m_owner.RB.velocity; }
@@ -68,6 +69,13 @@ public class PlatformerMotorState {
     }
 
     public virtual void FixedUpdate() {
+        if (m_owner.RB.velocity.x < -Mathf.Epsilon && velocityLastUpdate.x >= -Mathf.Epsilon) {
+            m_owner.GetComponentInChildren<SpriteRenderer>().flipX = true;
+        }
+        else if (m_owner.RB.velocity.x > Mathf.Epsilon && velocityLastUpdate.x <= Mathf.Epsilon) {
+            m_owner.GetComponentInChildren<SpriteRenderer>().flipX = false;
+        }
+
         if (!m_owner.IsGrounded()) {
             if (Velocity.y < -Mathf.Epsilon) {
                 m_timeDescending += Time.fixedDeltaTime;
@@ -78,6 +86,8 @@ public class PlatformerMotorState {
                 m_timeDescending = 0f;
             }
         }
+
+        velocityLastUpdate = m_owner.RB.velocity;
     }
 
     public virtual void OnCollisionEnter2D(Collision2D col) {
