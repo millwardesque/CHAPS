@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: e6ebd0e3d94bfd64bb8bc7873f49a0da
+guid: 22c4bf5c1e1fb7f4c9bc2ca027688e6d
 labels:
 - 8bit
 - retro
@@ -19,6 +19,7 @@ AudioImporter:
     conversionMode: 0
   platformSettingOverrides: {}
   forceToMono: 0
+  normalize: 1
   preloadAudioData: 1
   loadInBackground: 0
   3D: 1

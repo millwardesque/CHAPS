@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 27e118d54aa58304780a5f6bb96cb64c
+guid: c597dc4b065d6ce4cbb833cc6691f143
 labels:
 - usfx
 - imphenzia
@@ -21,6 +21,7 @@ AudioImporter:
     conversionMode: 0
   platformSettingOverrides: {}
   forceToMono: 0
+  normalize: 1
   preloadAudioData: 1
   loadInBackground: 0
   3D: 1

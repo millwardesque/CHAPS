@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 1622a24bab55cf34f90d0615624b08d4
+guid: 31a94fafe33888348a837d0662806fea
 labels:
 - 8bit
 - mono
@@ -19,6 +19,7 @@ AudioImporter:
     conversionMode: 0
   platformSettingOverrides: {}
   forceToMono: 0
+  normalize: 1
   preloadAudioData: 1
   loadInBackground: 0
   3D: 1
