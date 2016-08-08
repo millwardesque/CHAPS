@@ -47,9 +47,6 @@ public class LevelManager : MonoBehaviour {
     public RoomSpawnTrigger roomSpawnTrigger;
     public GameObject[] platformPrefabs;
     public EnemyHordeMember[] enemyPrefabs;
-
-    [Header("Safe room")]
-    [Range(0, 128)]
     public GameObject safeRoomPrefab;
 
     LevelConfiguration m_levelConfiguration;

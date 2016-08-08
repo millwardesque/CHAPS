@@ -122,9 +122,9 @@ MonoBehaviour:
   Axis: 0
   UpdateType: 1
   FollowHorizontal: 1
-  HorizontalFollowSmoothness: 0.15
+  HorizontalFollowSmoothness: 0
   FollowVertical: 1
-  VerticalFollowSmoothness: 0.15
+  VerticalFollowSmoothness: 0
   OverallOffset: {x: 0, y: 0}
   ZoomWithFOV: 0
   CurrentZoomTriggerID: 0
