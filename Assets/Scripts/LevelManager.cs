@@ -129,7 +129,20 @@ public class LevelManager : MonoBehaviour {
                 // @TODO Add safe-room to generated list so that it can get cleaned up.
             }
             else {
+                // Disable enemy spawns if this is the first room in a zone.
+                float tempEnemySpawnRate = m_zones [m_activeZone].roomConfig.probabilityOfEnemySpawn;
+                if (m_roomsSinceSafeRoom == 0) {
+                    m_zones [m_activeZone].roomConfig.probabilityOfEnemySpawn = 0f;
+                }
+
+                // Generate the room.
                 RoomMetadata room = RoomGenerator.GenerateRoom (name + "-" + i, m_nextGeneratedRoomStart, m_levelConfiguration, m_zones[m_activeZone], platformPrefabs, roomSpawnTrigger, enemyPrefabs);
+
+                // Restore enemy spawns if this was the first room in a zone.
+                if (m_roomsSinceSafeRoom == 0) {
+                    m_zones [m_activeZone].roomConfig.probabilityOfEnemySpawn = tempEnemySpawnRate;
+                }
+
                 room.room.transform.SetParent (transform, false);
                 m_nextGeneratedRoomStart += new Vector2 (room.widthInCells * m_levelConfiguration.cellWidth, room.endHeight * m_levelConfiguration.cellHeight);
                 m_roomsSinceSafeRoom++;
