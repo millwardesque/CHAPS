@@ -19,8 +19,7 @@ public class RoomGeneratorSceneController : MonoBehaviour {
             if (m_room != null) {
                 Destroy (m_room);
             }
-            m_room = m_generator.GenerateRooms ("Room " + m_generatedRooms, 1);
-            m_room.transform.position = new Vector2 (-8f, -4f);
+            m_generator.GenerateRooms ("Room " + m_generatedRooms, 1);
             m_generatedRooms++;
         }
 
@@ -28,8 +27,7 @@ public class RoomGeneratorSceneController : MonoBehaviour {
             if (m_room != null) {
                 Destroy (m_room);
             }
-            m_room = m_generator.GenerateRooms ("Layout " + m_generatedLayouts);
-            m_room.transform.position = new Vector2 (-8f, -4f);
+            m_generator.GenerateRooms ("Layout " + m_generatedLayouts);
             m_generatedLayouts++;
         }
 	}

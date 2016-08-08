@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 using SimpleJSON;
 
 public class LevelConfiguration {
@@ -40,6 +41,7 @@ public class LevelConfiguration {
 
 public class LevelManager : MonoBehaviour {
     public string levelResourceFile;
+    public int roomCleanupDistance = 10;   // Number of rooms behind the player a room has to be before it gets cleaned up.
 
     [Header("Prefabs")]
     public RoomSpawnTrigger roomSpawnTrigger;
@@ -55,14 +57,16 @@ public class LevelManager : MonoBehaviour {
     LevelZone[] m_zones;
     int m_activeZone = 0;
 
-    RoomMetadata m_lastRoom;
-    Vector2 m_nextRoomStart;
+    List<RoomMetadata> m_generatedRooms;
+    Vector2 m_nextGeneratedRoomStart;
     int m_roomsSinceSafeRoom;
+
 
     void Awake() {
         GameManager.Instance.Messenger.AddListener ("RoomSpawnTrigger", OnRoomSpawnTrigger);
-        GameManager.Instance.Messenger.AddListener ("SafeRoomExit", OnSafeRoomExit);
         m_roomsSinceSafeRoom = 0;
+
+        m_generatedRooms = new List<RoomMetadata> ();
 
         LoadFromFile(levelResourceFile);
         m_activeZone = 0;
@@ -94,19 +98,16 @@ public class LevelManager : MonoBehaviour {
         }
     }
 
-    public GameObject GenerateRooms(string name, int roomCount = -1) {
+    public void GenerateRooms(string name, int roomCount = -1) {
         if (roomCount == -1) {
             roomCount = m_levelConfiguration.roomsToSpawnAtOnce;
         }
 
-        GameObject root = new GameObject ();
-        root.name = name;
-
         for (int i = 0; i < roomCount; ++i) {
             if (m_roomsSinceSafeRoom == roomsBetweenSafeRooms) {
                 GameObject safeRoom = Instantiate <GameObject> (safeRoomPrefab);
-                safeRoom.transform.SetParent (root.transform, false);
-                safeRoom.transform.localPosition = m_nextRoomStart;
+                safeRoom.transform.SetParent (transform, false);
+                safeRoom.transform.localPosition = m_nextGeneratedRoomStart;
 
                 // Figure out the width of the safe room
                 Collider2D[] colliders = safeRoom.GetComponentsInChildren<Collider2D> ();
@@ -117,26 +118,48 @@ public class LevelManager : MonoBehaviour {
                         safeRoomWidth = colliderX;
                     }
                 }
-                m_nextRoomStart = new Vector2 (safeRoomWidth, m_nextRoomStart.y);
+                m_nextGeneratedRoomStart = new Vector2 (safeRoomWidth, m_nextGeneratedRoomStart.y);
                 m_roomsSinceSafeRoom = 0;
+
+                // @TODO Add safe-room to generated list so that it can get cleaned up.
             }
             else {
-                RoomMetadata room = RoomGenerator.GenerateRoom (name + "-" + i, m_nextRoomStart, m_levelConfiguration, m_zones[m_activeZone], platformPrefabs, roomSpawnTrigger, enemyPrefabs);
-                room.room.transform.SetParent (root.transform, false);
-                m_nextRoomStart += new Vector2 (room.widthInCells * m_levelConfiguration.cellWidth, room.endHeight * m_levelConfiguration.cellHeight);
-                m_lastRoom = room;
+                RoomMetadata room = RoomGenerator.GenerateRoom (name + "-" + i, m_nextGeneratedRoomStart, m_levelConfiguration, m_zones[m_activeZone], platformPrefabs, roomSpawnTrigger, enemyPrefabs);
+                room.room.transform.SetParent (transform, false);
+                m_nextGeneratedRoomStart += new Vector2 (room.widthInCells * m_levelConfiguration.cellWidth, room.endHeight * m_levelConfiguration.cellHeight);
                 m_roomsSinceSafeRoom++;
+                m_generatedRooms.Add (room);
             }
         }
-
-        return root;
     }
 
     void OnRoomSpawnTrigger(Message message) {
         GenerateRooms ("Spawned room", 1);
+
+        // Clean up old rooms
+        RoomSpawnTrigger trigger = message.data as RoomSpawnTrigger;
+        GameObject triggeredRoom = trigger.transform.parent.gameObject;
+        Debug.Log ("Looking for " + triggeredRoom.name);
+        for (int i = 0; i < m_generatedRooms.Count; ++i) {
+            RoomMetadata room = m_generatedRooms [i];
+            Debug.Log ("\t" + room.room.name);
+            if (room.room == triggeredRoom) {
+                Debug.Log ("Found a match!");
+                if (i - roomCleanupDistance >= 0) {
+                    CleanupRoomsBefore (i - roomCleanupDistance);
+                }
+                break;
+            }
+        }
     }
 
-    void OnSafeRoomExit(Message message) {
-        Debug.Log ("@TODO Cleanup old rooms here");
+    void CleanupRoomsBefore(int roomIndex) {
+        if (roomIndex >= 0) {
+            for (int i = 0; i < roomIndex; ++i) {
+                Debug.Log ("Removing room" + m_generatedRooms [i].room.name);
+                Destroy (m_generatedRooms [i].room);
+                m_generatedRooms.RemoveAt(i);
+            }
+        }
     }
 }
