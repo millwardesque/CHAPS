@@ -50,7 +50,6 @@ public class LevelManager : MonoBehaviour {
 
     [Header("Safe room")]
     [Range(0, 128)]
-    public int roomsBetweenSafeRooms = 12;
     public GameObject safeRoomPrefab;
 
     LevelConfiguration m_levelConfiguration;
@@ -104,7 +103,7 @@ public class LevelManager : MonoBehaviour {
         }
 
         for (int i = 0; i < roomCount; ++i) {
-            if (m_roomsSinceSafeRoom == roomsBetweenSafeRooms) {
+            if (m_roomsSinceSafeRoom == m_zones[m_activeZone].lengthInCells) {
                 GameObject safeRoom = Instantiate <GameObject> (safeRoomPrefab);
                 safeRoom.transform.SetParent (transform, false);
                 safeRoom.transform.localPosition = m_nextGeneratedRoomStart;
@@ -120,6 +119,15 @@ public class LevelManager : MonoBehaviour {
                 }
                 m_nextGeneratedRoomStart = new Vector2 (safeRoomWidth, m_nextGeneratedRoomStart.y);
                 m_roomsSinceSafeRoom = 0;
+
+                // Change zones
+                if (m_activeZone + 1 < m_zones.Length) {
+                    m_activeZone++;
+                }
+                else {
+                    // @TODO Decide what to do now that we've hit the end of the level.
+                }
+
 
                 // @TODO Add safe-room to generated list so that it can get cleaned up.
             }
@@ -139,12 +147,9 @@ public class LevelManager : MonoBehaviour {
         // Clean up old rooms
         RoomSpawnTrigger trigger = message.data as RoomSpawnTrigger;
         GameObject triggeredRoom = trigger.transform.parent.gameObject;
-        Debug.Log ("Looking for " + triggeredRoom.name);
         for (int i = 0; i < m_generatedRooms.Count; ++i) {
             RoomMetadata room = m_generatedRooms [i];
-            Debug.Log ("\t" + room.room.name);
             if (room.room == triggeredRoom) {
-                Debug.Log ("Found a match!");
                 if (i - roomCleanupDistance >= 0) {
                     CleanupRoomsBefore (i - roomCleanupDistance);
                 }
@@ -156,7 +161,6 @@ public class LevelManager : MonoBehaviour {
     void CleanupRoomsBefore(int roomIndex) {
         if (roomIndex >= 0) {
             for (int i = 0; i < roomIndex; ++i) {
-                Debug.Log ("Removing room" + m_generatedRooms [i].room.name);
                 Destroy (m_generatedRooms [i].room);
                 m_generatedRooms.RemoveAt(i);
             }

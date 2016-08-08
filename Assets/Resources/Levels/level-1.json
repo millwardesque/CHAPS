@@ -16,8 +16,18 @@
 			"needsCeiling": false,
             "roomConfiguration": {
                 "floorHeightChangeProbability": 0.15,
+                "enemySpawnProbability": 0.33
+            }
+        },
+        {
+            "name": "Prototype",
+            "lengthInCells": 12,
+            "spriteSetPrefix": "Prototype",
+            "needsCeiling": true,
+            "roomConfiguration": {
+                "floorHeightChangeProbability": 0.25,
                 "enemySpawnProbability": 0.5
             }
-        }
+        },
     ]
 }
