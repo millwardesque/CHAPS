@@ -15,7 +15,7 @@
             "spriteSetPrefix": "Outside",
 			"needsCeiling": false,
             "roomConfiguration": {
-                "floorHeightChangeProbability": 0.15,
+                "floorHeightChangeProbability": 0.3,
                 "enemySpawnProbability": 0.33
             }
         },
