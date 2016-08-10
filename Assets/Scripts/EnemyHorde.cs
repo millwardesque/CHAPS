@@ -4,11 +4,11 @@ using System.Collections.Generic;
 public class EnemyHorde : MonoBehaviour {
     List<EnemyHordeMember> m_members;
 
-    [Range (0f, 20f)]
-    public float startMaxHordeSpeed = 1f;
-
     [Range (0f, 5f)]
-    public float speedIncrementPerMember = 1f;
+    public float playerSpeedOffset = 1f;
+
+    [Range (0f, 2f)]
+    public float speedIncrementPerMember = 0.1f;
 
     float m_maxHordeSpeed = 1f;
     public float MaxHordeSpeed {
@@ -25,7 +25,7 @@ public class EnemyHorde : MonoBehaviour {
     }
 
     void Start() {
-        MaxHordeSpeed = startMaxHordeSpeed;
+        MaxHordeSpeed = (GameManager.Instance.Player.maxSpeed - playerSpeedOffset);
     }
 
     public void AddEnemyToHorde(EnemyHordeMember enemy) {
@@ -34,11 +34,11 @@ public class EnemyHorde : MonoBehaviour {
             enemy.gameObject.layer = LayerMask.NameToLayer("Enemy Horde");
             enemy.GetComponentInChildren<SpriteRenderer>().sortingLayerID = SortingLayer.NameToID("Enemy Horde");
             if (enemy.GetComponent<EnemyPursuitController>()) {
-                enemy.GetComponent<EnemyPursuitController>().playerAlertRadius = 999f;  // Don't stop chasing the player.
+                enemy.GetComponent<EnemyPursuitController>().playerAlertRadius = 100f;  // Don't stop chasing the player.
             }
             enemy.Horde = this;
             m_members.Add(enemy);
-            MaxHordeSpeed += speedIncrementPerMember;
+            MaxHordeSpeed = (GameManager.Instance.Player.maxSpeed - playerSpeedOffset) + speedIncrementPerMember * m_members.Count;
         }        
     }
 

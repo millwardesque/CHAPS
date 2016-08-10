@@ -2,6 +2,8 @@
 using System.Collections;
 
 public class EnemyHordeMember : MonoBehaviour {
+    public float hordeJoinDistanceFromPlayer = 2f;
+
     EnemyHorde m_horde = null;
     public EnemyHorde Horde {
         get { return m_horde; }
@@ -18,7 +20,7 @@ public class EnemyHordeMember : MonoBehaviour {
 	}
 	
     void Update() {
-        if (GameManager.Instance.Player.transform.position.x > transform.position.x && m_horde == null) {
+        if (GameManager.Instance.Player.transform.position.x - transform.position.x >= hordeJoinDistanceFromPlayer && m_horde == null) {
             EnemyHorde horde = FindObjectOfType<EnemyHorde>();
             if (horde != null) {
                 horde.AddEnemyToHorde(this);
