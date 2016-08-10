@@ -293,6 +293,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6b170f03ac33a4727b981fffdd2bb9cc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  autorun: 1
   runSound: {fileID: 8300000, guid: 98b8d6eca7462dd48ace154f4134c774, type: 3}
   jumpSound: {fileID: 8300000, guid: 803e5b30269251c40ab75d6aedd1cb51, type: 3}
   multiJumpSound: {fileID: 8300000, guid: 22c4bf5c1e1fb7f4c9bc2ca027688e6d, type: 3}

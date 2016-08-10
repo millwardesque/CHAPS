@@ -6,6 +6,7 @@ public class PlayerController : InputController {
     Player m_rewiredPlayer;    // Rewired player.
     AudioSource m_audioSource;
 
+    public bool autorun;
     public AudioClip runSound;
     public AudioClip jumpSound;
     public AudioClip multiJumpSound;
@@ -44,7 +45,12 @@ public class PlayerController : InputController {
     }
 
     public override float GetAxis (string axisName) {
-        return m_rewiredPlayer.GetAxis (axisName);
+        if (autorun && axisName == "Move Horizontal") { 
+            return 1f;
+        }
+        else {
+            return m_rewiredPlayer.GetAxis (axisName);    
+        }
     }
 
     void OnCollisionEnter2D(Collision2D col) {
