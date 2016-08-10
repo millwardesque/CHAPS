@@ -3,6 +3,7 @@ using System.Collections;
 
 public class EnemyHordeMember : MonoBehaviour {
     public float hordeJoinDistanceFromPlayer = 2f;
+    public float stunDuration = 1f;
 
     EnemyHorde m_horde = null;
     public EnemyHorde Horde {
@@ -39,9 +40,8 @@ public class EnemyHordeMember : MonoBehaviour {
     }
 
     public void OnStomped() {
-        if (Horde != null) {
-            Horde.RemoveEnemyFromHorde (this);
-        }
-        Destroy (gameObject);
+        PlatformerMotor motor = GetComponent<PlatformerMotor> ();
+        motor.ReplaceState(new PlatformerMotorStateStunned(motor, motor.CurrentState, stunDuration));
+
     }
 }
