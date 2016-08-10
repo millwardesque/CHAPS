@@ -123,6 +123,7 @@ public static class RoomGenerator {
             GameObject platform = GameObject.Instantiate<GameObject> (widthToPlatformMap [width]);
             platform.transform.SetParent (root.transform, false);
             platform.transform.localPosition = new Vector2 (startX, floorHeights[i] * levelConfig.cellHeight);
+            platform.transform.localScale = new Vector2(levelConfig.cellWidth, levelConfig.cellHeight);
             platform.name = "Floor-" + i;
 
             Sprite floorSprite = Resources.Load<Sprite> (zone.spriteSetPrefix + "/Ground-" + width + "x1");
@@ -134,6 +135,7 @@ public static class RoomGenerator {
                 GameObject ceilingPlatform = GameObject.Instantiate<GameObject>(widthToPlatformMap[width]);
                 ceilingPlatform.transform.SetParent(root.transform, false);
                 ceilingPlatform.transform.localPosition = new Vector2(startX, floorHeights[i] * levelConfig.cellHeight + roomHeightInUnits);
+                ceilingPlatform.transform.localScale = new Vector2(levelConfig.cellWidth, levelConfig.cellHeight);
                 ceilingPlatform.name = "ceiling-" + i;
                 Sprite ceilingSprite = Resources.Load<Sprite>(zone.spriteSetPrefix + "/Ground-" + width + "x1");
                 if (ceilingSprite != null) {
