@@ -4,6 +4,10 @@ using System.Collections;
 public class SafeRoomEntrance : MonoBehaviour {
     public AudioClip doorCloseSound;
 
+    void Awake() {
+        GameManager.Instance.Messenger.AddListener ("SafeRoomExit", OnSafeRoomExit);
+    }
+
     void OnTriggerExit2D(Collider2D col) {
         if (col.tag == "Player") {
             OnSafeRoomEnter ();
@@ -14,6 +18,10 @@ public class SafeRoomEntrance : MonoBehaviour {
         GetComponent<Collider2D> ().isTrigger = false;
         GetComponent<Collider2D> ().usedByEffector = true;
         GameManager.Instance.AudioManager.PlayOneShot (doorCloseSound);
-        Debug.Log ("Entered the safe room.");
+    }
+
+    void OnSafeRoomExit(Message message) {
+        GetComponent<Collider2D> ().isTrigger = true;
+        GetComponent<Collider2D> ().usedByEffector = false;
     }
 }

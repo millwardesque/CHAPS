@@ -393,3 +393,26 @@ public class PlatformerMotorStateStunned : PlatformerMotorState {
         }
     }
 }
+
+
+/// <summary>
+/// Stunned state when actor is stunned.
+/// </summary>
+public class PlatformerMotorStateUseTerminal : PlatformerMotorState {
+    float m_duration;
+    float m_elapsed;
+
+    public PlatformerMotorStateUseTerminal(PlatformerMotor owner, PlatformerMotorState previousState, float duration) : base(owner, previousState) {
+        m_duration = duration;
+    }
+
+    public override void HandleInput() { 
+        base.HandleInput ();
+
+        m_elapsed += Time.deltaTime;
+        if (m_elapsed > m_duration) {
+            m_owner.ReplaceState (new PlatformerMotorStateIdle (m_owner, this));
+            return;
+        }
+    }
+}

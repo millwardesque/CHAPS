@@ -21,6 +21,7 @@ public class UploadTerminal : MonoBehaviour {
 
             // @TODO Show player using terminal
             // @TODO Show terminal uploading
+            GameManager.Instance.Player.ReplaceState (new PlatformerMotorStateUseTerminal(GameManager.Instance.Player, GameManager.Instance.Player.CurrentState, 2f));
         }
     }
 }
