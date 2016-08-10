@@ -140,8 +140,8 @@ MonoBehaviour:
   maxSpeed: 13
   velocityFrictionFactor: 0.7
   accelerationRate: 0.3
-  airControlSpeed: 15
-  jumpForce: 3.1
+  airControlSpeed: 13
+  jumpForce: 3
   minJumpHeight: 0.75
   maxJumpDuration: 0.2
   maxJumps: 1
@@ -249,9 +249,9 @@ CircleCollider2D:
   m_Material: {fileID: 0}
   m_IsTrigger: 1
   m_UsedByEffector: 0
-  m_Offset: {x: 5, y: 0.5}
+  m_Offset: {x: 4, y: 0.5}
   serializedVersion: 2
-  m_Radius: 6
+  m_Radius: 5
 --- !u!82 &82000013799206598
 AudioSource:
   m_ObjectHideFlags: 1

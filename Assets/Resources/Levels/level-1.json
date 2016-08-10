@@ -16,7 +16,7 @@
 			"needsCeiling": false,
             "roomConfiguration": {
                 "floorHeightChangeProbability": 0.3,
-                "enemySpawnProbability": 0.33
+                "enemySpawnProbability": 0.5
             }
         },
         {
