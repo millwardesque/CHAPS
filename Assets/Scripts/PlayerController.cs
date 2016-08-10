@@ -6,6 +6,7 @@ public class PlayerController : InputController {
     Player m_rewiredPlayer;    // Rewired player.
     AudioSource m_audioSource;
 
+    public Collider2D enemyProximitySensor;
     public bool autorun;
     public AudioClip runSound;
     public AudioClip jumpSound;
@@ -90,6 +91,18 @@ public class PlayerController : InputController {
         if (col.GetComponent<Powerup>()) {
             GameManager.Instance.AudioManager.PlayOneShot (col.GetComponent <Powerup>().collectionNoise);
             col.GetComponent<Powerup> ().Trigger ();
+            return;
+        }
+
+        if (col.GetComponent<EnemyHordeMember>()) {
+            GameManager.Instance.Messenger.SendMessage (this, "PlayerCloseToEnemy", col.gameObject);
+            return;
+        }
+    }
+
+    void OnTriggerExit2D(Collider2D col) {
+        if (col.GetComponent<EnemyHordeMember>()) {
+            GameManager.Instance.Messenger.SendMessage (this, "PlayerFarFromEnemy", col.gameObject);
             return;
         }
     }

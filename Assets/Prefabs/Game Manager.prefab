@@ -147,7 +147,6 @@ MonoBehaviour:
     type: 2}
   platformPrefabs:
   - {fileID: 1000013605274998, guid: b5a10f59a614a45c6b08d3824fb282a8, type: 2}
-  - {fileID: 1000011329360750, guid: 8728e9bbf53e741f7a67aef6c5ad5301, type: 2}
   - {fileID: 1000010958499020, guid: 1ab74d0de70e540858972f2a199f7330, type: 2}
   enemyPrefabs:
   - {fileID: 114000014055904950, guid: bd1c589836c8c45d2aa06c99e6e1e7af, type: 2}

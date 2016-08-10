@@ -161,7 +161,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3cca88633c2c44e37bd843ba54267fb8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerAlertRadius: 5
+  playerAlertRadius: 2
   jumpCheckDistance: 2
 --- !u!212 &21249692
 SpriteRenderer:
@@ -232,5 +232,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 02ea562a14f302f46ba462cb7beb7eb5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  hordeJoinDistanceFromPlayer: 2
+  hordeJoinDistanceFromPlayer: 1
   stunDuration: 1

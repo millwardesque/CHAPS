@@ -65,6 +65,7 @@ Transform:
   m_Children:
   - {fileID: 476872}
   - {fileID: 495686}
+  - {fileID: 4000013566633146}
   m_Father: {fileID: 0}
   m_RootOrder: 0
 --- !u!4 &476872
@@ -136,7 +137,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   groundedCollisionObject: 
-  maxSpeed: 15
+  maxSpeed: 13
   velocityFrictionFactor: 0.7
   accelerationRate: 0.3
   airControlSpeed: 15
@@ -194,6 +195,35 @@ Prefab:
   m_ParentPrefab: {fileID: 0}
   m_RootGameObject: {fileID: 106314}
   m_IsPrefabParent: 1
+--- !u!1 &1000010791688142
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 4
+  m_Component:
+  - 4: {fileID: 4000013566633146}
+  - 58: {fileID: 58000013890682266}
+  m_Layer: 8
+  m_Name: Enemy Proximity Sensor
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &4000013566633146
+Transform:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1000010791688142}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_Children: []
+  m_Father: {fileID: 447026}
+  m_RootOrder: 2
 --- !u!58 &58000011831315930
 CircleCollider2D:
   m_ObjectHideFlags: 1
@@ -208,6 +238,20 @@ CircleCollider2D:
   m_Offset: {x: -0.05, y: 0.3}
   serializedVersion: 2
   m_Radius: 0.3
+--- !u!58 &58000013890682266
+CircleCollider2D:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1000010791688142}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_Offset: {x: 5, y: 0.5}
+  serializedVersion: 2
+  m_Radius: 6
 --- !u!82 &82000013799206598
 AudioSource:
   m_ObjectHideFlags: 1
@@ -293,6 +337,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6b170f03ac33a4727b981fffdd2bb9cc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  enemyProximitySensor: {fileID: 58000013890682266}
   autorun: 1
   runSound: {fileID: 8300000, guid: 98b8d6eca7462dd48ace154f4134c774, type: 3}
   jumpSound: {fileID: 8300000, guid: 803e5b30269251c40ab75d6aedd1cb51, type: 3}

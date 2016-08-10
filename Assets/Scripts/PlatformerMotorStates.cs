@@ -349,6 +349,7 @@ public class PlatformerMotorStateLanded : PlatformerMotorState {
         base.Enter();
         m_jumpCount = 0;
         m_jumpDuration = 0f;
+        GameManager.Instance.Messenger.SendMessage (m_owner, "PlatformerLanded", (object)m_owner);
     }
     public override void HandleInput() {
         base.HandleInput();

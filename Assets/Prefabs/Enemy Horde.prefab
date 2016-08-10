@@ -51,5 +51,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c265e89f1dbeaad4d9254c547022169b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerSpeedOffset: 2
-  speedIncrementPerMember: 0.05
+  playerSpeedOffset: 1.5
+  speedIncrementPerMember: 0.1
