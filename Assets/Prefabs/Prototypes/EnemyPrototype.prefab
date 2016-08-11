@@ -232,5 +232,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 02ea562a14f302f46ba462cb7beb7eb5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  hordeJoinDistanceFromPlayer: 1
+  hordeJoinDistanceFromPlayer: 2
   stunDuration: 1
