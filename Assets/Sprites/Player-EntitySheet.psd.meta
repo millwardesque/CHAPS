@@ -1,0 +1,199 @@
+fileFormatVersion: 2
+guid: 5b8ad4520956641a6bacc6aa984e9672
+timeCreated: 1471280663
+licenseType: Free
+TextureImporter:
+  fileIDToRecycleName:
+    21300000: Player-EntitySheet_0
+    21300002: Player-EntitySheet_1
+    21300004: Player-EntitySheet_2
+    21300006: Player-EntitySheet_3
+    21300008: Player-EntitySheet_4
+    21300010: Player-EntitySheet_5
+    21300012: Player-EntitySheet_6
+    21300014: Player-EntitySheet_7
+    21300016: Player-EntitySheet_8
+    21300018: Player-EntitySheet_9
+  serializedVersion: 2
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    linearTexture: 0
+    correctGamma: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+  isReadable: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 0
+  cubemapConvolution: 0
+  cubemapConvolutionSteps: 7
+  cubemapConvolutionExponent: 1.5
+  seamlessCubemap: 0
+  textureFormat: -3
+  maxTextureSize: 2048
+  textureSettings:
+    filterMode: 0
+    aniso: 16
+    mipBias: -1
+    wrapMode: 1
+  nPOTScale: 0
+  lightmap: 0
+  rGBM: 0
+  compressionQuality: 50
+  allowsAlphaSplitting: 0
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spritePixelsToUnits: 32
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  buildTargetSettings: []
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: Player-EntitySheet_0
+      rect:
+        serializedVersion: 2
+        x: 16
+        y: 55
+        width: 54
+        height: 41
+      alignment: 9
+      pivot: {x: 0.3473226, y: 0.0131573565}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Player-EntitySheet_1
+      rect:
+        serializedVersion: 2
+        x: 74
+        y: 53
+        width: 45
+        height: 30
+      alignment: 9
+      pivot: {x: 0.51446414, y: 0.2854482}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Player-EntitySheet_2
+      rect:
+        serializedVersion: 2
+        x: 18
+        y: 34
+        width: 42
+        height: 15
+      alignment: 9
+      pivot: {x: 0.11945456, y: 0.45660782}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Player-EntitySheet_3
+      rect:
+        serializedVersion: 2
+        x: 76
+        y: 35
+        width: 11
+        height: 9
+      alignment: 9
+      pivot: {x: 0.34220886, y: 0.5241072}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Player-EntitySheet_4
+      rect:
+        serializedVersion: 2
+        x: 102
+        y: 35
+        width: 16
+        height: 9
+      alignment: 9
+      pivot: {x: 0.41411877, y: 0.94196063}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Player-EntitySheet_5
+      rect:
+        serializedVersion: 2
+        x: 17
+        y: 14
+        width: 42
+        height: 15
+      alignment: 9
+      pivot: {x: 0.11773268, y: 0.47107187}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Player-EntitySheet_6
+      rect:
+        serializedVersion: 2
+        x: 78
+        y: 20
+        width: 7
+        height: 9
+      alignment: 9
+      pivot: {x: 0.5206637, y: 0.25893083}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Player-EntitySheet_7
+      rect:
+        serializedVersion: 2
+        x: 102
+        y: 22
+        width: 16
+        height: 9
+      alignment: 9
+      pivot: {x: 0.41863918, y: 0.94196105}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Player-EntitySheet_8
+      rect:
+        serializedVersion: 2
+        x: 93
+        y: 11
+        width: 3
+        height: 3
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Player-EntitySheet_9
+      rect:
+        serializedVersion: 2
+        x: 68
+        y: 12
+        width: 2
+        height: 2
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    outline: []
+  spritePackingTag: 
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
