@@ -1,6 +1,6 @@
 fileFormatVersion: 2
 guid: 5b8ad4520956641a6bacc6aa984e9672
-timeCreated: 1471280663
+timeCreated: 1471299911
 licenseType: Free
 TextureImporter:
   fileIDToRecycleName:
@@ -71,7 +71,7 @@ TextureImporter:
         width: 54
         height: 41
       alignment: 9
-      pivot: {x: 0.3473226, y: 0.0131573565}
+      pivot: {x: 0.3473226, y: 0.070648566}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       tessellationDetail: 0
@@ -92,12 +92,12 @@ TextureImporter:
       name: Player-EntitySheet_2
       rect:
         serializedVersion: 2
-        x: 18
-        y: 34
-        width: 42
-        height: 15
+        x: 16
+        y: 15
+        width: 14
+        height: 32
       alignment: 9
-      pivot: {x: 0.11945456, y: 0.45660782}
+      pivot: {x: 0.4094207, y: 0.91705334}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       tessellationDetail: 0
@@ -131,12 +131,12 @@ TextureImporter:
       name: Player-EntitySheet_5
       rect:
         serializedVersion: 2
-        x: 17
-        y: 14
-        width: 42
-        height: 15
+        x: 38
+        y: 15
+        width: 14
+        height: 32
       alignment: 9
-      pivot: {x: 0.11773268, y: 0.47107187}
+      pivot: {x: 0.4170527, y: 0.91567624}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       tessellationDetail: 0
