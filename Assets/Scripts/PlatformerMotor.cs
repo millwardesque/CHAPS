@@ -60,8 +60,15 @@ public class PlatformerMotor : MonoBehaviour {
         get { return m_controller; }
     }
 
+    Animator m_animator;
+    public Animator AnimationController
+    {
+        get { return m_animator; }
+    }
+
     void Awake() {
         m_stateStack = new Stack<PlatformerMotorState> ();
+        m_animator = GetComponentInChildren<Animator>(true);
     }
 
     void Start() {

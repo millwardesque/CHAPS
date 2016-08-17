@@ -76,6 +76,10 @@ public class PlatformerMotorState {
             m_owner.GetComponentInChildren<SpriteRenderer>().flipX = false;
         }
 
+        if (m_owner.AnimationController != null) {
+            m_owner.AnimationController.SetFloat("Horizontal Speed", Mathf.Abs(Velocity.x));
+        }
+
         if (!m_owner.IsGrounded()) {
             if (Velocity.y < -Mathf.Epsilon) {
                 m_timeDescending += Time.fixedDeltaTime;
