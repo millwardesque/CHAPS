@@ -78,6 +78,8 @@ public class PlatformerMotorState {
 
         if (m_owner.AnimationController != null) {
             m_owner.AnimationController.SetFloat("Horizontal Speed", Mathf.Abs(Velocity.x));
+            m_owner.AnimationController.SetFloat("Vertical Speed", Velocity.y);
+            m_owner.AnimationController.SetBool("Is Grounded", m_owner.IsGrounded ());
         }
 
         if (!m_owner.IsGrounded()) {
