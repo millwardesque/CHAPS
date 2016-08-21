@@ -70,10 +70,10 @@ public class PlatformerMotorState {
 
     public virtual void FixedUpdate() {
         if (m_owner.RB.velocity.x < -Mathf.Epsilon && velocityLastUpdate.x >= -Mathf.Epsilon) {
-            m_owner.GetComponentInChildren<SpriteRenderer>().flipX = true;
+            // @TODO Face left.
         }
         else if (m_owner.RB.velocity.x > Mathf.Epsilon && velocityLastUpdate.x <= Mathf.Epsilon) {
-            m_owner.GetComponentInChildren<SpriteRenderer>().flipX = false;
+            // @TODO Face right
         }
 
         if (m_owner.AnimationController != null) {

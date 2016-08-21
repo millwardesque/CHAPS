@@ -94,21 +94,22 @@ public class EnemyPursuitController : InputController {
         Gizmos.color = new Color32(255, 0, 0, 64);
         Gizmos.DrawSphere(transform.position, playerAlertRadius);
 
-        Vector2 toPlayer = (m_player.transform.position - transform.position);
+        if (m_player != null) {
+            Vector2 toPlayer = (m_player.transform.position - transform.position);
 
-        Gizmos.color = new Color(255, 0, 0);
-        Vector2 start;
-        start = GetJumpDetectionHeadPosition();
-        Gizmos.DrawLine(start, start + new Vector2(toPlayer.normalized.x * jumpCheckDistance, 0f));
+            Gizmos.color = new Color(255, 0, 0);
+            Vector2 start;
+            start = GetJumpDetectionHeadPosition();
+            Gizmos.DrawLine(start, start + new Vector2(toPlayer.normalized.x * jumpCheckDistance, 0f));
 
-        Gizmos.color = new Color(255, 0, 0);
-        start = GetJumpDetectionBodyPosition();
-        Gizmos.DrawLine(start, start + new Vector2(toPlayer.normalized.x * jumpCheckDistance, 0f));
+            Gizmos.color = new Color(255, 0, 0);
+            start = GetJumpDetectionBodyPosition();
+            Gizmos.DrawLine(start, start + new Vector2(toPlayer.normalized.x * jumpCheckDistance, 0f));
 
-        Gizmos.color = new Color(255, 0, 0);
-        start = GetJumpDetectionFootPosition();
-        Gizmos.DrawLine(start, start + new Vector2(toPlayer.normalized.x * jumpCheckDistance, 0f));
-
+            Gizmos.color = new Color(255, 0, 0);
+            start = GetJumpDetectionFootPosition();
+            Gizmos.DrawLine(start, start + new Vector2(toPlayer.normalized.x * jumpCheckDistance, 0f));    
+        }
     }
 
     Vector2 GetJumpDetectionHeadPosition() {

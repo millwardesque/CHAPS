@@ -179,6 +179,8 @@ public static class RoomGenerator {
             EnemyHordeMember enemy = GameObject.Instantiate<EnemyHordeMember> (enemyPrefabs[enemyIndex]);
             enemy.transform.SetParent (root.transform, false);
             enemy.transform.localPosition = new Vector2 (roomWidthInUnits / 2f, levelConfig.roomCellsTall * levelConfig.cellHeight / 2f);
+
+            // @TODO Face left.
         }
 
         RoomMetadata room = new RoomMetadata (levelConfig.roomCellsWide, levelConfig.roomCellsTall, floorHeights [0], floorHeights [floorHeights.Length - 1], root);
