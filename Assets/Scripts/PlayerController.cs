@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Collections;
+using UnityEngine;
 using Rewired;
 
 public class PlayerController : InputController {
@@ -70,10 +71,11 @@ public class PlayerController : InputController {
                 m_motor.ReplaceState (new PlatformerMotorStateJumping(m_motor, m_motor.CurrentState, m_motor.maxBounceDuration, true));
             }
             else {
+                GetComponent<PlatformerMotor> ().AnimationController.SetBool ("Is Dead", true);
                 m_audioSource.Stop ();
                 m_audioSource.PlayOneShot (deathSound);
 
-                GameManager.Instance.Messenger.SendMessage(new Message(this, "GameOver"));
+                StartCoroutine ("WaitForPlayerDeathAnimation");
             }
 
             return;
@@ -85,6 +87,11 @@ public class PlayerController : InputController {
             Destroy (col.collider.gameObject);
             return;
         }
+    }
+
+    IEnumerator WaitForPlayerDeathAnimation() {
+        yield return new WaitForSeconds(1f);
+        GameManager.Instance.Messenger.SendMessage(new Message(this, "GameOver"));
     }
 
     void OnTriggerEnter2D(Collider2D col) {
