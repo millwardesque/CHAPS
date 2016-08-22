@@ -43,6 +43,8 @@ public class PlatformerMotor : MonoBehaviour {
     [Range (0f, 1f)]
     public float maxBounceDuration = 1f;
 
+    public Transform avatarRoot;
+
     public Transform footPosition;
 
     Rigidbody2D m_rb;

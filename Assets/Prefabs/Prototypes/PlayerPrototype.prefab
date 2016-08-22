@@ -121,6 +121,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 4294967001
   maxBounceDuration: 0.2
+  avatarRoot: {fileID: 4000010950750700}
   footPosition: {fileID: 495686}
 --- !u!1001 &100100000
 Prefab:
@@ -319,7 +320,7 @@ Transform:
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: -20}
+  m_LocalEulerAnglesHint: {x: -0, y: 0, z: -5}
   m_Children:
   - {fileID: 4000012040638512}
   - {fileID: 4000010988453082}
@@ -351,7 +352,7 @@ Transform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -0.125, y: 0.437, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 120}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: -6.5400004}
   m_Children: []
   m_Father: {fileID: 4000010507779078}
   m_RootOrder: 1
@@ -377,7 +378,7 @@ Transform:
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: -0.04, y: 0.631, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 10}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 3}
   m_Children:
   - {fileID: 4000013760051508}
   - {fileID: 4000013268946396}
@@ -392,7 +393,7 @@ Transform:
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: -0.125, y: 0.437, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 110}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 6.5400004}
   m_Children: []
   m_Father: {fileID: 4000010507779078}
   m_RootOrder: 2

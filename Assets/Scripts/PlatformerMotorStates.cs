@@ -70,10 +70,10 @@ public class PlatformerMotorState {
 
     public virtual void FixedUpdate() {
         if (m_owner.RB.velocity.x < -Mathf.Epsilon && velocityLastUpdate.x >= -Mathf.Epsilon) {
-            // @TODO Face left.
+            m_owner.avatarRoot.localScale = new Vector3 (Mathf.Abs (m_owner.avatarRoot.localScale.x) * -1f, m_owner.avatarRoot.localScale.y, m_owner.avatarRoot.localScale.z);
         }
         else if (m_owner.RB.velocity.x > Mathf.Epsilon && velocityLastUpdate.x <= Mathf.Epsilon) {
-            // @TODO Face right
+            m_owner.avatarRoot.localScale = new Vector3 (Mathf.Abs (m_owner.avatarRoot.localScale.x), m_owner.avatarRoot.localScale.y, m_owner.avatarRoot.localScale.z);
         }
 
         if (m_owner.AnimationController != null) {

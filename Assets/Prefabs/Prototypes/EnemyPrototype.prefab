@@ -151,6 +151,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 785
   maxBounceDuration: 1
+  avatarRoot: {fileID: 499958}
   footPosition: {fileID: 493404}
 --- !u!114 &11451588
 MonoBehaviour:
