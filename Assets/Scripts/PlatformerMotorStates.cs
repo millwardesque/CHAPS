@@ -389,6 +389,11 @@ public class PlatformerMotorStateStunned : PlatformerMotorState {
         m_stunDuration = stunDuration;
     }
 
+    public override void Enter() {
+        base.Enter();
+        m_owner.AnimationController.SetBool ("Is Stunned", true);
+    }
+
     public override void HandleInput() { 
         base.HandleInput ();
 
@@ -397,6 +402,11 @@ public class PlatformerMotorStateStunned : PlatformerMotorState {
             m_owner.ReplaceState (new PlatformerMotorStateIdle (m_owner, this));
             return;
         }
+    }
+
+    public override void Exit() {
+        base.Enter();
+        m_owner.AnimationController.SetBool ("Is Stunned", false);
     }
 }
 
