@@ -410,6 +410,25 @@ public class PlatformerMotorStateStunned : PlatformerMotorState {
     }
 }
 
+/// <summary>
+/// Stunned state when actor is stunned.
+/// </summary>
+public class PlatformerMotorStateDead : PlatformerMotorState {
+    float m_elapsed = 0;
+
+    public PlatformerMotorStateDead(PlatformerMotor owner, PlatformerMotorState previousState) : base(owner, previousState) { }
+
+    public override void Enter() {
+        base.Enter();
+        m_owner.AnimationController.SetBool ("Is Dead", true);
+    }
+
+    public override void Exit() {
+        base.Enter();
+        m_owner.AnimationController.SetBool ("Is Dead", false);
+    }
+}
+
 
 /// <summary>
 /// Stunned state when actor is stunned.

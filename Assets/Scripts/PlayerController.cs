@@ -71,7 +71,8 @@ public class PlayerController : InputController {
                 m_motor.ReplaceState (new PlatformerMotorStateJumping(m_motor, m_motor.CurrentState, m_motor.maxBounceDuration, true));
             }
             else {
-                GetComponent<PlatformerMotor> ().AnimationController.SetBool ("Is Dead", true);
+                m_motor.ReplaceState (new PlatformerMotorStateDead (m_motor, m_motor.CurrentState));
+
                 m_audioSource.Stop ();
                 m_audioSource.PlayOneShot (deathSound);
 
