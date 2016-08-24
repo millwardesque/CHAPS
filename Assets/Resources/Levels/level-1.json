@@ -14,6 +14,7 @@
             "lengthInCells": 12,
             "spriteSetPrefix": "Outside",
 			"needsCeiling": false,
+			"backgroundMusic": "Music/BEAST1-BGM-PatternsInRhyme",
             "roomConfiguration": {
                 "floorHeightChangeProbability": 0.3,
                 "enemySpawnProbability": 0.5
@@ -24,6 +25,7 @@
             "lengthInCells": 12,
             "spriteSetPrefix": "Prototype",
             "needsCeiling": true,
+			"backgroundMusic": "",
             "roomConfiguration": {
                 "floorHeightChangeProbability": 0.25,
                 "enemySpawnProbability": 0.5

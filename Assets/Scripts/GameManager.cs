@@ -31,6 +31,8 @@ public class GameManager : MonoBehaviour {
         get { return m_audioManager; }
     }
 
+    public AudioSource backgroundMusic;
+
     LevelManager m_levelManager;
     public LevelManager Level {
         get { return m_levelManager; }

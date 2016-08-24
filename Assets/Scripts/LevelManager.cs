@@ -69,7 +69,7 @@ public class LevelManager : MonoBehaviour {
     }
 
     void Start() {
-        m_activeZone = 0;
+        ActivateZone(0);
     }
 
     public void LoadFromFile(string resourceName) {
@@ -119,7 +119,7 @@ public class LevelManager : MonoBehaviour {
 
                 // Change zones
                 if (m_activeZone + 1 < m_zones.Length) {
-                    m_activeZone++;
+                    ActivateZone(m_activeZone + 1);
                 }
                 else {
                     // @TODO Decide what to do now that we've hit the end of the level.
@@ -174,6 +174,15 @@ public class LevelManager : MonoBehaviour {
                 Destroy (m_generatedRooms [i].room);
                 m_generatedRooms.RemoveAt(i);
             }
+        }
+    }
+
+    void ActivateZone(int zoneIndex) {
+        m_activeZone = zoneIndex;
+
+        GameManager.Instance.backgroundMusic.clip = m_zones[m_activeZone].backgroundMusic;
+        if (m_zones[m_activeZone].backgroundMusic != null) {
+            GameManager.Instance.backgroundMusic.Play();
         }
     }
 }
