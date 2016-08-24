@@ -414,8 +414,6 @@ public class PlatformerMotorStateStunned : PlatformerMotorState {
 /// Stunned state when actor is stunned.
 /// </summary>
 public class PlatformerMotorStateDead : PlatformerMotorState {
-    float m_elapsed = 0;
-
     public PlatformerMotorStateDead(PlatformerMotor owner, PlatformerMotorState previousState) : base(owner, previousState) { }
 
     public override void Enter() {

@@ -17,7 +17,7 @@ public class UploadTerminal : MonoBehaviour {
             GameManager.Instance.TotalIntelCollected += player.IntelPointsCollected;
             player.IntelPointsCollected = 0;
 
-            GameManager.Instance.AudioManager.PlayOneShot (uploadSound);
+            GameManager.Instance.Audio.PlaySFX (uploadSound);
 
             // @TODO Show player using terminal
             // @TODO Show terminal uploading

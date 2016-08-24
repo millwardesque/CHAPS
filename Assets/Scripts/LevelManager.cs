@@ -179,10 +179,6 @@ public class LevelManager : MonoBehaviour {
 
     void ActivateZone(int zoneIndex) {
         m_activeZone = zoneIndex;
-
-        GameManager.Instance.backgroundMusic.clip = m_zones[m_activeZone].backgroundMusic;
-        if (m_zones[m_activeZone].backgroundMusic != null) {
-            GameManager.Instance.backgroundMusic.Play();
-        }
+        GameManager.Instance.Audio.SetBGM (m_zones[m_activeZone].backgroundMusic);
     }
 }

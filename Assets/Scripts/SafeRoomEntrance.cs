@@ -17,7 +17,7 @@ public class SafeRoomEntrance : MonoBehaviour {
     void OnSafeRoomEnter() {
         GetComponent<Collider2D> ().isTrigger = false;
         GetComponent<Collider2D> ().usedByEffector = true;
-        GameManager.Instance.AudioManager.PlayOneShot (doorCloseSound);
+        GameManager.Instance.Audio.PlaySFX (doorCloseSound);
     }
 
     void OnSafeRoomExit(Message message) {

@@ -67,7 +67,7 @@ public class PlayerController : InputController {
 
             if (isHeadStomp) {
                 col.collider.GetComponent<EnemyHordeMember> ().OnStomped ();
-                GameManager.Instance.AudioManager.PlayOneShot (headStompSound);
+                GameManager.Instance.Audio.PlaySFX  (headStompSound);
                 m_motor.ReplaceState (new PlatformerMotorStateJumping(m_motor, m_motor.CurrentState, m_motor.maxBounceDuration, true));
             }
             else {
@@ -83,7 +83,7 @@ public class PlayerController : InputController {
         }
 
         if (col.collider.GetComponent<IntelCollectible>()) {
-            GameManager.Instance.AudioManager.PlayOneShot (col.collider.GetComponent <IntelCollectible>().collectionNoise);
+            GameManager.Instance.Audio.PlaySFX  (col.collider.GetComponent <IntelCollectible>().collectionNoise);
             IntelPointsCollected += col.collider.GetComponent<IntelCollectible> ().intelPoints;
             Destroy (col.collider.gameObject);
             return;
@@ -97,7 +97,7 @@ public class PlayerController : InputController {
 
     void OnTriggerEnter2D(Collider2D col) {
         if (col.GetComponent<Powerup>()) {
-            GameManager.Instance.AudioManager.PlayOneShot (col.GetComponent <Powerup>().collectionNoise);
+            GameManager.Instance.Audio.PlaySFX (col.GetComponent <Powerup>().collectionNoise);
             col.GetComponent<Powerup> ().Trigger ();
             return;
         }

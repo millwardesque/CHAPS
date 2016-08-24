@@ -26,12 +26,10 @@ public class GameManager : MonoBehaviour {
         get { return m_player; }
     }
 
-    AudioSource m_audioManager;
-    public AudioSource AudioManager {
+    AudioManager m_audioManager;
+    public AudioManager Audio {
         get { return m_audioManager; }
     }
-
-    public AudioSource backgroundMusic;
 
     LevelManager m_levelManager;
     public LevelManager Level {
@@ -44,7 +42,7 @@ public class GameManager : MonoBehaviour {
         if (null == Instance) {
             Instance = this;
             m_messenger = new MessageManager ();
-            m_audioManager = GetComponent<AudioSource> ();
+            m_audioManager = GetComponent<AudioManager> ();
             m_levelManager = GetComponent<LevelManager> ();
 
             Debug.Assert(mainCanvas != null, "Game Manager: No main canvas has been assigned.");
