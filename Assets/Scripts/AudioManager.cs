@@ -4,6 +4,7 @@ using System.Collections.Generic;
 
 public class AudioManager : MonoBehaviour {
     public int numberOfSFXBanks = 4;
+    public float bgmTransitionTime = 1f;
 
     Dictionary<string, AudioSource> m_banks;
     AudioSource m_background1;
@@ -46,11 +47,9 @@ public class AudioManager : MonoBehaviour {
     public void SetBGM(AudioClip clip) {
         if (m_currentBackground == m_background1) {
             m_currentBackground = m_background2;
-            m_background1.Stop ();
         }
         else {
             m_currentBackground = m_background1;
-            m_background2.Stop ();
         }
 
         m_currentBackground.clip = clip;
@@ -58,7 +57,12 @@ public class AudioManager : MonoBehaviour {
             m_currentBackground.Play ();
         }
 
-        // @TODO Fade the clips.
+        if (m_currentBackground == m_background1) {
+            StartCoroutine (FadeBetween(m_background2, m_background1));
+        }
+        else {
+            StartCoroutine (FadeBetween(m_background1, m_background2));
+        }
     }
 
     void Initialize() {
@@ -81,4 +85,22 @@ public class AudioManager : MonoBehaviour {
 
         return source;
     }
+
+    IEnumerator FadeBetween(AudioSource oldSource, AudioSource newSource) {
+        newSource.volume = 0f;
+        oldSource.volume = 1f;
+
+        float elapsed = 0f;
+        while (elapsed <= bgmTransitionTime) {
+            float oldVolume = Mathf.Lerp (1f, 0f, elapsed / bgmTransitionTime);
+            oldSource.volume = oldVolume;
+            newSource.volume = 1f - oldVolume;
+            elapsed += Time.deltaTime;
+            yield return new WaitForSecondsRealtime (0.1f);
+        }
+
+        oldSource.Stop ();
+        newSource.volume = 1f;
+    }
 }
+
