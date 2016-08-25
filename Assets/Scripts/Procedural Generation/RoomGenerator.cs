@@ -41,7 +41,7 @@ public class RoomGeneratorConfiguration {
 
 public static class RoomGenerator {
   
-    public static RoomMetadata GenerateRoom(string roomName, Vector2 bottomLeftCorner, LevelConfiguration levelConfig, LevelZone zone, GameObject[] platformPrefabs, RoomSpawnTrigger roomSpawnTrigger, NewZoneTrigger newZoneTrigger, EnemyHordeMember[] enemyPrefabs) {
+    public static RoomMetadata GenerateRoom(string roomName, Vector2 bottomLeftCorner, LevelConfiguration levelConfig, LevelZone zone, GameObject[] platformPrefabs, RoomSpawnTrigger roomSpawnTrigger, NewZoneTrigger newZoneTrigger, EnemyHordeMember[] enemyPrefabs, IntelCollectible[] intelPrefabs) {
         GameObject root = new GameObject ();
         root.name = roomName;
         root.transform.position = bottomLeftCorner;
@@ -183,7 +183,7 @@ public static class RoomGenerator {
             trigger.zone = zone;
         }
 
-        // Generate enemies
+        // Generate enemies.
         float enemyOdds = Random.Range (0f, 1f);
         if (enemyOdds <= zone.roomConfig.probabilityOfEnemySpawn) {
             int enemyIndex = Random.Range (0, enemyPrefabs.Length);
@@ -192,6 +192,21 @@ public static class RoomGenerator {
             enemy.transform.localPosition = new Vector2 (roomWidthInUnits / 2f, levelConfig.roomCellsTall * levelConfig.cellHeight / 2f);
 
             // @TODO Face left.
+        }
+
+        // Generate intel.
+        for (int i = 0; i < levelConfig.roomCellsWide; ++i) {
+            if (Random.Range (0f, 1f) > zone.intelSpawnPercentage) {
+                continue;
+            }
+
+            float intelWidth = i * levelConfig.cellWidth + (levelConfig.cellWidth / 2f);
+            float intelHeight = levelConfig.roomCellsTall * levelConfig.cellHeight / 2f;
+
+            int intelIndex = Random.Range (0, intelPrefabs.Length);
+            IntelCollectible intel = GameObject.Instantiate<IntelCollectible> (intelPrefabs [intelIndex]);
+            intel.transform.SetParent (root.transform, false);
+            intel.transform.localPosition = new Vector2 (intelWidth, intelHeight);
         }
 
         RoomMetadata room = new RoomMetadata (levelConfig.roomCellsWide, levelConfig.roomCellsTall, floorHeights [0], floorHeights [floorHeights.Length - 1], root);

@@ -79,13 +79,6 @@ public class PlayerController : InputController {
 
             return;
         }
-
-        if (col.collider.GetComponent<IntelCollectible>()) {
-            GameManager.Instance.Audio.PlaySFX  (col.collider.GetComponent <IntelCollectible>().collectionNoise);
-            IntelPointsCollected += col.collider.GetComponent<IntelCollectible> ().intelPoints;
-            Destroy (col.collider.gameObject);
-            return;
-        }
     }
 
     IEnumerator WaitForPlayerDeathAnimation() {
@@ -94,12 +87,7 @@ public class PlayerController : InputController {
     }
 
     void OnTriggerEnter2D(Collider2D col) {
-        if (col.GetComponent<Powerup>()) {
-            GameManager.Instance.Audio.PlaySFX (col.GetComponent <Powerup>().collectionNoise);
-            col.GetComponent<Powerup> ().Trigger ();
-            return;
-        }
-
+        // NOTE: Putting other things in here risks running afoul of the player-close-to-enemy detector.
         if (col.GetComponent<EnemyHordeMember>()) {
             GameManager.Instance.Messenger.SendMessage (this, "PlayerCloseToEnemy", col.gameObject);
             return;

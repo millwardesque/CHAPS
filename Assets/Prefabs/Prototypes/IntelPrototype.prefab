@@ -51,7 +51,7 @@ BoxCollider2D:
   m_Enabled: 1
   m_Density: 1
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_UsedByEffector: 0
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
@@ -68,7 +68,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   intelPoints: 1
-  collectionNoise: {fileID: 8300000, guid: 1622a24bab55cf34f90d0615624b08d4, type: 3}
+  collectionNoise: {fileID: 8300000, guid: 7aebb4ddf2586864fa3d186bc26d3f25, type: 3}
 --- !u!212 &212000010096321124
 SpriteRenderer:
   m_ObjectHideFlags: 1

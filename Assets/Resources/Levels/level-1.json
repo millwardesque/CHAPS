@@ -15,9 +15,10 @@
             "spriteSetPrefix": "Outside",
 			"needsCeiling": false,
 			"backgroundMusic": "Music/BEAST1-BGM-PatternsInRhyme",
+            "intelSpawnPercentage": 0.9,
             "roomConfiguration": {
                 "floorHeightChangeProbability": 0.3,
-                "enemySpawnProbability": 0.5
+                "enemySpawnProbability": 0.5,
             }
         },
         {
@@ -26,6 +27,7 @@
             "spriteSetPrefix": "Prototype",
             "needsCeiling": true,
 			"backgroundMusic": "Music/BEAST1-BGM-PatternsInRhyme",
+            "intelSpawnPercentage": 0.9,
             "roomConfiguration": {
                 "floorHeightChangeProbability": 0.25,
                 "enemySpawnProbability": 0.5

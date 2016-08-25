@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 
 public class AudioManager : MonoBehaviour {
-    public int numberOfSFXBanks = 4;
+    public int numberOfSFXBanks = 6;
     public float bgmTransitionTime = 1f;
     public float maxBackgroundVolume = 1f;
 
@@ -54,7 +54,7 @@ public class AudioManager : MonoBehaviour {
     /// <param name="clip"></param>
     public void PlaySFX(AudioClip clip) {
         // Find an idle AudioSource to use.
-        for (int i = 0; i < m_banks.Count; ++i) {
+        for (int i = 0; i < numberOfSFXBanks; ++i) {
             if (!m_banks [AudioManager.SFXPrefix + i].isPlaying) {
                 m_banks [AudioManager.SFXPrefix + i].PlayOneShot (clip);
                 return;
@@ -62,6 +62,7 @@ public class AudioManager : MonoBehaviour {
         }
 
         // If all the audio soruces are playing clips, overwrite the first one.
+        Debug.LogError ("SFX channel overflow");
         m_banks [AudioManager.SFXPrefix + "0"].PlayOneShot (clip);
     }
 

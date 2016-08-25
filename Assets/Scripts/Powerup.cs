@@ -20,6 +20,13 @@ public class Powerup : MonoBehaviour {
         }
     }
 
+    void OnTriggerEnter2D(Collider2D col) {
+        if (col.tag == "Player") {
+            Trigger ();
+            return;
+        }
+    }
+
     public void Trigger() {
         m_isTriggered = true;
         OnTriggered ();
@@ -29,6 +36,7 @@ public class Powerup : MonoBehaviour {
         Debug.Log ("Power up " + name + " triggered");
         GetComponent<SpriteRenderer> ().enabled = false;
         GetComponent<Collider2D> ().enabled = false;
+        GameManager.Instance.Audio.PlaySFX (collectionNoise);
     }
 
     protected virtual void OnExpired() {

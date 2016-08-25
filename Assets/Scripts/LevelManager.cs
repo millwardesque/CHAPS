@@ -48,6 +48,7 @@ public class LevelManager : MonoBehaviour {
     public NewZoneTrigger newZoneTrigger;
     public GameObject[] platformPrefabs;
     public EnemyHordeMember[] enemyPrefabs;
+    public IntelCollectible[] intelPrefabs;
     public GameObject safeRoomPrefab;
 
     LevelConfiguration m_levelConfiguration;
@@ -139,7 +140,7 @@ public class LevelManager : MonoBehaviour {
                 }
 
                 // Generate the room.
-                RoomMetadata room = RoomGenerator.GenerateRoom (name + "-" + i, m_nextGeneratedRoomStart, m_levelConfiguration, m_zones[m_activeZone], platformPrefabs, roomSpawnTrigger, (isNewZone ? newZoneTrigger : null), enemyPrefabs);
+                RoomMetadata room = RoomGenerator.GenerateRoom (name + "-" + i, m_nextGeneratedRoomStart, m_levelConfiguration, m_zones[m_activeZone], platformPrefabs, roomSpawnTrigger, (isNewZone ? newZoneTrigger : null), enemyPrefabs, intelPrefabs);
 
                 // Restore enemy spawns if this was the first room in a zone.
                 if (m_roomsSinceSafeRoom == 0) {
