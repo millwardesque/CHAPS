@@ -68,6 +68,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   numberOfSFXBanks: 4
+  bgmTransitionTime: 1
 --- !u!114 &114000013713593730
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -82,6 +83,8 @@ MonoBehaviour:
   levelResourceFile: Levels/level-1
   roomCleanupDistance: 12
   roomSpawnTrigger: {fileID: 114000011234689812, guid: a8209c56d0eed4590b66d6e48e9da6e6,
+    type: 2}
+  newZoneTrigger: {fileID: 114000010255483092, guid: beb0fa854c05ee94696365762ef48271,
     type: 2}
   platformPrefabs:
   - {fileID: 1000013605274998, guid: b5a10f59a614a45c6b08d3824fb282a8, type: 2}

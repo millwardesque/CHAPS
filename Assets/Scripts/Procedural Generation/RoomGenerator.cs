@@ -41,7 +41,7 @@ public class RoomGeneratorConfiguration {
 
 public static class RoomGenerator {
   
-    public static RoomMetadata GenerateRoom(string roomName, Vector2 bottomLeftCorner, LevelConfiguration levelConfig, LevelZone zone, GameObject[] platformPrefabs, RoomSpawnTrigger roomSpawnTrigger, EnemyHordeMember[] enemyPrefabs) {
+    public static RoomMetadata GenerateRoom(string roomName, Vector2 bottomLeftCorner, LevelConfiguration levelConfig, LevelZone zone, GameObject[] platformPrefabs, RoomSpawnTrigger roomSpawnTrigger, NewZoneTrigger newZoneTrigger, EnemyHordeMember[] enemyPrefabs) {
         GameObject root = new GameObject ();
         root.name = roomName;
         root.transform.position = bottomLeftCorner;
@@ -170,6 +170,17 @@ public static class RoomGenerator {
             trigger.transform.SetParent (root.transform, false);
             trigger.transform.localPosition = triggerOrigin;
             trigger.transform.localScale = new Vector2 (1f, roomHeightInUnits);    
+        }
+
+        // If this isn't null, we're entering a new zone.
+        if (newZoneTrigger != null) {
+            float triggerHeight = floorHeights[0] * levelConfig.cellHeight + roomHeightInUnits / 2f;
+            Vector2 triggerOrigin = new Vector2(0, triggerHeight);
+            NewZoneTrigger trigger = GameObject.Instantiate<NewZoneTrigger>(newZoneTrigger);
+            trigger.transform.SetParent(root.transform, false);
+            trigger.transform.localPosition = triggerOrigin;
+            trigger.transform.localScale = new Vector2(1f, roomHeightInUnits);
+            trigger.zone = zone;
         }
 
         // Generate enemies

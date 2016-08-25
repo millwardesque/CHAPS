@@ -716,7 +716,7 @@ Prefab:
       value: 4
       objectReference: {fileID: 0}
     m_RemovedComponents:
-    - {fileID: 82000013799206598, guid: 2a9cc51e42cfe43519e571596351fbda, type: 2}
+    - {fileID: 0}
   m_ParentPrefab: {fileID: 100100000, guid: 2a9cc51e42cfe43519e571596351fbda, type: 2}
   m_IsPrefabParent: 0
 --- !u!1001 &1568590729
@@ -726,6 +726,10 @@ Prefab:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 11485268, guid: 63797e9af3d82024b9cfad215fbd1703, type: 2}
+      propertyPath: CameraTargets.Array.size
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 447336, guid: 63797e9af3d82024b9cfad215fbd1703, type: 2}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -769,6 +773,14 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 8100418, guid: 63797e9af3d82024b9cfad215fbd1703, type: 2}
       propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 11485268, guid: 63797e9af3d82024b9cfad215fbd1703, type: 2}
+      propertyPath: CameraTargets.Array.data[0].TargetInfluenceH
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 11485268, guid: 63797e9af3d82024b9cfad215fbd1703, type: 2}
+      propertyPath: CameraTargets.Array.data[0].TargetInfluenceV
       value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []

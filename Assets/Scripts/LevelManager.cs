@@ -45,6 +45,7 @@ public class LevelManager : MonoBehaviour {
 
     [Header("Prefabs")]
     public RoomSpawnTrigger roomSpawnTrigger;
+    public NewZoneTrigger newZoneTrigger;
     public GameObject[] platformPrefabs;
     public EnemyHordeMember[] enemyPrefabs;
     public GameObject safeRoomPrefab;
@@ -69,7 +70,7 @@ public class LevelManager : MonoBehaviour {
     }
 
     void Start() {
-        ActivateZone(0);
+        m_activeZone = 0;
     }
 
     public void LoadFromFile(string resourceName) {
@@ -119,7 +120,7 @@ public class LevelManager : MonoBehaviour {
 
                 // Change zones
                 if (m_activeZone + 1 < m_zones.Length) {
-                    ActivateZone(m_activeZone + 1);
+                    m_activeZone++;
                 }
                 else {
                     // @TODO Decide what to do now that we've hit the end of the level.
@@ -129,14 +130,16 @@ public class LevelManager : MonoBehaviour {
                 // @TODO Add safe-room to generated list so that it can get cleaned up.
             }
             else {
+                bool isNewZone = (m_roomsSinceSafeRoom == 0);
+
                 // Disable enemy spawns if this is the first room in a zone.
                 float tempEnemySpawnRate = m_zones [m_activeZone].roomConfig.probabilityOfEnemySpawn;
-                if (m_roomsSinceSafeRoom == 0) {
+                if (isNewZone) {
                     m_zones [m_activeZone].roomConfig.probabilityOfEnemySpawn = 0f;
                 }
 
                 // Generate the room.
-                RoomMetadata room = RoomGenerator.GenerateRoom (name + "-" + i, m_nextGeneratedRoomStart, m_levelConfiguration, m_zones[m_activeZone], platformPrefabs, roomSpawnTrigger, enemyPrefabs);
+                RoomMetadata room = RoomGenerator.GenerateRoom (name + "-" + i, m_nextGeneratedRoomStart, m_levelConfiguration, m_zones[m_activeZone], platformPrefabs, roomSpawnTrigger, (isNewZone ? newZoneTrigger : null), enemyPrefabs);
 
                 // Restore enemy spawns if this was the first room in a zone.
                 if (m_roomsSinceSafeRoom == 0) {
@@ -175,10 +178,5 @@ public class LevelManager : MonoBehaviour {
                 m_generatedRooms.RemoveAt(i);
             }
         }
-    }
-
-    void ActivateZone(int zoneIndex) {
-        m_activeZone = zoneIndex;
-        GameManager.Instance.Audio.SetBGM (m_zones[m_activeZone].backgroundMusic);
     }
 }
