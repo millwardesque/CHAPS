@@ -25,7 +25,7 @@
             "lengthInCells": 12,
             "spriteSetPrefix": "Prototype",
             "needsCeiling": true,
-			"backgroundMusic": "",
+			"backgroundMusic": "Music/BEAST1-BGM-PatternsInRhyme",
             "roomConfiguration": {
                 "floorHeightChangeProbability": 0.25,
                 "enemySpawnProbability": 0.5

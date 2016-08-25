@@ -70,6 +70,10 @@ public class AudioManager : MonoBehaviour {
     /// </summary>
     /// <param name="clip"></param>
     public void SetBGM(AudioClip clip) {
+        if (clip == m_currentBackground.clip) {
+            return;
+        }
+
         AudioSource oldBackground = m_currentBackground;
         if (m_currentBackground == m_background1) {
             m_currentBackground = m_background2;
@@ -83,13 +87,7 @@ public class AudioManager : MonoBehaviour {
             m_currentBackground.Play ();
         }
 
-        if (m_background1.clip != m_background2.clip) {
-            StartCoroutine(FadeBetween(oldBackground, m_currentBackground));
-        }
-        else {
-            m_currentBackground.volume = maxBackgroundVolume;
-            oldBackground.Stop();
-        }        
+        StartCoroutine(FadeBetween(oldBackground, m_currentBackground));     
     }
 
     /// <summary>
