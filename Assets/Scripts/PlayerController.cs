@@ -5,7 +5,6 @@ using Rewired;
 public class PlayerController : InputController {
     PlatformerMotor m_motor;
     Player m_rewiredPlayer;    // Rewired player.
-    AudioSource m_audioSource;
 
     public Collider2D enemyProximitySensor;
     public bool autorun;
@@ -27,7 +26,6 @@ public class PlayerController : InputController {
     void Awake() {
         m_rewiredPlayer = ReInput.players.GetPlayer(0);
         m_motor = GetComponent<PlatformerMotor> ();
-        m_audioSource = GetComponent<AudioSource> ();
         GameManager.Instance.Messenger.AddListener("StartedRunning", OnStartedRunning);
         GameManager.Instance.Messenger.AddListener("StoppedRunning", OnStoppedRunning);
         GameManager.Instance.Messenger.AddListener("PlatformerJumped", OnPlatformerJumped);
@@ -73,8 +71,8 @@ public class PlayerController : InputController {
             else {
                 m_motor.ReplaceState (new PlatformerMotorStateDead (m_motor, m_motor.CurrentState));
 
-                m_audioSource.Stop ();
-                m_audioSource.PlayOneShot (deathSound);
+                GameManager.Instance.Audio.PlaySFX(deathSound);
+                GameManager.Instance.Audio.StopBank("player_movement");
 
                 StartCoroutine ("WaitForPlayerDeathAnimation");
             }
@@ -118,30 +116,28 @@ public class PlayerController : InputController {
     void OnStartedRunning(Message message) {
         PlatformerMotor runner = (PlatformerMotor)message.data;
         if (runner == m_motor) {
-            m_audioSource.clip = runSound;
-            m_audioSource.loop = true;
-            m_audioSource.Play ();
+            GameManager.Instance.Audio.PlayClipInBank("player_movement", runSound, true);
         }
     }
 
     void OnStoppedRunning(Message message) {
         PlatformerMotor runner = (PlatformerMotor)message.data;
         if (runner == m_motor) {
-            m_audioSource.Stop ();
+            GameManager.Instance.Audio.StopBank("player_movement");
         }
     }
 
     void OnPlatformerJumped(Message message) {
         PlatformerMotor jumper = (PlatformerMotor)message.data;
         if (jumper == m_motor) {
-            m_audioSource.PlayOneShot (jumpSound);
+            GameManager.Instance.Audio.PlayClipInBank("player_movement", jumpSound, false);
         }
     }
 
     void OnPlatformerMultiJumped(Message message) {
         PlatformerMotor jumper = (PlatformerMotor)message.data;
         if (jumper == m_motor) {
-            m_audioSource.PlayOneShot (multiJumpSound);
+            GameManager.Instance.Audio.PlayClipInBank("player_movement", multiJumpSound, false);
         }
     }
 }

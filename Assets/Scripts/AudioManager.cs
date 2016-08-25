@@ -31,6 +31,12 @@ public class AudioManager : MonoBehaviour {
         }
     }
 
+    public void StopBank(string bankName) {
+        if (m_banks.ContainsKey(bankName)) {
+            m_banks[bankName].Stop();
+        }
+    }
+
     public void PlaySFX(AudioClip clip) {
         // Find an idle AudioSource to use.
         for (int i = 0; i < m_banks.Count; ++i) {
@@ -91,12 +97,13 @@ public class AudioManager : MonoBehaviour {
         oldSource.volume = 1f;
 
         float elapsed = 0f;
+        float timeSlice = 0.1f;
         while (elapsed <= bgmTransitionTime) {
             float oldVolume = Mathf.Lerp (1f, 0f, elapsed / bgmTransitionTime);
             oldSource.volume = oldVolume;
             newSource.volume = 1f - oldVolume;
-            elapsed += Time.deltaTime;
-            yield return new WaitForSecondsRealtime (0.1f);
+            elapsed += timeSlice;
+            yield return new WaitForSecondsRealtime (timeSlice);
         }
 
         oldSource.Stop ();
