@@ -331,6 +331,11 @@ Prefab:
       propertyPath: mainCanvas
       value: 
       objectReference: {fileID: 241887228}
+    - target: {fileID: 114000012267471174, guid: 16ed43dbc9ed54831a9ea53a49dc0fd1,
+        type: 2}
+      propertyPath: maxBackgroundVolume
+      value: 0.25
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 16ed43dbc9ed54831a9ea53a49dc0fd1, type: 2}
   m_IsPrefabParent: 0

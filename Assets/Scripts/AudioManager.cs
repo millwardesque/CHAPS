@@ -5,6 +5,7 @@ using System.Collections.Generic;
 public class AudioManager : MonoBehaviour {
     public int numberOfSFXBanks = 4;
     public float bgmTransitionTime = 1f;
+    public float maxBackgroundVolume = 1f;
 
     Dictionary<string, AudioSource> m_banks;
     AudioSource m_background1;
@@ -17,6 +18,12 @@ public class AudioManager : MonoBehaviour {
         Initialize ();
     }
 
+    /// <summary>
+    /// Plays a clip in a named audio bank.
+    /// </summary>
+    /// <param name="bankName"></param>
+    /// <param name="clip"></param>
+    /// <param name="loop"></param>
     public void PlayClipInBank(string bankName, AudioClip clip, bool loop) {
         // Create the new bank if necessary.
         if (!m_banks.ContainsKey (bankName)) {
@@ -31,12 +38,20 @@ public class AudioManager : MonoBehaviour {
         }
     }
 
+    /// <summary>
+    /// Stops playing an audio bank.
+    /// </summary>
+    /// <param name="bankName"></param>
     public void StopBank(string bankName) {
         if (m_banks.ContainsKey(bankName)) {
             m_banks[bankName].Stop();
         }
     }
 
+    /// <summary>
+    /// Play a one-shot sound effect.
+    /// </summary>
+    /// <param name="clip"></param>
     public void PlaySFX(AudioClip clip) {
         // Find an idle AudioSource to use.
         for (int i = 0; i < m_banks.Count; ++i) {
@@ -50,7 +65,12 @@ public class AudioManager : MonoBehaviour {
         m_banks [AudioManager.SFXPrefix + "0"].PlayOneShot (clip);
     }
 
+    /// <summary>
+    /// Sets the background music, fading between clips if they're different.
+    /// </summary>
+    /// <param name="clip"></param>
     public void SetBGM(AudioClip clip) {
+        AudioSource oldBackground = m_currentBackground;
         if (m_currentBackground == m_background1) {
             m_currentBackground = m_background2;
         }
@@ -63,14 +83,18 @@ public class AudioManager : MonoBehaviour {
             m_currentBackground.Play ();
         }
 
-        if (m_currentBackground == m_background1) {
-            StartCoroutine (FadeBetween(m_background2, m_background1));
+        if (m_background1.clip != m_background2.clip) {
+            StartCoroutine(FadeBetween(oldBackground, m_currentBackground));
         }
         else {
-            StartCoroutine (FadeBetween(m_background1, m_background2));
-        }
+            m_currentBackground.volume = maxBackgroundVolume;
+            oldBackground.Stop();
+        }        
     }
 
+    /// <summary>
+    /// Initialize the audio manager.
+    /// </summary>
     void Initialize() {
         m_banks = new Dictionary<string, AudioSource> ();
 
@@ -80,8 +104,10 @@ public class AudioManager : MonoBehaviour {
 
         m_background1 = CreateAudioSource ();
         m_background1.loop = true;
+
         m_background2 = CreateAudioSource ();
         m_background2.loop = true;
+
         m_currentBackground = m_background1;
     }
 
@@ -94,20 +120,20 @@ public class AudioManager : MonoBehaviour {
 
     IEnumerator FadeBetween(AudioSource oldSource, AudioSource newSource) {
         newSource.volume = 0f;
-        oldSource.volume = 1f;
+        oldSource.volume = maxBackgroundVolume;
 
         float elapsed = 0f;
         float timeSlice = 0.1f;
         while (elapsed <= bgmTransitionTime) {
-            float oldVolume = Mathf.Lerp (1f, 0f, elapsed / bgmTransitionTime);
+            float oldVolume = Mathf.Lerp (maxBackgroundVolume, 0f, elapsed / bgmTransitionTime);
             oldSource.volume = oldVolume;
-            newSource.volume = 1f - oldVolume;
+            newSource.volume = maxBackgroundVolume - oldVolume;
             elapsed += timeSlice;
             yield return new WaitForSecondsRealtime (timeSlice);
         }
 
         oldSource.Stop ();
-        newSource.volume = 1f;
+        newSource.volume = maxBackgroundVolume;
     }
 }
 
