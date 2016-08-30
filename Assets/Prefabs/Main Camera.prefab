@@ -102,7 +102,7 @@ MonoBehaviour:
   LeftFocus: 0.25
   RightFocus: 0.25
   TopFocus: 0.25
-  BottomFocus: 0.25
+  BottomFocus: 0.001
 --- !u!114 &11485268
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -166,3 +166,5 @@ MonoBehaviour:
   timeScale: 0.75
   zoomAmount: 1
   zoomDuration: 0.2
+  safeRoomZoomAmount: 3
+  safeRoomZoomDuration: 0.2
