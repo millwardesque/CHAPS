@@ -11,7 +11,7 @@
     "zones": [
         {
             "name": "Outside",
-            "lengthInCells": 12,
+            "lengthInCells": 4,
             "spriteSetPrefix": "Outside",
 			"needsCeiling": false,
 			"backgroundMusic": "Music/BEAST1-BGM-PatternsInRhyme",
