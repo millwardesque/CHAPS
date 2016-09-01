@@ -64,20 +64,37 @@ public class PlayerController : InputController {
             }
 
             if (isHeadStomp) {
-                col.collider.GetComponent<EnemyHordeMember> ().OnStomped ();
-                GameManager.Instance.Audio.PlaySFX  (headStompSound);
-                m_motor.ReplaceState (new PlatformerMotorStateJumping(m_motor, m_motor.CurrentState, m_motor.maxBounceDuration, true));
+                col.collider.GetComponent<EnemyHordeMember>().OnStomped();
+                GameManager.Instance.Audio.PlaySFX(headStompSound);
+                m_motor.ReplaceState(new PlatformerMotorStateJumping(m_motor, m_motor.CurrentState, m_motor.maxBounceDuration, true));
             }
             else {
-                m_motor.ReplaceState (new PlatformerMotorStateDead (m_motor, m_motor.CurrentState));
+                m_motor.ReplaceState(new PlatformerMotorStateDead(m_motor, m_motor.CurrentState));
 
                 GameManager.Instance.Audio.PlaySFX(deathSound);
                 GameManager.Instance.Audio.StopBank("player_movement");
 
-                StartCoroutine ("WaitForPlayerDeathAnimation");
+                StartCoroutine("WaitForPlayerDeathAnimation");
             }
 
             return;
+        }
+    }
+
+    void OnCollisionExit2D(Collision2D col) {
+        if (col.collider.GetComponent<GarbageCan>()) {
+            bool isHeadStomp = false;
+            foreach (ContactPoint2D contact in col.contacts) {
+                Debug.Log(contact.normal);
+                if (contact.normal.y > 0f) {
+                    isHeadStomp = true;
+                    break;
+                }
+            }
+
+            if (isHeadStomp) {
+                col.collider.GetComponent<GarbageCan>().OnJumpOff();
+            }
         }
     }
 
