@@ -191,7 +191,7 @@ public static class RoomGenerator {
             enemy.transform.SetParent (root.transform, false);
             enemy.transform.localPosition = new Vector2 (roomWidthInUnits / 2f, levelConfig.roomCellsTall * levelConfig.cellHeight / 2f);
 
-            // @TODO Face left.
+            // @TODO Face the player.
         }
 
         // Generate intel.
@@ -200,8 +200,23 @@ public static class RoomGenerator {
                 continue;
             }
 
+            // Figure out the the height of the intel
+            int intelPlatformIndex = 0;
+            int widthsSoFar = 0;
+            for (int j = 0; j < platformsToUse.Count; ++j) {
+                widthsSoFar += platformsToUse[j];
+                if (widthsSoFar > i) {
+                    intelPlatformIndex = j;
+                    break;
+                }
+            }
+
+            // Heights are set in cells-from-floor
+            int[] intelHeights = { 2, 4, 7 };
+            int intelHeightIndex = Random.Range(0, intelHeights.Length);
+
             float intelWidth = i * levelConfig.cellWidth + (levelConfig.cellWidth / 2f);
-            float intelHeight = levelConfig.roomCellsTall * levelConfig.cellHeight / 2f;
+            float intelHeight = (floorHeights[intelPlatformIndex] + intelHeights[intelHeightIndex]) * levelConfig.cellHeight;
 
             int intelIndex = Random.Range (0, intelPrefabs.Length);
             IntelCollectible intel = GameObject.Instantiate<IntelCollectible> (intelPrefabs [intelIndex]);
