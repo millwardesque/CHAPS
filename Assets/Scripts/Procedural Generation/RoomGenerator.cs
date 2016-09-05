@@ -195,8 +195,10 @@ public static class RoomGenerator {
         }
 
         // Generate intel.
+        int previousIntelHeightIndex = -1;
         for (int i = 0; i < levelConfig.roomCellsWide; ++i) {
             if (Random.Range (0f, 1f) > zone.intelSpawnPercentage) {
+                previousIntelHeightIndex = -1;
                 continue;
             }
 
@@ -212,8 +214,17 @@ public static class RoomGenerator {
             }
 
             // Heights are set in cells-from-floor
-            int[] intelHeights = { 2, 4, 7 };
-            int intelHeightIndex = Random.Range(0, intelHeights.Length);
+            // Track the height of the last piece of intel (if connected)
+            int intelHeightIndex = 0;
+            int[] intelHeights = { 3, 7 };
+            int rand = Random.Range(0, 4);
+            if (rand == 0 || previousIntelHeightIndex == -1) {
+                intelHeightIndex = Random.Range(0, intelHeights.Length);
+            }
+            else {
+                intelHeightIndex = previousIntelHeightIndex;
+            }
+            previousIntelHeightIndex = intelHeightIndex;
 
             float intelWidth = i * levelConfig.cellWidth + (levelConfig.cellWidth / 2f);
             float intelHeight = (floorHeights[intelPlatformIndex] + intelHeights[intelHeightIndex]) * levelConfig.cellHeight;
