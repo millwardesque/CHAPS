@@ -196,11 +196,23 @@ public static class RoomGenerator {
 
         // Generate intel.
         int previousIntelHeightIndex = -1;
+        int intelInCluster = 0;
         for (int i = 0; i < levelConfig.roomCellsWide; ++i) {
-            if (Random.Range (0f, 1f) > zone.intelSpawnPercentage) {
+            float intelSpawnPercentage = zone.intelSpawnPercentage;
+            if (intelInCluster < 3 && intelInCluster > 0) {
+                intelSpawnPercentage += 0.5f;
+            }
+            else if (intelInCluster >= 3) {
+                intelSpawnPercentage = 0f;
+            }
+            
+            if (Random.Range (0f, 1f) > intelSpawnPercentage) {
                 previousIntelHeightIndex = -1;
+                intelInCluster = 0;
                 continue;
             }
+
+            intelInCluster++;
 
             // Figure out the the height of the intel
             int intelPlatformIndex = 0;
