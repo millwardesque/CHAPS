@@ -16,12 +16,17 @@ public class EnemyHordeMember : MonoBehaviour {
         }
     }
 
-	void Awake () {
+    PlatformerMotor m_motor;
+
+    void Awake () {
         GameManager.Instance.Messenger.AddListener("HordeSpeedChanged", OnHordeSpeedChange);
-	}
+        m_motor = GetComponent<PlatformerMotor>();
+    }
 	
     void Update() {
-        if (GameManager.Instance.Player.transform.position.x - transform.position.x >= hordeJoinDistanceFromPlayer && m_horde == null) {
+        if (m_motor.CurrentState.GetType() != typeof(PlatformerMotorStateStunned) && GameManager.Instance.Player.transform.position.x - transform.position.x >= hordeJoinDistanceFromPlayer && m_horde == null) {
+
+            // Note: This will force the layer to Enemy Horde Member. See OnStomped for why this is important to note.
             EnemyHorde horde = FindObjectOfType<EnemyHorde>();
             if (horde != null) {
                 horde.AddEnemyToHorde(this);
@@ -40,8 +45,9 @@ public class EnemyHordeMember : MonoBehaviour {
     }
 
     public void OnStomped() {
-        PlatformerMotor motor = GetComponent<PlatformerMotor> ();
-        motor.ReplaceState(new PlatformerMotorStateStunned(motor, motor.CurrentState, stunDuration));
+        m_motor.ReplaceState(new PlatformerMotorStateStunned(m_motor, m_motor.CurrentState, stunDuration));
 
+        // Set the layer to default so other enemies will collide with / try to avoid the stunned enemy.
+        gameObject.layer = LayerMask.NameToLayer("Default");
     }
 }
