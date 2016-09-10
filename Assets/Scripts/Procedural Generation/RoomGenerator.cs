@@ -138,7 +138,7 @@ public static class RoomGenerator {
             if (subfloorSprite != null) {
                 for (int subX = 0; subX < width; ++subX) {
                     for (int subY = 0; subY < subfloorDepth; ++subY) {
-                        GameObject tile = new GameObject("subfloor-" + subX + "x" + subY);
+                        GameObject tile = new GameObject("subfloor-" + subX + "," + subY);
                         tile.transform.SetParent(platform.transform, false);
                         tile.transform.localPosition = new Vector2(subX, -subY - 1); // I don't think we need to scale this because of the parent platform's scale.
 
@@ -154,6 +154,7 @@ public static class RoomGenerator {
 
             if (zone.needsCeiling) {
                 GameObject ceilingPlatform = GameObject.Instantiate<GameObject>(widthToPlatformMap[width]);
+
                 ceilingPlatform.transform.SetParent(root.transform, false);
                 ceilingPlatform.transform.localPosition = new Vector2(startX, floorHeights[i] * levelConfig.cellHeight + roomHeightInUnits);
                 ceilingPlatform.transform.localScale = new Vector2(levelConfig.cellWidth, levelConfig.cellHeight);
@@ -161,6 +162,26 @@ public static class RoomGenerator {
                 Sprite ceilingSprite = Resources.Load<Sprite>(zone.spriteSetPrefix + "/Ground-" + width + "x1");
                 if (ceilingSprite != null) {
                     ceilingPlatform.GetComponent<SpriteRenderer>().sprite = ceilingSprite;
+                }
+
+                // Load the super-ceiling sprite
+                Sprite superCeilingSprite = Resources.Load<Sprite>(zone.spriteSetPrefix + "/SuperCeiling-1x1");
+                int superCeilingDepth = 12;  // Number of subfloor tiles to set per column
+                if (superCeilingSprite != null) {
+                    for (int supX = 0; supX < width; ++supX) {
+                        for (int supY = 0; supY < superCeilingDepth; ++supY) {
+                            GameObject tile = new GameObject("superceiling-" + supX + "," + supY);
+                            tile.transform.SetParent(ceilingPlatform.transform, false);
+                            tile.transform.localPosition = new Vector2(supX, supY + 1); // I don't think we need to scale this because of the parent platform's scale.
+
+                            tile.AddComponent<SpriteRenderer>();
+                            tile.GetComponent<SpriteRenderer>().sprite = superCeilingSprite;
+
+                            // Tint the sprite colour as it gets higher.
+                            float tint = 1f - supY / (float)superCeilingDepth / 2f;
+                            tile.GetComponent<SpriteRenderer>().color = new Color(tint, tint, tint);
+                        }
+                    }
                 }
             }
 
