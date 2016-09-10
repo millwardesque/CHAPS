@@ -126,9 +126,30 @@ public static class RoomGenerator {
             platform.transform.localScale = new Vector2(levelConfig.cellWidth, levelConfig.cellHeight);
             platform.name = "Floor-" + i;
 
+            // Load the floor sprite
             Sprite floorSprite = Resources.Load<Sprite> (zone.spriteSetPrefix + "/Ground-" + width + "x1");
             if (floorSprite != null) {
                 platform.GetComponent<SpriteRenderer> ().sprite = floorSprite;
+            }
+
+            // Load the sub-floor sprite
+            Sprite subfloorSprite = Resources.Load<Sprite>(zone.spriteSetPrefix + "/SubGround-1x1");
+            int subfloorDepth = 12;  // Number of subfloor tiles to set per column
+            if (subfloorSprite != null) {
+                for (int subX = 0; subX < width; ++subX) {
+                    for (int subY = 0; subY < subfloorDepth; ++subY) {
+                        GameObject tile = new GameObject("subfloor-" + subX + "x" + subY);
+                        tile.transform.SetParent(platform.transform, false);
+                        tile.transform.localPosition = new Vector2(subX, -subY - 1); // I don't think we need to scale this because of the parent platform's scale.
+
+                        tile.AddComponent<SpriteRenderer>();
+                        tile.GetComponent<SpriteRenderer>().sprite = subfloorSprite;
+
+                        // Tint the sprite colour as it gets deeper.
+                        float tint = 1f - subY / (float)subfloorDepth / 2f;
+                        tile.GetComponent<SpriteRenderer>().color = new Color(tint, tint, tint);
+                    }
+                }
             }
 
             if (zone.needsCeiling) {
