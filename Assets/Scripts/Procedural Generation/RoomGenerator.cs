@@ -132,7 +132,7 @@ public static class RoomGenerator {
                 platform.GetComponent<SpriteRenderer> ().sprite = floorSprite;
             }
 
-            // Load the sub-floor sprite
+            // Load the sub-floor.
             Sprite subfloorSprite = Resources.Load<Sprite>(zone.spriteSetPrefix + "/SubGround-1x1");
             int subfloorDepth = 12;  // Number of subfloor tiles to set per column
             if (subfloorSprite != null) {
@@ -152,6 +152,7 @@ public static class RoomGenerator {
                 }
             }
 
+            // Load the ceiling.
             if (zone.needsCeiling) {
                 GameObject ceilingPlatform = GameObject.Instantiate<GameObject>(widthToPlatformMap[width]);
 
@@ -164,7 +165,7 @@ public static class RoomGenerator {
                     ceilingPlatform.GetComponent<SpriteRenderer>().sprite = ceilingSprite;
                 }
 
-                // Load the super-ceiling sprite
+                // Load the super-ceiling.
                 Sprite superCeilingSprite = Resources.Load<Sprite>(zone.spriteSetPrefix + "/SuperCeiling-1x1");
                 int superCeilingDepth = 12;  // Number of subfloor tiles to set per column
                 if (superCeilingSprite != null) {
@@ -181,6 +182,23 @@ public static class RoomGenerator {
                             float tint = 1f - supY / (float)superCeilingDepth / 2f;
                             tile.GetComponent<SpriteRenderer>().color = new Color(tint, tint, tint);
                         }
+                    }
+                }
+            }
+
+            // Load the walls.
+            Sprite wallSprite = Resources.Load<Sprite>(zone.spriteSetPrefix + "/Wall-1x1");
+            int wallHeight = levelConfig.roomCellsTall;  // Number of wall tiles to set per column
+            if (wallSprite != null) {
+                for (int wallX = 0; wallX < width; ++wallX) {
+                    for (int wallY = 1; wallY < wallHeight; ++wallY) {
+                        GameObject tile = new GameObject("wall-" + wallX + "," + wallY);
+                        tile.transform.SetParent(platform.transform, false);
+                        tile.transform.localPosition = new Vector2(wallX, wallY); // I don't think we need to scale this because of the parent platform's scale.
+
+                        tile.AddComponent<SpriteRenderer>();
+                        tile.GetComponent<SpriteRenderer>().sprite = wallSprite;
+                        tile.GetComponent<SpriteRenderer>().sortingLayerName = "Background";
                     }
                 }
             }
