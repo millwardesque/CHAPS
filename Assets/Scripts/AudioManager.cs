@@ -62,7 +62,7 @@ public class AudioManager : MonoBehaviour {
         }
 
         // If all the audio soruces are playing clips, overwrite the first one.
-        Debug.LogError ("SFX channel overflow");
+        Debug.Log ("SFX channel overflow");
         m_banks [AudioManager.SFXPrefix + "0"].PlayOneShot (clip);
     }
 
