@@ -288,7 +288,7 @@ public static class RoomGenerator {
             // Heights are set in cells-from-floor
             // Track the height of the last piece of intel (if connected)
             int intelHeightIndex = 0;
-            int[] intelHeights = { 3, 7 };
+            int[] intelHeights = { 2, 6 };
             int rand = Random.Range(0, 4);
             if (rand == 0 || previousIntelHeightIndex == -1) {
                 intelHeightIndex = Random.Range(0, intelHeights.Length);
