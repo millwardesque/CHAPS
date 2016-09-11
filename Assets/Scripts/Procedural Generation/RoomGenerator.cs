@@ -146,7 +146,7 @@ public static class RoomGenerator {
                         tile.GetComponent<SpriteRenderer>().sprite = subfloorSprite;
 
                         // Tint the sprite colour as it gets deeper.
-                        float tint = 1f - subY / (float)subfloorDepth / 2f;
+                        float tint = 1f - subY / (float)subfloorDepth;
                         tile.GetComponent<SpriteRenderer>().color = new Color(tint, tint, tint);
                     }
                 }
@@ -160,7 +160,7 @@ public static class RoomGenerator {
                 ceilingPlatform.transform.localPosition = new Vector2(startX, floorHeights[i] * levelConfig.cellHeight + roomHeightInUnits);
                 ceilingPlatform.transform.localScale = new Vector2(levelConfig.cellWidth, levelConfig.cellHeight);
                 ceilingPlatform.name = "ceiling-" + i;
-                Sprite ceilingSprite = Resources.Load<Sprite>(zone.spriteSetPrefix + "/Ground-" + width + "x1");
+                Sprite ceilingSprite = Resources.Load<Sprite>(zone.spriteSetPrefix + "/Ceiling-" + width + "x1");
                 if (ceilingSprite != null) {
                     ceilingPlatform.GetComponent<SpriteRenderer>().sprite = ceilingSprite;
                 }
@@ -179,7 +179,7 @@ public static class RoomGenerator {
                             tile.GetComponent<SpriteRenderer>().sprite = superCeilingSprite;
 
                             // Tint the sprite colour as it gets higher.
-                            float tint = 1f - supY / (float)superCeilingDepth / 2f;
+                            float tint = 1f - supY / (float)superCeilingDepth;
                             tile.GetComponent<SpriteRenderer>().color = new Color(tint, tint, tint);
                         }
                     }

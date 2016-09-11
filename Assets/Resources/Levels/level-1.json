@@ -22,9 +22,9 @@
             }
         },
         {
-            "name": "Prototype",
+            "name": "SecurityCheckpoint",
             "lengthInCells": 12,
-            "spriteSetPrefix": "Prototype",
+            "spriteSetPrefix": "SecurityCheckpoint1",
             "needsCeiling": true,
 			"backgroundMusic": "Music/BEAST1-BGM-PatternsInRhyme",
             "intelSpawnPercentage": 0.2,
