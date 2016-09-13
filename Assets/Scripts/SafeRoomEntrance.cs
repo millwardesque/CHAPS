@@ -8,7 +8,17 @@ public class SafeRoomEntrance : MonoBehaviour {
         GameManager.Instance.Messenger.AddListener ("SafeRoomExit", OnSafeRoomExit);
     }
 
+    void OnTriggerEnter2D(Collider2D col) {
+        if (col.tag == "Player" || col.tag == "Enemy") {
+            GetComponent<Animator> ().SetFloat ("Open Door", 1f);
+        }
+    }
+
     void OnTriggerExit2D(Collider2D col) {
+        if (col.tag == "Player" || col.tag == "Enemy") {
+            GetComponent<Animator> ().SetFloat ("Open Door", -1f);
+        }
+
         if (col.tag == "Player") {
             OnSafeRoomEnter ();
         }
